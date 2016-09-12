@@ -53,7 +53,9 @@ module.exports = {
 
         new webpack.ProvidePlugin({
             $: "jquery",
-            jQuery: "jquery"
+            jQuery: "jquery",
+            "window.jQuery": "jquery",
+            "window.$": "jquery"
         }),
 
         new webpack.optimize.CommonsChunkPlugin("js/common.js")
@@ -61,11 +63,12 @@ module.exports = {
 
     resolve: {
         alias: {
-            app_lib: app_lib_dir,
+            app: app_lib_dir,
             bootstrap: node_lib_dir + "bootstrap",
             jquery: node_lib_dir + "jquery",
             jquery_ui: node_lib_dir + "jquery-ui",
             datatables: node_lib_dir + "datatables",
+            datatables_net: node_lib_dir + "datatables.net",
             datatables_bootstrap: node_lib_dir + "datatables-bootstrap",
         }
     },

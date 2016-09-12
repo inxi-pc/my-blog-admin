@@ -1,14 +1,14 @@
 export default class Post {
-    constructor() {
+
+    constructor(vue) {
         // @primary key
         this.post_id = 0;
-        // @reference 
+        // @reference
         this.user_id = 0;
         // @reference
         this.category_id = "";
         this.post_title = "";
         this.post_content = "";
-        this.post_split_position = "";
         this.post_created_at = "";
         this.post_updated_at = "";
         this.post_deleted_at = "";
@@ -18,11 +18,11 @@ export default class Post {
         this.category_name = "";
     }
 
-    static getPostById(pId) {
-        return this.getPost(pId);
+    static getPostById(vue, postId) {
+        return this.getPost(postId);
     }
 
-    static getPost(pId) {
+    static getPost(vue, postId) {
         var post = new Post();
         post.post_id = 1;
         post.user_id = 1;
@@ -39,30 +39,26 @@ export default class Post {
         return post;
     }
 
-    static getPostsByIds(pIds, order, by, limit) {
-        return this.getPosts(pIds, order, by, limit);
+    static getPostsByIds(vue, postIds, page, order) {
+        return this.getPosts(postIds, page, order);
     }
 
-    static getPostsBytitle(pTitles, order, by, limit) {
-        return this.getPosts(pTitles, order, by, limit);
+    static getPostsByCategory(vue, categoryId, page, order) {
+        return this.getPosts(categoryId, page, order);
     }
 
-    static getPostsByCategory(categoryId, order, by, limit) {
-        return this.getPosts(categoryId, order, by, limit);
+    static getPostsByUser(vue, userId, page, order) {
+        return this.getPosts(userId, page, order);
     }
 
-    static getPostsByUser(userId, order, by, limit) {
-        return this.getPosts(userId, order, by, limit);
-    }
-
-    static getPostsNewest(order, by, limit) {
-        return this.getPosts(order, by, limit);
-    }
-
-    static getPosts(cond, order, by = "post_id", limit = 0) {
-        var posts = [];
-        posts.push(this.getPost(0));
-
-        return posts;
+    static getPosts(vue, condition, page, order) {
+        return vue.$http.get('http://localhost:8888/posts/', {
+            params: {
+                orderBy: order.orderBy,
+                orderType: order.orderType,
+                limit: page.limit,
+                offset: page.offset
+            }
+        });
     }
 }
