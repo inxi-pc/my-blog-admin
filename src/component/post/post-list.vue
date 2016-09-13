@@ -96,7 +96,7 @@ export default {
                 data: response.body
             });
         }, (response) => {
-            consoel.log(response);
+            console.log(response);
         });
     },
 
