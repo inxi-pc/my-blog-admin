@@ -3,22 +3,24 @@ import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
 import app from './component/app.vue'
-// import config from './config.js'
+import postList from './component/post/post-list.vue'
+import postEdit from './component/post/post-edit.vue'
 
-require("bootstrap/dist/js/bootstrap.js")
-require("bootstrap/dist/css/bootstrap.css")
-require("app/css/styles.css")
+import "bootstrap/dist/js/bootstrap.js"
+import "bootstrap/dist/css/bootstrap.css"
+import "app/css/styles.css"
 
 Vue.use(VueRouter)
 Vue.use(VueResource)
-// Vue.use(config)
 
 var router = new VueRouter({
-    hashbang: false
+    hashbang: false,
 })
 
 router.map({
-
+    '/': {
+        component: postEdit
+    }
 })
 
 router.start(app, "#app")

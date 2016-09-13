@@ -8,7 +8,16 @@ module.exports = {
     debug: true,
 
     entry: {
-        app: './src/main.js'
+        app: './src/main.js',
+
+        vendor: [
+            'jquery',
+            'bootstrap',
+            'jquery_ui',
+            'datatables',
+            'datatables_bootstrap'
+            // 'tinymce'
+        ]
     },
 
     output: {
@@ -29,37 +38,37 @@ module.exports = {
                 exclude: /node_modules\//
             },
             // Todo has issue, cant load split css file
-            // {
-            //     test: /\.css$/,
-            //     loader: ExtractTextPlugin.extract('style-loader', "css-loader")
-            // },
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
             },
+            // {
+            //     test: /\.css$/,
+            //     loader: 'style-loader!css-loader'
+            // },
             {
                 test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
                 loader: 'file-loader?name=resource/[name].[ext]'
             },
             {
-                test: /\.(png|jpg)$/, 
+                test: /\.(png|jpg)$/,
                 loader: 'url-loader?limit=8192'
             }
+            // {
+            //     test: require.resolve('tinymce/tinymce'),
+            //     loaders: [
+            //         'imports?this=>window',
+            //         'exports?window.tinymce'
+            //     ]
+            // },
+            // {
+            //     test: /tinymce\/(themes|plugins)\//,
+            //     loaders: [
+            //         'imports?this=>window'
+            //     ]
+            // }
         ]
     },
-
-    plugins: [
-        // new ExtractTextPlugin("css/[name].css"),
-
-        new webpack.ProvidePlugin({
-            $: "jquery",
-            jQuery: "jquery",
-            "window.jQuery": "jquery",
-            "window.$": "jquery"
-        }),
-
-        new webpack.optimize.CommonsChunkPlugin("js/common.js")
-    ],
 
     resolve: {
         alias: {
@@ -68,10 +77,26 @@ module.exports = {
             jquery: node_lib_dir + "jquery",
             jquery_ui: node_lib_dir + "jquery-ui",
             datatables: node_lib_dir + "datatables",
-            datatables_net: node_lib_dir + "datatables.net",
-            datatables_bootstrap: node_lib_dir + "datatables-bootstrap",
+            datatables_bootstrap: node_lib_dir + "datatables-bootstrap"
+            // tinymce: node_lib_dir + "tinymce"
         }
     },
+
+    plugins: [
+        new ExtractTextPlugin("css/[name].css", {allChunks: true}),
+
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery",
+            "window.jQuery": "jquery",
+            "window.$": "jquery"
+        }),
+
+        new webpack.optimize.CommonsChunkPlugin({
+            filename: "common.js",
+            name: 'common'
+        })
+    ],
 
     babel: {
         presets: ['es2015'],

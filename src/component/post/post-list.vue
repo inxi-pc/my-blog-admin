@@ -13,11 +13,10 @@
         <div class="panel-heading">
             <div class="panel-title">Post List</div>
             <div>
-                <button>Create Post</button>
+                <a v-link="{ path: '/post/create' }">Create Post</a>
             </div>
         </div>
         <div class="panel-body">
-
             <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="postList">
                 <thead>
                     <tr>
@@ -73,12 +72,13 @@ export default {
         }
     },
 
-    ready: function() {
+    ready: function () {
         var page = new PaginationModel(this.offset, this.limit);
         var order = new OrderModel(this.orderType, this.orderBy, "post_id");
 
         PostModel.getPosts(this, null, page, order).then((response) => {
             $('#postList').dataTable({
+                scrollX: true,
                 columns: [
                     {'data': 'post_id'},
                     {'data': 'user_id'},
@@ -88,6 +88,15 @@ export default {
                     {'data': 'post_created_at'},
                     {'data': 'post_updated_at'}
                 ],
+                columnDefs: [ {
+                    targets: [7],
+                    data: 'post_id',
+                    render: function ( data, type, full, meta ) {
+                        return '<a href="'+ data +'">Edit</a>' + '&nbsp'
+                                + '<a href="'+ data +'">Published</a>';
+                    }
+                }],
+
                 // pagination
                 pageLength: page.limit,
                 displayStart: page.offset,

@@ -7,11 +7,10 @@
                     <sidebar></sidebar>
                 </div>
                 <div class="col-md-10">
-                    <post-list></post-list>
+                    <router-view></router-view>
                 </div>
             </div>
         </div>
-        <my-footer></my-footer>
     </div>
 </template>
 
@@ -20,14 +19,13 @@ import header from './common/header.vue'
 import footer from './common/footer.vue'
 import sidebar from './common/sidebar.vue'
 
-import postList from './post/post-list.vue'
-
 export default {
+    replace: false,
+
     components: {
         "my-header": header,
         "my-footer": footer,
-        'sidebar': sidebar,
-        'post-list': postList
+        'sidebar': sidebar
     }
 }
 </script>
