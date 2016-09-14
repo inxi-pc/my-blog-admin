@@ -19,6 +19,18 @@ var router = new VueRouter({
 
 router.map({
     '/': {
+        component: postList
+    },
+
+    '/posts': {
+        component: postList
+    },
+
+    '/posts/create': {
+        component: postEdit
+    },
+
+    '/posts/edit': {
         component: postEdit
     }
 })

@@ -13,7 +13,7 @@
         <div class="panel-heading">
             <div class="panel-title">Post List</div>
             <div>
-                <a v-link="{ path: '/post/create' }">Create Post</a>
+                <a v-link="{ path: '/posts/create' }">Create Post</a>
             </div>
         </div>
         <div class="panel-body">
@@ -55,9 +55,9 @@ import PaginationModel from '../../resource/pagination.js'
 import OrderModel from '../../resource/order.js'
 import PostModel from '../../resource/post.js'
 
-require("datatables/media/js/jquery.dataTables.js")
-require("datatables_bootstrap/css/dataTables.bootstrap.css")
-require("datatables_bootstrap/js/dataTables.bootstrap.js")
+import "datatables/media/js/jquery.dataTables.js"
+import "datatables_bootstrap/css/dataTables.bootstrap.css"
+import "datatables_bootstrap/js/dataTables.bootstrap.js"
 
 export default {
     data: function () {

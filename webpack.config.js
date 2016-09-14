@@ -16,14 +16,14 @@ module.exports = {
             'jquery_ui',
             'datatables',
             'datatables_bootstrap'
-            // 'tinymce'
         ]
     },
 
     output: {
         path: __dirname + '/build',
-        publicPath:"/",
-        filename: 'js/[name].bundle.js'
+        publicPath:"/build",
+        filename: 'js/[name].bundle.js',
+        chunkFilename: "js/[id].js"
     },
 
     module: {
@@ -37,7 +37,7 @@ module.exports = {
                 loader: 'babel-loader', // Enable es6 support by babels
                 exclude: /node_modules\//
             },
-            // Todo has issue, cant load split css file
+            // // Todo has issue, cant load split css file
             {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract("style-loader", "css-loader")
@@ -54,20 +54,14 @@ module.exports = {
                 test: /\.(png|jpg)$/,
                 loader: 'url-loader?limit=8192'
             }
-            // {
-            //     test: require.resolve('tinymce/tinymce'),
-            //     loaders: [
-            //         'imports?this=>window',
-            //         'exports?window.tinymce'
-            //     ]
-            // },
-            // {
-            //     test: /tinymce\/(themes|plugins)\//,
-            //     loaders: [
-            //         'imports?this=>window'
-            //     ]
-            // }
         ]
+    },
+
+    vue: {
+        loaders: {
+            css: ExtractTextPlugin.extract('css'),
+            less: ExtractTextPlugin.extract("css!less")
+        }
     },
 
     resolve: {
@@ -78,12 +72,11 @@ module.exports = {
             jquery_ui: node_lib_dir + "jquery-ui",
             datatables: node_lib_dir + "datatables",
             datatables_bootstrap: node_lib_dir + "datatables-bootstrap"
-            // tinymce: node_lib_dir + "tinymce"
         }
     },
 
     plugins: [
-        new ExtractTextPlugin("css/[name].css", {allChunks: true}),
+        new ExtractTextPlugin("css/app.css"),
 
         new webpack.ProvidePlugin({
             $: "jquery",
@@ -93,8 +86,8 @@ module.exports = {
         }),
 
         new webpack.optimize.CommonsChunkPlugin({
-            filename: "common.js",
-            name: 'common'
+            filename: "js/vendor.bundle.js",
+            name: 'vendor'
         })
     ],
 

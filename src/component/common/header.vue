@@ -5,7 +5,7 @@
                 <div class="col-md-5">
                     <!-- Logo -->
                     <div class="logo">
-                        <h1><a href="index.html">Bootstrap Admin Theme</a></h1>
+                        <h1><a href="index.html">Owen's Blog</a></h1>
                     </div>
                 </div>
                 <div class="col-md-5">
@@ -45,4 +45,3 @@ export default {
 
 }
 </script>
-
