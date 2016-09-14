@@ -1,34 +1,44 @@
 <template>
-    <div class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-5">
+    <div class="{{ appStyle['header'] }}">
+        <div class="{{ appStyle['container'] }}">
+            <div class="{{ bootstrapStyle['row'] }}">
+                <div class="{{ bootstrapStyle['col-md-5'] }}">
                     <!-- Logo -->
-                    <div class="logo">
-                        <h1><a href="index.html">Owen's Blog</a></h1>
+                    <div class="{{ appStyle['logo'] }}">
+                        <h1><a href="">Owen's Blog</a></h1>
                     </div>
                 </div>
-                <div class="col-md-5">
-                    <div class="row">
-                        <div class="col-lg-12">
-                        <div class="input-group form">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-primary" type="button">Search</button>
+                <div class="{{ bootstrapStyle['col-md-5'] }}">
+                    <div class="{{ bootstrapStyle['row'] }}">
+                        <div class="{{ bootstrapStyle['col-lg-12'] }}">
+                        <div class="{{ bootstrapStyle['input-group'] + ' ' + appStyle['form'] }}">
+                            <input type="text" class="{{ bootstrapStyle['form-control'] }}" placeholder="Search...">
+                            <span class="{{ bootstrapStyle['input-group-btn'] }}">
+                                <button class="{{ bootstrapStyle['btn'] + ' ' + bootstrapStyle['btn-primary'] }}" type="button">Search</button>
                             </span>
                         </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="navbar navbar-inverse" role="banner">
-                        <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
-                            <ul class="nav navbar-nav">
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <b class="caret"></b></a>
-                                    <ul class="dropdown-menu animated fadeInUp">
-                                    <li><a href="profile.html">Profile</a></li>
-                                    <li><a href="login.html">Logout</a></li>
+                <div class="{{ bootstrapStyle['col-md-2'] }}">
+                    <div class="{{ appStyle['navbar'] + ' ' + bootstrapStyle['navbar-inverse'] }}" role="banner">
+                        <nav class="{{
+                            bootstrapStyle['collapse'] + ' '
+                            + appStyle['navbar-collapse'] + ' '
+                            + bootstrapStyle['navbar-right']
+                        }}" role="navigation">
+                            <ul class="{{ bootstrapStyle['nav'] + ' ' + appStyle['navbar-nav'] }}">
+                                <li class="{{ bootstrapStyle['dropdown'] }}">
+                                    <a href="#" class="{{ bootstrapStyle['dropdown-toggle'] }}" data-toggle="dropdown">
+                                        My Account <b class="{{ appStyle['caret'] }}"></b>
+                                    </a>
+                                    <ul class="{{
+                                        appStyle['dropdown-menu'] + ' '
+                                        + bootstrapStyle['animated'] + ' '
+                                        + bootstrapStyle['fadeInUp']
+                                    }}">
+                                    <li><a href="">Profile</a></li>
+                                    <li><a href="">Logout</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -41,7 +51,16 @@
 </template>
 
 <script>
-export default {
+import "bootstrap/dist/js/bootstrap.js"
+import bootstrapStyle from "bootstrap/dist/css/bootstrap.css"
+import appStyle from "app/css/styles.css"
 
+export default {
+    data: function () {
+        return {
+            appStyle: appStyle,
+            bootstrapStyle: bootstrapStyle
+        };
+    }
 }
 </script>

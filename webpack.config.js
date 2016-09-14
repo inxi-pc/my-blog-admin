@@ -15,7 +15,8 @@ module.exports = {
             'bootstrap',
             'jquery_ui',
             'datatables',
-            'datatables_bootstrap'
+            'datatables_bootstrap',
+            'tinymce/tinymce'
         ]
     },
 
@@ -37,30 +38,48 @@ module.exports = {
                 loader: 'babel-loader', // Enable es6 support by babels
                 exclude: /node_modules\//
             },
-            // // Todo has issue, cant load split css file
-            {
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-            },
             // {
             //     test: /\.css$/,
             //     loader: 'style-loader!css-loader'
             // },
+            // // Todo has issue, cant load split css file
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract(
+                    "style-loader",
+                    "css-loader"
+                )
+            },
             {
                 test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
                 loader: 'file-loader?name=resource/[name].[ext]'
             },
             {
-                test: /\.(png|jpg)$/,
+                test: /\.(png|jpg|gif)$/,
                 loader: 'url-loader?limit=8192'
+            },
+            {
+                test: require.resolve('tinymce/tinymce'),
+                loaders: [
+                    'imports?this=>window',
+                    'exports?window.tinymce'
+                ]
+            },
+            {
+            test: /tinymce\/(themes|plugins)\//,
+                loaders: [
+                    'imports?this=>window'
+                ]
             }
         ]
     },
 
     vue: {
         loaders: {
-            css: ExtractTextPlugin.extract('css'),
-            less: ExtractTextPlugin.extract("css!less")
+            css: ExtractTextPlugin.extract(
+                "style-loader",
+                "css-loader?modules&-url&localIdentName=[name]__[local]___[hash:base64:5]"
+            )
         }
     },
 
@@ -76,7 +95,7 @@ module.exports = {
     },
 
     plugins: [
-        new ExtractTextPlugin("css/app.css"),
+        new ExtractTextPlugin("css/[name].css"),
 
         new webpack.ProvidePlugin({
             $: "jquery",

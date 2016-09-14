@@ -1,23 +1,14 @@
-<style>
-    #postList th {
-        font-size: 12px
-    }
-
-    #postList td {
-        font-size: 12px
-    }
-</style>
-
 <template>
-    <div class="content-box-large">
-        <div class="panel-heading">
-            <div class="panel-title">Post List</div>
+    <div class="{{ appStyle['content-box-large'] }}">
+        <div class="{{ appStyle['panel-heading'] }}">
+            <div class="{{ appStyle['panel-title'] }}">Post List</div>
             <div>
                 <a v-link="{ path: '/posts/create' }">Create Post</a>
             </div>
         </div>
-        <div class="panel-body">
-            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="postList">
+        <div class="{{ appStyle['panel-body'] }}">
+            <table id="postList" cellpadding="0" cellspacing="0" border="0"
+            class="{{ appStyle['table'] + appStyle['table-striped'] + appStyle['table-bordered']}}">
                 <thead>
                     <tr>
                         <th>Post ID</th>
@@ -59,6 +50,10 @@ import "datatables/media/js/jquery.dataTables.js"
 import "datatables_bootstrap/css/dataTables.bootstrap.css"
 import "datatables_bootstrap/js/dataTables.bootstrap.js"
 
+import "bootstrap/dist/js/bootstrap.js"
+import bootstrapStyle from "bootstrap/dist/css/bootstrap.css"
+import appStyle from "app/css/styles.css"
+
 export default {
     data: function () {
         return {
@@ -68,7 +63,10 @@ export default {
             orderBy: "post_id",
             limit: 10,
             offset: 0,
-            total: 0
+            total: 0,
+
+            'bootstrapStyle': bootstrapStyle,
+            'appStyle': appStyle
         }
     },
 

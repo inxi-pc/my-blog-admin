@@ -1,12 +1,12 @@
 <template>
     <div>
         <my-header></my-header>
-        <div class="page-content">
-            <div class="row">
-                <div class="col-md-2">
+        <div class="{{ appStyle['page-content'] }}">
+            <div class="{{ appStyle['row'] }}">
+                <div class="{{ bootstrapStyle['col-md-2'] }}">
                     <sidebar></sidebar>
                 </div>
-                <div class="col-md-10">
+                <div class="{{ bootstrapStyle['col-md-10'] }}">
                     <router-view></router-view>
                 </div>
             </div>
@@ -19,8 +19,19 @@ import header from './common/header.vue'
 import footer from './common/footer.vue'
 import sidebar from './common/sidebar.vue'
 
+import "bootstrap/dist/js/bootstrap.js"
+import bootstrapStyle from "bootstrap/dist/css/bootstrap.css"
+import appStyle from "app/css/styles.css"
+
 export default {
     replace: false,
+
+    data: function () {
+        return {
+            appStyle: appStyle,
+            bootstrapStyle: bootstrapStyle
+        };
+    },
 
     components: {
         "my-header": header,

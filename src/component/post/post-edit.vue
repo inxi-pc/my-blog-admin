@@ -1,20 +1,86 @@
 <template>
-    <div class="content-box-large">
-        <div class="panel-heading">
-            <div class="panel-title">Post Edit/Create</div>
-            <div class="panel-options">
-                <a href="#" data-rel="collapse"><i class="glyphicon glyphicon-refresh"></i></a>
-                <a href="#" data-rel="reload"><i class="glyphicon glyphicon-cog"></i></a>
+    <div class="{{ appStyle['content-box-large'] }}">
+        <div class="{{ appStyle['panel-heading'] }}">
+            <div class="{{ appStyle['panel-title'] }}">Post Edit/Create</div>
+            <div class="{{ appStyle['panel-options'] }}">
+                <a href="#" data-rel="collapse">
+                    <i class="{{ bootstrapStyle['glyphicon'] + bootstrapStyle['glyphicon-refresh'] }}"></i>
+                </a>
+                <a href="#" data-rel="reload">
+                    <i class="{{ bootstrapStyle['glyphicon'] + bootstrapStyle['glyphicon-cog'] }}"></i>
+                </a>
             </div>
         </div>
-        <div class="panel-body">
+        <div class="{{ appStyle['panel-body']}}">
             <textarea id="postEditor"></textarea>
         </div>
     </div>
 </template>
 
 <script>
-export default {
+import tinymce from 'tinymce/tinymce'
+import 'tinymce/themes/modern/theme'
+import 'tinymce/plugins/advlist/plugin'
+import 'tinymce/plugins/autolink/plugin'
+import 'tinymce/plugins/lists/plugin'
+import 'tinymce/plugins/link/plugin'
+import 'tinymce/plugins/image/plugin'
+import 'tinymce/plugins/charmap/plugin'
+import 'tinymce/plugins/print/plugin'
+import 'tinymce/plugins/preview/plugin'
+import 'tinymce/plugins/anchor/plugin'
+import 'tinymce/plugins/searchreplace/plugin'
+import 'tinymce/plugins/visualblocks/plugin'
+import 'tinymce/plugins/code/plugin'
+import 'tinymce/plugins/fullscreen/plugin'
+import 'tinymce/plugins/insertdatetime/plugin'
+import 'tinymce/plugins/media/plugin'
+import 'tinymce/plugins/table/plugin'
+import 'tinymce/plugins/contextmenu/plugin'
+import 'tinymce/plugins/paste/plugin'
+import 'tinymce/plugins/emoticons/plugin'
+import 'tinymce/plugins/template/plugin'
+import 'tinymce/plugins/textcolor/plugin'
+import 'tinymce/skins/lightgray/skin.min.css'
+import 'tinymce/skins/lightgray/content.min.css'
 
+import "bootstrap/dist/js/bootstrap.js"
+import bootstrapStyle from "bootstrap/dist/css/bootstrap.css"
+import appStyle from "app/css/styles.css"
+
+export default {
+    data: function () {
+        return {
+            'bootstrapStyle': bootstrapStyle,
+            'appStyle': appStyle
+        };
+    },
+
+    ready: function () {
+        this.initialEditor();
+    },
+
+    methods: {
+        initialEditor: function () {
+            tinymce.remove();
+            tinymce.init({
+                selector: "#postEditor",
+                skin: false,
+                plugins: [
+                    "advlist autolink lists link image charmap print preview anchor",
+                    "searchreplace visualblocks code fullscreen",
+                    "insertdatetime media table contextmenu paste",
+                    "emoticons template textcolor"
+                ],
+                toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+            });
+        }
+    },
+
+    route: {
+        data({ to }) {
+            this.initialEditor();
+        }
+    }
 }
 </script>

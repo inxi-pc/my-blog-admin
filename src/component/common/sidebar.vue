@@ -27,9 +27,19 @@
     </div>
 </template>
 
-
 <script>
+import "bootstrap/dist/js/bootstrap.js"
+import bootstrapStyle from "bootstrap/dist/css/bootstrap.css"
+import appStyle from "app/css/styles.css"
+
 export default {
+    data: function () {
+        return {
+            appStyle: appStyle,
+            bootstrapStyle: bootstrapStyle
+        };
+    },
+    
     methods: {
         active: function (event) {
             var nav = $('#leftSidebar').children('.nav');
