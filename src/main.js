@@ -8,6 +8,41 @@ import postEdit from './component/post/post-edit.vue'
 
 Vue.use(VueRouter)
 Vue.use(VueResource)
+Vue.mixin({
+    methods: {
+        getStyle: function () {
+            var style = '';
+            for (var key in arguments) {
+                var classes = this.style[arguments[key]];
+                for (var classKey in classes) {
+                    style = style + ' ' + classes[classKey];
+                }
+            }
+
+            return style;
+        },
+
+        setStyle: function () {
+            var styles = [];
+            for (var key in arguments) {
+                var styleLib = arguments[key];
+                for (var styleKey in styleLib) {
+                    if (styleLib.hasOwnProperty(styleKey)) {
+                        if (styles[styleKey] != undefined) {
+                            styles[styleKey].push(styleLib[styleKey]);
+                        } else {
+                            styles[styleKey] = [];
+                            styles[styleKey].push(styleLib[styleKey]);
+                        }
+                    }
+                }
+            }
+
+            console.log(arguments);
+            return styles;
+        }
+    }
+})
 
 var router = new VueRouter({
     hashbang: false,

@@ -47,7 +47,7 @@ module.exports = {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract(
                     "style-loader",
-                    "css-loader"
+                    "css-loader!postcss-loader"
                 )
             },
             {
@@ -56,7 +56,7 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif)$/,
-                loader: 'url-loader?limit=8192'
+                loader: 'url-loader?prefix=resource/&limit=8192'
             },
             {
                 test: require.resolve('tinymce/tinymce'),
@@ -74,14 +74,30 @@ module.exports = {
         ]
     },
 
-    vue: {
-        loaders: {
-            css: ExtractTextPlugin.extract(
-                "style-loader",
-                "css-loader?modules&-url&localIdentName=[name]__[local]___[hash:base64:5]"
-            )
-        }
-    },
+    postcss: [
+        require('postcss-modules') ({
+            scopeBehaviour: 'local',
+            generateScopedName: '[name]__[local]___[hash:base64:5]',
+            getJSON: function(cssFileName, json) {
+                var path          = require('path');
+                var cssName       = path.basename(cssFileName, '.css');
+                var jsonFileName  = path.resolve('./build/css/' + cssName + '.json');
+                console.log(jsonFileName);
+                fs.writeFile(jsonFileName, json, function (err) {
+                    console.log(err);
+                });
+            }
+        })
+    ],
+
+    // vue: {
+    //     loaders: {
+    //         css: ExtractTextPlugin.extract(
+    //             "style-loader",
+    //             "css-loader?modules&-url&localIdentName=[name]__[local]___[hash:base64:5]"
+    //         )
+    //     }
+    // },
 
     resolve: {
         alias: {

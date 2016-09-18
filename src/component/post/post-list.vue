@@ -1,14 +1,14 @@
 <template>
-    <div class="{{ appStyle['content-box-large'] }}">
-        <div class="{{ appStyle['panel-heading'] }}">
-            <div class="{{ appStyle['panel-title'] }}">Post List</div>
+    <div class="{{ getStyle('content-box-large') }}">
+        <div class="{{ getStyle('panel-heading') }}">
+            <div class="{{ getStyle('panel-title') }}">Post List</div>
             <div>
                 <a v-link="{ path: '/posts/create' }">Create Post</a>
             </div>
         </div>
-        <div class="{{ appStyle['panel-body'] }}">
+        <div class="{{ getStyle('panel-body') }}">
             <table id="postList" cellpadding="0" cellspacing="0" border="0"
-            class="{{ appStyle['table'] + appStyle['table-striped'] + appStyle['table-bordered']}}">
+            class="{{ getStyle('table', 'table-striped', 'table-bordered') }}">
                 <thead>
                     <tr>
                         <th>Post ID</th>
@@ -65,8 +65,7 @@ export default {
             offset: 0,
             total: 0,
 
-            'bootstrapStyle': bootstrapStyle,
-            'appStyle': appStyle
+            style: this.setStyle(bootstrapStyle, appStyle)
         }
     },
 

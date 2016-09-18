@@ -1,21 +1,21 @@
 <template>
-    <div class="sidebar content-box" style="display: block;" id="leftSidebar">
-        <ul class="nav">
+    <div id="leftSidebar"class="{{ getStyle('sidebar', 'content-box') }}" style="display: block;">
+        <ul class="{{ getStyle('nav') }}">
             <!-- Main menu -->
             <li>
                 <a v-link="{ path: '/' }" v-on:click.stop="active($event)">
-                    <i class="glyphicon glyphicon-home"></i> Dashboard
+                    <i class="{{ getStyle('glyphicon', 'glyphicon-home') }}"></i> Dashboard
                 </a>
             </li>
             <li>
                 <a v-link="{ path: '/posts' }" v-on:click.stop="active($event)">
-                    <i class="glyphicon glyphicon-list"></i>Post
+                    <i class="{{ getStyle('glyphicon', 'glyphicon-list') }}"></i>Post
                 </a>
             </li>
-            <li class="submenu">
+            <li>
                 <a v-link="{ path: '/posts' }" v-on:click.stop="slideMenu($event)">
-                    <i class="glyphicon glyphicon-list"></i> Sub
-                    <span class="caret pull-right"></span>
+                    <i class="{{ getStyle('glyphicon', 'glyphicon-list') }}"></i> Sub
+                    <span class="{{ getStyle('caret', 'pull-right') }}"></span>
                 </a>
                 <!-- Sub menu -->
                 <ul>
@@ -35,11 +35,10 @@ import appStyle from "app/css/styles.css"
 export default {
     data: function () {
         return {
-            appStyle: appStyle,
-            bootstrapStyle: bootstrapStyle
-        };
+            style: this.setStyle(bootstrapStyle, appStyle)
+        }
     },
-    
+
     methods: {
         active: function (event) {
             var nav = $('#leftSidebar').children('.nav');

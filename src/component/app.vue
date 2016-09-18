@@ -25,7 +25,7 @@ import appStyle from "app/css/styles.css"
 
 export default {
     replace: false,
-
+    
     data: function () {
         return {
             appStyle: appStyle,
