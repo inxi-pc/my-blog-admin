@@ -38,7 +38,6 @@ Vue.mixin({
                 }
             }
 
-            console.log(arguments);
             return styles;
         }
     }

@@ -1,17 +1,17 @@
 <template>
-    <div class="{{ appStyle['content-box-large'] }}">
-        <div class="{{ appStyle['panel-heading'] }}">
-            <div class="{{ appStyle['panel-title'] }}">Post Edit/Create</div>
-            <div class="{{ appStyle['panel-options'] }}">
+    <div class="{{ getStyle('content-box-large') }}">
+        <div class="{{ getStyle('panel-heading') }}">
+            <div class="{{ getStyle('panel-title') }}">Post Edit/Create</div>
+            <div class="{{ getStyle('panel-options') }}">
                 <a href="#" data-rel="collapse">
-                    <i class="{{ bootstrapStyle['glyphicon'] + bootstrapStyle['glyphicon-refresh'] }}"></i>
+                    <i class="{{ getStyle('glyphicon', 'glyphicon-refresh') }}"></i>
                 </a>
                 <a href="#" data-rel="reload">
-                    <i class="{{ bootstrapStyle['glyphicon'] + bootstrapStyle['glyphicon-cog'] }}"></i>
+                    <i class="{{ getStyle('glyphicon', 'glyphicon-cog') }}"></i>
                 </a>
             </div>
         </div>
-        <div class="{{ appStyle['panel-body']}}">
+        <div class="{{ getStyle('panel-body') }}">
             <textarea id="postEditor"></textarea>
         </div>
     </div>
@@ -51,8 +51,7 @@ import appStyle from "app/css/styles.css"
 export default {
     data: function () {
         return {
-            'bootstrapStyle': bootstrapStyle,
-            'appStyle': appStyle
+            style: this.setStyle(bootstrapStyle, appStyle)
         };
     },
 

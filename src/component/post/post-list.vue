@@ -46,9 +46,9 @@ import PaginationModel from '../../resource/pagination.js'
 import OrderModel from '../../resource/order.js'
 import PostModel from '../../resource/post.js'
 
-import "datatables/media/js/jquery.dataTables.js"
-import "datatables_bootstrap/css/dataTables.bootstrap.css"
 import "datatables_bootstrap/js/dataTables.bootstrap.js"
+import "datatables/media/js/jquery.dataTables.js"
+import dataTablesBtStyle from "datatables_bootstrap/css/dataTables.bootstrap.css"
 
 import "bootstrap/dist/js/bootstrap.js"
 import bootstrapStyle from "bootstrap/dist/css/bootstrap.css"
@@ -65,7 +65,7 @@ export default {
             offset: 0,
             total: 0,
 
-            style: this.setStyle(bootstrapStyle, appStyle)
+            style: this.setStyle(bootstrapStyle, appStyle, dataTablesBtStyle)
         }
     },
 

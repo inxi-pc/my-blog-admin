@@ -1,12 +1,10 @@
 var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-var node_lib_dir = __dirname + '/node_modules/';
-var app_lib_dir = __dirname + '/static/';
+var node_lib_path = __dirname + '/node_modules/';
+var app_lib_path = __dirname + '/static/';
 
 module.exports = {
-    debug: true,
-
     entry: {
         app: './src/main.js',
 
@@ -21,8 +19,8 @@ module.exports = {
     },
 
     output: {
-        path: __dirname + '/build',
-        publicPath:"/build",
+        path: __dirname + '/build/',
+        publicPath:"/build/",
         filename: 'js/[name].bundle.js',
         chunkFilename: "js/[id].js"
     },
@@ -42,22 +40,24 @@ module.exports = {
             //     test: /\.css$/,
             //     loader: 'style-loader!css-loader'
             // },
-            // // Todo has issue, cant load split css file
+            // Todo: has issue, cant load split css file
             {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract(
-                    "style-loader",
-                    "css-loader!postcss-loader"
+                    "vue-style-loader",
+                    "css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]"
                 )
             },
             {
-                test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+                test: /\.(ttf|eot|svg|woff(2)?|png|jpg|gif)(\?[a-z0-9=&.]+)?$/,
                 loader: 'file-loader?name=resource/[name].[ext]'
             },
-            {
-                test: /\.(png|jpg|gif)$/,
-                loader: 'url-loader?prefix=resource/&limit=8192'
-            },
+            // Todo: url-loader has a bug, if file length > limit
+            // then the file name is not same as prefix rule
+            // {
+            //     test: /\.(png|jpg|gif)$/,
+            //     loader: 'url-loader?limit=8192'
+            // },
             {
                 test: require.resolve('tinymce/tinymce'),
                 loaders: [
@@ -74,39 +74,24 @@ module.exports = {
         ]
     },
 
-    postcss: [
-        require('postcss-modules') ({
-            scopeBehaviour: 'local',
-            generateScopedName: '[name]__[local]___[hash:base64:5]',
-            getJSON: function(cssFileName, json) {
-                var path          = require('path');
-                var cssName       = path.basename(cssFileName, '.css');
-                var jsonFileName  = path.resolve('./build/css/' + cssName + '.json');
-                console.log(jsonFileName);
-                fs.writeFile(jsonFileName, json, function (err) {
-                    console.log(err);
-                });
-            }
-        })
-    ],
-
     // vue: {
     //     loaders: {
     //         css: ExtractTextPlugin.extract(
     //             "style-loader",
-    //             "css-loader?modules&-url&localIdentName=[name]__[local]___[hash:base64:5]"
+    //             "css-loader"
     //         )
     //     }
     // },
 
     resolve: {
         alias: {
-            app: app_lib_dir,
-            bootstrap: node_lib_dir + "bootstrap",
-            jquery: node_lib_dir + "jquery",
-            jquery_ui: node_lib_dir + "jquery-ui",
-            datatables: node_lib_dir + "datatables",
-            datatables_bootstrap: node_lib_dir + "datatables-bootstrap"
+            app: app_lib_path,
+            bootstrap: node_lib_path + "bootstrap",
+            jquery: node_lib_path + "jquery",
+            jquery_ui: node_lib_path + "jquery-ui",
+            datatables: node_lib_path + "datatables",
+            datatables_bootstrap: node_lib_path + "datatables-bootstrap",
+            tinymce: node_lib_path + "tinymce"
         }
     },
 
