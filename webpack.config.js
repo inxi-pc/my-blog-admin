@@ -19,8 +19,8 @@ module.exports = {
     },
 
     output: {
-        path: __dirname + '/build/',
-        publicPath:"/build/",
+        path: __dirname + '/dist/',
+        publicPath:"/dist/",
         filename: 'js/[name].bundle.js',
         chunkFilename: "js/[id].js"
     },
@@ -44,20 +44,20 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract(
-                    "vue-style-loader",
+                    "style-loader",
                     "css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]"
                 )
             },
             {
-                test: /\.(ttf|eot|svg|woff(2)?|png|jpg|gif)(\?[a-z0-9=&.]+)?$/,
+                test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
                 loader: 'file-loader?name=resource/[name].[ext]'
             },
             // Todo: url-loader has a bug, if file length > limit
             // then the file name is not same as prefix rule
-            // {
-            //     test: /\.(png|jpg|gif)$/,
-            //     loader: 'url-loader?limit=8192'
-            // },
+            {
+                test: /\.(png|jpg|gif)$/,
+                loader: 'url-loader?limit=8192'
+            },
             {
                 test: require.resolve('tinymce/tinymce'),
                 loaders: [
@@ -78,7 +78,7 @@ module.exports = {
     //     loaders: {
     //         css: ExtractTextPlugin.extract(
     //             "style-loader",
-    //             "css-loader"
+    //             "css-loader?modules&localIdentName=[name]__[local]___[hash:base64:5]",
     //         )
     //     }
     // },
