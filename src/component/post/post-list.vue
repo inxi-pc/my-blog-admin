@@ -1,14 +1,19 @@
+<style src="bootstrap/dist/css/bootstrap.css"></style>
+<style src="datatables_bootstrap/css/dataTables.bootstrap.css"></style>
+<style src="app/css/common.css"></style>
+<style src="app/css/responsive.css"></style>
+
 <template>
-    <div class="{{ getStyle('content-box-large') }}">
-        <div class="{{ getStyle('panel-heading') }}">
-            <div class="{{ getStyle('panel-title') }}">Post List</div>
+    <div class="content-box-large">
+        <div class="panel-heading">
+            <div class="panel-title">Post List</div>
             <div>
                 <a v-link="{ path: '/posts/create' }">Create Post</a>
             </div>
         </div>
-        <div class="{{ getStyle('panel-body') }}">
+        <div class="panel-body">
             <table id="postList" cellpadding="0" cellspacing="0" border="0"
-            class="{{ getStyle('table', 'table-striped', 'table-bordered') }}">
+            class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>Post ID</th>
@@ -48,11 +53,6 @@ import PostModel from '../../resource/post.js'
 
 import "datatables_bootstrap/js/dataTables.bootstrap.js"
 import "datatables/media/js/jquery.dataTables.js"
-import dataTablesBtStyle from "datatables_bootstrap/css/dataTables.bootstrap.css"
-
-import "bootstrap/dist/js/bootstrap.js"
-import bootstrapStyle from "bootstrap/dist/css/bootstrap.css"
-import appStyle from "app/css/styles.css"
 
 export default {
     data: function () {
@@ -63,9 +63,7 @@ export default {
             orderBy: "post_id",
             limit: 10,
             offset: 0,
-            total: 0,
-
-            style: this.setStyle(bootstrapStyle, appStyle, dataTablesBtStyle)
+            total: 0
         }
     },
 
