@@ -1,18 +1,18 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 
 import page from './page.vue'
 
-Vue.use(VueRouter)
 Vue.use(VueResource)
 // define global function
 Vue.mixin({
 
 })
 
-var router = new VueRouter({
-    hashbang: false,
-})
+new Vue({
+    el: "#app",
 
-router.start(page, "#app")
+    components: {
+        page: page
+    }
+})

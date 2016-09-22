@@ -2,13 +2,18 @@
 <style src="datatables_bootstrap/css/dataTables.bootstrap.css"></style>
 <style src="app/css/common.css"></style>
 <style src="app/css/responsive.css"></style>
+<style scroped>
+    tr, td {
+        font-size: 12px;
+    }
+</style>
 
 <template>
     <div class="content-box-large">
         <div class="panel-heading">
             <div class="panel-title">Post List</div>
             <div>
-                <a v-link="{ path: '/posts/create' }">Create Post</a>
+                <a>Create Post</a>
             </div>
         </div>
         <div class="panel-body">
@@ -74,6 +79,7 @@ export default {
         PostModel.getPosts(this, null, page, order).then((response) => {
             $('#postList').dataTable({
                 scrollX: true,
+                response: true,
                 columns: [
                     {'data': 'post_id'},
                     {'data': 'user_id'},
@@ -102,20 +108,6 @@ export default {
         }, (response) => {
             console.log(response);
         });
-    },
-
-    route: {
-        data({ to }) {
-            if (to.query.order) {
-                this.order = to.query.order;
-            }
-            if (to.query.by) {
-                this.by = to.query.by;
-            }
-            if (to.query.limit) {
-                this.limit = to.query.limit;
-            }
-        }
     }
 }
 </script>

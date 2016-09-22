@@ -162,17 +162,17 @@
         <ul class="nav">
             <!-- Main menu -->
             <li>
-                <a v-link="{ path: '/' }" v-on:click.stop="active($event)">
+                <a v-on:click.stop="active($event)">
                     <i class="glyphicon glyphicon-home"></i> Dashboard
                 </a>
             </li>
             <li>
-                <a v-link="{ path: '/posts' }" v-on:click.stop="active($event)">
+                <a v-on:click.stop="active($event)">
                     <i class="glyphicon glyphicon-list"></i>Post
                 </a>
             </li>
             <li>
-                <a v-link="{ path: '/posts' }" v-on:click.stop="slideMenu($event)">
+                <a v-on:click.stop="slideMenu($event)">
                     <i class="glyphicon glyphicon-list"></i> Sub
                     <span class="caret pull-right"></span>
                 </a>
