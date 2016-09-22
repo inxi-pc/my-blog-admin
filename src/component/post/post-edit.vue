@@ -1,26 +1,50 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
-<style src="app/css/responsive.css"></style>
 <style src="tinymce/skins/lightgray/skin.min.css"></style>
 <style src="tinymce/skins/lightgray/content.min.css"></style>
-<style src="app/css/common.css"></style>
+<style scoped>
+    .content-box-large {
+        margin-bottom: 30px;
+        background: #fff;
+        border-radius: 10px;
+        padding: 10px;
+        border-left: 1px solid #eee;
+        border-top: 1px solid #eee;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+    }
+
+    .content-box-large {
+        padding: 20px;
+    }
+
+    .panel-heading > .panel-title {
+        float: left;
+        padding: 10px 15px 10px 0px;
+        padding-top: 0px;
+    }
+
+    .panel-heading > .panel-title > * {
+        margin: 0;
+    }
+
+    .panel-heading > .panel-title > span {
+        font-weight: normal;
+    }
+
+    .panel-body {
+        clear: both;
+    }
+</style>
 
 <template>
     <div class="content-box-large">
         <div class="panel-heading">
             <div class="panel-title">Post Edit/Create</div>
-            <div class="panel-options">
-                <a href="#" data-rel="collapse">
-                    <i class="glyphicon glyphicon-refresh"></i>
-                </a>
-                <a href="#" data-rel="reload">
-                    <i class="glyphicon glyphicon-cog"></i>
-                </a>
-            </div>
         </div>
         <div class="panel-body">
             <form class="form-horizontal" role="form">
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">Text Field</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label">Post Id</label>
                     <div class="col-sm-10">
                         <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
                     </div>

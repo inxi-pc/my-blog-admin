@@ -1,9 +1,41 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
 <style src="datatables_bootstrap/css/dataTables.bootstrap.css"></style>
-<style src="app/css/common.css"></style>
-<style src="app/css/responsive.css"></style>
-<style scroped>
-    tr, td {
+<style>
+    .content-box-large {
+        margin-bottom: 30px;
+        background: #fff;
+        border-radius: 10px;
+        padding: 10px;
+        border-left: 1px solid #eee;
+        border-top: 1px solid #eee;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+    }
+
+    .content-box-large {
+        padding: 20px;
+    }
+
+    .panel-heading > .panel-title {
+        float: left;
+        padding: 10px 15px 10px 0px;
+        padding-top: 0px;
+    }
+
+    .panel-heading > .panel-title > * {
+        margin: 0;
+    }
+
+    .panel-heading > .panel-title > span {
+        font-weight: normal;
+    }
+
+    .panel-body {
+        clear: both;
+    }
+
+    #postList tr, 
+    #postList td {
         font-size: 12px;
     }
 </style>
@@ -13,7 +45,7 @@
         <div class="panel-heading">
             <div class="panel-title">Post List</div>
             <div>
-                <a>Create Post</a>
+                <a href="/dist/post-edit.html?active=post">Create Post</a>
             </div>
         </div>
         <div class="panel-body">

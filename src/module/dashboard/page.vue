@@ -16,7 +16,7 @@
                     <sidebar></sidebar>
                 </div>
                 <div class="col-md-10">
-                    <post-edit></post-edit>
+                    <dashboard></dashboard>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
 import header from '../../component/common/header.vue'
 // import footer from '../../component/common/footer.vue'
 import sidebar from '../../component/common/sidebar.vue'
-import postEdit from '../../component/post/post-edit.vue'
+import dashboard from '../../component/dashboard/dashboard.vue'
 
 export default {
     data: function () {
@@ -40,7 +40,7 @@ export default {
         "my-header": header,
         // "my-footer": footer,
         'sidebar': sidebar,
-        'post-edit': postEdit
+        'dashboard': dashboard
     }
 }
 </script>

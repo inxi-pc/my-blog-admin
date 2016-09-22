@@ -29,7 +29,6 @@ export default class Post {
         post.category_id = 1;
         post.post_title = "This is test";
         post.post_content = "Test content, fuck your github";
-        post.post_split_position = 0;
         post.post_created_at = "2010-03-04 12:00:00";
         post.post_updated_at = "2010-03-14 22:00:00";
 

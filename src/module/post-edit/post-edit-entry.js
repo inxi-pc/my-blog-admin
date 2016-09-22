@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 
+import { decodeQueryParams } from '../../helper.js'
 import page from './page.vue'
 
 Vue.use(VueResource)
-// define global function
 Vue.mixin({
-
+    methods: {
+        decodeQueryParams
+    }
 })
 
 new Vue({

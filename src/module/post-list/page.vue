@@ -1,13 +1,5 @@
-<style>
-    body {
-      font-family: 'Open Sans', sans-serif!important;
-      background-color: #f7f7f7;
-      position: relative;
-      margin: 0px;
-      font-size: 12px;
-      padding: 0px;
-    }
-
+<style src="app/css/common.css"></style>
+<style scoped>
     .page-content > .row {
       margin-left: 0px !important;
       margin-right: 0px !important;
@@ -38,14 +30,12 @@ import sidebar from '../../component/common/sidebar.vue'
 import postList from '../../component/post/post-list.vue'
 
 export default {
-    replace: false,
-
     data: function () {
         return {
 
         }
     },
-
+    
     components: {
         "my-header": header,
         // "my-footer": footer,

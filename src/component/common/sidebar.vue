@@ -1,8 +1,6 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
-<style src="app/css/responsive.css"></style>
-<style>
-    .content-box,
-    .content-box-large {
+<style scoped>
+    .content-box {
         margin-bottom: 30px;
         background: #fff;
         border-radius: 10px;
@@ -11,32 +9,6 @@
         border-top: 1px solid #eee;
         border-right: 2px solid #eee;
         border-bottom: 2px solid #eee;
-    }
-
-    .content-box-large {
-        padding: 20px;
-    }
-
-    .box-with-header {
-        border-top: none;
-        border-top-left-radius: 0px;
-        border-top-right-radius: 0px;
-    }
-
-    .content-box-header {
-        min-height: 40px;
-        font-size: 16px;
-        background: #f5f5f5;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        padding: 10px;
-        border-left: 1px solid #eee;
-        border-top: 1px solid #eee;
-        border-right: 2px solid #eee;
-    }
-
-    .content-box-header:after {
-        clear: both;
     }
 
     .sidebar ul.nav,
@@ -161,19 +133,22 @@
     <div id="leftSidebar" class="sidebar content-box" style="display: block;">
         <ul class="nav">
             <!-- Main menu -->
-            <li>
-                <a v-on:click.stop="active($event)">
-                    <i class="glyphicon glyphicon-home"></i> Dashboard
+            <li id="dashboard" >
+                <a href="/dist/dashboard.html?active=dashboard">
+                    <i class="glyphicon glyphicon-home"></i> 
+                    Dashboard
                 </a>
             </li>
-            <li>
-                <a v-on:click.stop="active($event)">
-                    <i class="glyphicon glyphicon-list"></i>Post
+            <li id="post">
+                <a href="/dist/post-list.html?active=post">
+                    <i class="glyphicon glyphicon-list"></i>
+                    Post
                 </a>
             </li>
             <li>
                 <a v-on:click.stop="slideMenu($event)">
-                    <i class="glyphicon glyphicon-list"></i> Sub
+                    <i class="glyphicon glyphicon-list"></i> 
+                    Sub
                     <span class="caret pull-right"></span>
                 </a>
                 <!-- Sub menu -->
@@ -194,14 +169,16 @@ export default {
         }
     },
 
-    methods: {
-        active: function (event) {
-            var nav = $('#leftSidebar').children('ul');
-            var thisParent = $(event.target).parent('li');
-            nav.children('li').removeClass('open');
-            thisParent.addClass("open");
-        },
+    ready: function () {
+        var params = this.decodeQueryParams();
+        var actived = $("#" + params['active']);
+        var nav = $('#leftSidebar').children('ul');
+        var thisParent = actived.parent('li');
+        nav.children('li').removeClass('open');
+        actived.addClass("open");
+    },
 
+    methods: {
         slideMenu: function (event) {
             var nav = $('#leftSidebar').children('ul');
             var thisParent = $(event.target).parent("li");

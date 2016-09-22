@@ -1,6 +1,5 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
-<style src="app/css/responsive.css"></style>
-<style>
+<style scoped>
     .header {
         height: 50px;
         background-color: #2c3742;

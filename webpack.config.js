@@ -127,6 +127,6 @@ function getEntries(globPath) {
         basename = path.basename(entry, path.extname(entry));
         entries[basename] = entry;
     });
-
+ 
     return entries;
 }
