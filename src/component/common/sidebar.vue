@@ -1,160 +1,160 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
 <style src="app/css/responsive.css"></style>
 <style>
-.content-box,
-.content-box-large {
-    margin-bottom: 30px;
-    background: #fff;
-    border-radius: 10px;
-    padding: 10px;
-    border-left: 1px solid #eee;
-    border-top: 1px solid #eee;
-    border-right: 2px solid #eee;
-    border-bottom: 2px solid #eee;
-}
+    .content-box,
+    .content-box-large {
+        margin-bottom: 30px;
+        background: #fff;
+        border-radius: 10px;
+        padding: 10px;
+        border-left: 1px solid #eee;
+        border-top: 1px solid #eee;
+        border-right: 2px solid #eee;
+        border-bottom: 2px solid #eee;
+    }
 
-.content-box-large {
-    padding: 20px;
-}
+    .content-box-large {
+        padding: 20px;
+    }
 
-.box-with-header {
-    border-top: none;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-}
+    .box-with-header {
+        border-top: none;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+    }
 
-.content-box-header {
-    min-height: 40px;
-    font-size: 16px;
-    background: #f5f5f5;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    padding: 10px;
-    border-left: 1px solid #eee;
-    border-top: 1px solid #eee;
-    border-right: 2px solid #eee;
-}
+    .content-box-header {
+        min-height: 40px;
+        font-size: 16px;
+        background: #f5f5f5;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        padding: 10px;
+        border-left: 1px solid #eee;
+        border-top: 1px solid #eee;
+        border-right: 2px solid #eee;
+    }
 
-.content-box-header:after {
-    clear: both;
-}
+    .content-box-header:after {
+        clear: both;
+    }
 
-.sidebar ul.nav,
-.sidebar ul.nav ul {
-    list-style: none;
-    padding: 0px;
-    margin: 0px;
-}
+    .sidebar ul.nav,
+    .sidebar ul.nav ul {
+        list-style: none;
+        padding: 0px;
+        margin: 0px;
+    }
 
-.sidebar ul.nav ul {
-    margin: 0px;
-    padding: 0px;
-    display: none;
-}
+    .sidebar ul.nav ul {
+        margin: 0px;
+        padding: 0px;
+        display: none;
+    }
 
-.sidebar .nav li.open ul {
-    display: block;
-}
+    .sidebar .nav li.open ul {
+        display: block;
+    }
 
-.sidebar .nav>li {
-    margin: 0;
-    border-bottom: 1px dashed #eee;
-}
+    .sidebar .nav>li {
+        margin: 0;
+        border-bottom: 1px dashed #eee;
+    }
 
-.sidebar .nav>li:last-child {
-    border-bottom: 0px;
-}
+    .sidebar .nav>li:last-child {
+        border-bottom: 0px;
+    }
 
-.sidebar .nav>li li {
-    margin: 0;
-}
+    .sidebar .nav>li li {
+        margin: 0;
+    }
 
-.sidebar .nav>li li a {
-    padding-left: 25px;
-}
+    .sidebar .nav>li li a {
+        padding-left: 25px;
+    }
 
-.sidebar .nav>li>a {
-    font-size: 14px;
-    line-height: 20px;
-    padding: 15px 15px;
-    color: #999;
-    display: block;
-    font-weight: bold;
-    background: none;
-    text-decoration: none;
-    border-top: 0px;
-    font-weight: bold;
-}
+    .sidebar .nav>li>a {
+        font-size: 14px;
+        line-height: 20px;
+        padding: 15px 15px;
+        color: #999;
+        display: block;
+        font-weight: bold;
+        background: none;
+        text-decoration: none;
+        border-top: 0px;
+        font-weight: bold;
+    }
 
-.sidebar .nav>li>a>i {
-    margin-right: 5px;
-}
+    .sidebar .nav>li>a>i {
+        margin-right: 5px;
+    }
 
-.sidebar .nav>li>ul>li>a {
-    font-size: 13px;
-    line-height: 20px;
-    padding: 8px 10px 8px 40px;
-    color: #999;
-    background: #fff;
-    display: block;
-    text-decoration: none;
-    border-top: 0px;
-    font-weight: bold;
-}
+    .sidebar .nav>li>ul>li>a {
+        font-size: 13px;
+        line-height: 20px;
+        padding: 8px 10px 8px 40px;
+        color: #999;
+        background: #fff;
+        display: block;
+        text-decoration: none;
+        border-top: 0px;
+        font-weight: bold;
+    }
 
-.sidebar .nav>li>ul>li.active>a {
-    background: #fff;
-    border-top: 0px;
-    color: #555;
-}
+    .sidebar .nav>li>ul>li.active>a {
+        background: #fff;
+        border-top: 0px;
+        color: #555;
+    }
 
-.sidebar .nav>li>ul>li>a:hover {
-    background: #fff;
-    color: #555;
-    border-bottom: 0px;
-}
+    .sidebar .nav>li>ul>li>a:hover {
+        background: #fff;
+        color: #555;
+        border-bottom: 0px;
+    }
 
-.sidebar .nav li a:hover,
-.sidebar .nav li.current>a {
-    background: #fff;
-    color: #555;
-    border-bottom: 0px;
-}
+    .sidebar .nav li a:hover,
+    .sidebar .nav li.current>a {
+        background: #fff;
+        color: #555;
+        border-bottom: 0px;
+    }
 
-.sidebar .nav li.open>a {
-    background: #fff;
-    color: #555;
-    border-bottom: 1px dashed #eee;
-}
+    .sidebar .nav li.open>a {
+        background: #fff;
+        color: #555;
+        border-bottom: 1px dashed #eee;
+    }
 
-.sidebar .nav a .caret {
-    float: right;
-    width: 0;
-    height: 0;
-    display: inline-block;
-    vertical-align: top;
-    border-top: 4px solid #aaa;
-    border-right: 4px solid transparent;
-    border-left: 4px solid transparent;
-    content: "";
-    margin-top: 8px;
-    margin-left: 2px;
-}
+    .sidebar .nav a .caret {
+        float: right;
+        width: 0;
+        height: 0;
+        display: inline-block;
+        vertical-align: top;
+        border-top: 4px solid #aaa;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+        content: "";
+        margin-top: 8px;
+        margin-left: 2px;
+    }
 
-.sidebar .nav a:hover .caret {
-    border-top-color: #aaa;
-}
+    .sidebar .nav a:hover .caret {
+        border-top-color: #aaa;
+    }
 
-.sidebar .nav li.open>a>.caret {
-    border-top: none;
-    border-bottom: 4px solid #aaa !important;
-    border-right: 4px solid transparent;
-    border-left: 4px solid transparent;
-}
+    .sidebar .nav li.open>a>.caret {
+        border-top: none;
+        border-bottom: 4px solid #aaa !important;
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+    }
 
-.sidebar .nav li.open>a:hover>.caret {
-    border-bottom-color: #aaa;
-}
+    .sidebar .nav li.open>a:hover>.caret {
+        border-bottom-color: #aaa;
+    }
 </style>
 
 <template>

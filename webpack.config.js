@@ -1,22 +1,15 @@
 var webpack = require("webpack");
+var glob = require('glob');
+var path = require('path');
+
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var node_lib_path = __dirname + '/node_modules/';
-var app_lib_path = __dirname + '/static/';
+var app_asset_lib_path = __dirname + '/static/';
 
 module.exports = {
-    entry: {
-        app: './src/main.js',
-
-        vendor: [
-            'jquery',
-            'bootstrap',
-            'jquery_ui',
-            'datatables',
-            'datatables_bootstrap',
-            'tinymce/tinymce'
-        ]
-    },
+    entry: getEntries('./src/module/**/*.js'),
 
     output: {
         path: __dirname + '/dist/',
@@ -38,24 +31,10 @@ module.exports = {
             },
             // {
             //     test: /\.css$/,
-            //     loader: 'style-loader!css-loader'
-            // },
-            // Todo: has issue, cant load split css file
-            // {
-            //     test: /\.css$/,
             //     loader: ExtractTextPlugin.extract(
             //         "style-loader",
             //         "css-loader?modules&localIdentName=[path][name]---[local]---[hash:base64:5]"
-            //     ),
-            //     exclude: /node_modules\//
-            // },
-            // {
-            //     test: /\.css$/,
-            //     loader: ExtractTextPlugin.extract(
-            //         "style-loader",
-            //         "css-loader?modules&localIdentName=[local]"
-            //     ),
-            //     include: /node_modules\//
+            //     )
             // },
             {
                 test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
@@ -94,7 +73,7 @@ module.exports = {
 
     resolve: {
         alias: {
-            app: app_lib_path,
+            app: app_asset_lib_path,
             bootstrap: node_lib_path + "bootstrap",
             jquery: node_lib_path + "jquery",
             jquery_ui: node_lib_path + "jquery-ui",
@@ -124,4 +103,30 @@ module.exports = {
         presets: ['es2015'],
         plugins: ['transform-runtime']
     }
+};
+
+(function() {
+    var entries = getEntries('./src/module/**/*.html');
+    for (var basename in entries) {
+        var conf = {
+            filename: basename + '.html',
+            template: entries[basename],
+            inject: false
+        };
+        module.exports.plugins.push(new HtmlWebpackPlugin(conf));
+    }
+})();
+
+function getEntries(globPath) {
+    var entries = {};
+    var basename;
+    var tmp;
+    var pathname;
+
+    glob.sync(globPath).forEach(function (entry) {
+        basename = path.basename(entry, path.extname(entry));
+        entries[basename] = entry;
+    });
+
+    return entries;
 }
