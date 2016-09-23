@@ -1,13 +1,15 @@
 export function decodeQueryParams() {
-    var vars = [], hash;
+    var params = [], hash;
     var url = window.location.href;
     if (url.indexOf('?') != -1) {
         var hashes = url.slice(url.indexOf('?') + 1).split('&');
-        for(var i = 0; i < hashes.length; i++) {
-            hash = hashes[i].split('=');
-            vars[hash[0]] = hash[1];
+        for (var k in hashes) {
+            if (hashes[k].search("=") != -1) {
+                hash = hashes[k].split('=');
+                params[hash[0]] = hash[1];
+            }
         }
     }
-
-    return vars;
+ 
+    return params;
 }

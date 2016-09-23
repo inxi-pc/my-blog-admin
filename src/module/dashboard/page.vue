@@ -27,7 +27,6 @@
 import header from '../../component/common/header.vue'
 // import footer from '../../component/common/footer.vue'
 import sidebar from '../../component/common/sidebar.vue'
-import dashboard from '../../component/dashboard/dashboard.vue'
 
 export default {
     data: function () {
@@ -39,8 +38,7 @@ export default {
     components: {
         "my-header": header,
         // "my-footer": footer,
-        'sidebar': sidebar,
-        'dashboard': dashboard
+        'sidebar': sidebar
     }
 }
 </script>
