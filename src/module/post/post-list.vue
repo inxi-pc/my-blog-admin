@@ -16,7 +16,7 @@
                     <sidebar></sidebar>
                 </div>
                 <div class="col-md-10">
-                    <post-edit></post-edit>
+                    <post-list></post-list>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
 import header from '../../component/common/header.vue'
 // import footer from '../../component/common/footer.vue'
 import sidebar from '../../component/common/sidebar.vue'
-import postEdit from '../../component/post/post-edit.vue'
+import postList from '../../component/post/post-list.vue'
 
 export default {
     data: function () {
@@ -35,12 +35,12 @@ export default {
 
         }
     },
-
+    
     components: {
         "my-header": header,
-        // "my-footer": footer,
+        // "my-footer": Footer,
         'sidebar': sidebar,
-        'post-edit': postEdit
+        'post-list': postList
     }
 }
 </script>

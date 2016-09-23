@@ -1,4 +1,4 @@
-export function decodeQueryParams() {
+function decodeQueryParams() {
     var params = [], hash;
     var url = window.location.href;
     if (url.indexOf('?') != -1) {
@@ -13,3 +13,5 @@ export function decodeQueryParams() {
  
     return params;
 }
+
+export { decodeQueryParams }

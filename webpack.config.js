@@ -5,8 +5,8 @@ var path = require('path');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-var node_lib_path = __dirname + '/node_modules/';
-var app_asset_lib_path = __dirname + '/static/';
+var nodeLibPath = __dirname + '/node_modules/';
+var appAssetPath = __dirname + '/static/';
 
 module.exports = {
     entry: getEntries('./src/module/**/*.js'),
@@ -29,13 +29,11 @@ module.exports = {
                 loader: 'babel-loader', // Enable es6 support by babels
                 exclude: /node_modules\//
             },
-            // {
-            //     test: /\.css$/,
-            //     loader: ExtractTextPlugin.extract(
-            //         "style-loader",
-            //         "css-loader?modules&localIdentName=[path][name]---[local]---[hash:base64:5]"
-            //     )
-            // },
+            {
+                test: /\.json$/,
+                loader: 'json-loader',
+                exclude: /node_modules\//
+            },
             {
                 test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
                 loader: 'file-loader?name=resource/[name].[ext]'
@@ -73,14 +71,15 @@ module.exports = {
 
     resolve: {
         alias: {
-            app: app_asset_lib_path,
-            bootstrap: node_lib_path + "bootstrap",
-            jquery: node_lib_path + "jquery",
-            jquery_ui: node_lib_path + "jquery-ui",
-            datatables: node_lib_path + "datatables",
-            datatables_bootstrap: node_lib_path + "datatables-bootstrap",
-            tinymce: node_lib_path + "tinymce"
-        }
+            app: appAssetPath,
+            bootstrap: nodeLibPath + "bootstrap",
+            jquery: nodeLibPath + "jquery",
+            jquery_ui: nodeLibPath + "jquery-ui",
+            datatables: nodeLibPath + "datatables",
+            datatables_bootstrap: nodeLibPath + "datatables-bootstrap",
+            tinymce: nodeLibPath + "tinymce"
+        },
+        modulesDirectories: ['node_modules', 'src/lib', 'src/api', 'src/vuex']
     },
 
     plugins: [
@@ -106,7 +105,7 @@ module.exports = {
 };
 
 (function() {
-    var entries = getEntries('./src/module/**/*.html');
+    var entries = getEntries('./src/module/*/*.html');
     for (var basename in entries) {
         var conf = {
             filename: basename + '.html',

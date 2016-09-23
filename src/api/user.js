@@ -1,4 +1,5 @@
 export default class User {
+    
     constructor() {
         this.user_id = 0;
         this.user_name = "";

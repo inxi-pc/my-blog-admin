@@ -1,4 +1,5 @@
 export default class Comment {
+    
     constructor() {
         // @primary key
         this.comment_id = 0;

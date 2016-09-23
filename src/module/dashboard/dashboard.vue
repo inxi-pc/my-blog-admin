@@ -16,7 +16,7 @@
                     <sidebar></sidebar>
                 </div>
                 <div class="col-md-10">
-                    <dashboard></dashboard>
+                    
                 </div>
             </div>
         </div>

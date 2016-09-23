@@ -1,5 +1,4 @@
 export default class Order {
-
     constructor(orderType, orderBy, fallback) {
         this.setOrderType(orderType);
         this.setOrderBy(orderBy, fallback);

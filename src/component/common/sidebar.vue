@@ -134,13 +134,15 @@
         <ul class="nav">
             <!-- Main menu -->
             <li id="dashboard" >
-                <a href="/dist/dashboard.html?active=dashboard">
+                <a v-on:click.stop="activeMenu('dashboard')" 
+                    href="/dist/dashboard.html">
                     <i class="glyphicon glyphicon-home"></i> 
                     Dashboard
                 </a>
             </li>
             <li id="post">
-                <a href="/dist/post-list.html?active=post">
+                <a v-on:click.stop="activeMenu('post')" 
+                    href="/dist/post-list.html">
                     <i class="glyphicon glyphicon-list"></i>
                     Post
                 </a>
@@ -162,6 +164,8 @@
 </template>
 
 <script>
+import { activeMenu } from 'action'
+
 export default {
     data: function () {
         return {
@@ -170,8 +174,7 @@ export default {
     },
 
     ready: function () {
-        var params = this.decodeQueryParams();
-        var actived = $("#" + params['active']);
+        var actived = $("#" + this.actived);
         var nav = $('#leftSidebar').children('ul');
         var thisParent = actived.parent('li');
         nav.children('li').removeClass('open');
@@ -193,6 +196,18 @@ export default {
                 submenu.slideDown(350);
                 thisParent.addClass("open");
             }
+        }
+    },
+
+    vuex: {
+        getters: {
+            actived: function (state) {
+                return state.actived;
+            }
+        },
+
+        actions: {
+            activeMenu
         }
     }
 }

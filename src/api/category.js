@@ -1,7 +1,7 @@
 export default class Category {
     constructor() {
         // @primary key
-        this.category_id = 0;
+        this.dategory_id = 0;
         // @unique
         this.category_name = "";
         this.category_created_at = "";

@@ -45,7 +45,7 @@
         <div class="panel-heading">
             <div class="panel-title">Post List</div>
             <div>
-                <a href="/dist/post-edit.html?active=post">Create Post</a>
+                <a href="/dist/post-create.html">Create Post</a>
             </div>
         </div>
         <div class="panel-body">
@@ -84,9 +84,9 @@
 </template>
 
 <script>
-import PaginationModel from '../../resource/pagination.js'
-import OrderModel from '../../resource/order.js'
-import PostModel from '../../resource/post.js'
+import Pagination from 'Pagination'
+import Order from 'Order'
+import Post from 'Post'
 
 import "datatables_bootstrap/js/dataTables.bootstrap.js"
 import "datatables/media/js/jquery.dataTables.js"
@@ -105,10 +105,10 @@ export default {
     },
 
     ready: function () {
-        var page = new PaginationModel(this.offset, this.limit);
-        var order = new OrderModel(this.orderType, this.orderBy, "post_id");
+        var page = new Pagination(this.offset, this.limit);
+        var order = new Order(this.orderType, this.orderBy, "post_id");
 
-        PostModel.getPosts(this, null, page, order).then((response) => {
+        new Post().getPosts(this, null, page, order).then((response) => {
             $('#postList').dataTable({
                 scrollX: true,
                 response: true,

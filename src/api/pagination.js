@@ -1,5 +1,4 @@
 export default class Pagination {
-
     constructor(offset, limit) {
         this.setOffset(offset);
         this.setLimit(limit);

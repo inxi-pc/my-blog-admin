@@ -1,6 +1,7 @@
-export default class Post {
+import API from '../lib/api.js'
 
-    constructor(vue) {
+class PostModel {
+    constructor() {
         // @primary key
         this.post_id = 0;
         // @reference
@@ -17,13 +18,21 @@ export default class Post {
         this.user_name = "";
         this.category_name = "";
     }
+}
 
-    static getPostById(vue, postId) {
+export default class Post extends API {
+    constructor() {
+        super();
+        this.api_gateway = this.api_gateway + '/posts/';
+
+    }
+
+    getPostById(vue, postId) {
         return this.getPost(postId);
     }
 
-    static getPost(vue, postId) {
-        var post = new Post();
+    getPost(vue, postId) {
+        var post = new PostModel();
         post.post_id = 1;
         post.user_id = 1;
         post.category_id = 1;
@@ -38,20 +47,20 @@ export default class Post {
         return post;
     }
 
-    static getPostsByIds(vue, postIds, page, order) {
+    getPostsByIds(vue, postIds, page, order) {
         return this.getPosts(postIds, page, order);
     }
 
-    static getPostsByCategory(vue, categoryId, page, order) {
+    getPostsByCategory(vue, categoryId, page, order) {
         return this.getPosts(categoryId, page, order);
     }
 
-    static getPostsByUser(vue, userId, page, order) {
+    getPostsByUser(vue, userId, page, order) {
         return this.getPosts(userId, page, order);
     }
 
-    static getPosts(vue, condition, page, order) {
-        return vue.$http.get('http://localhost:8888/posts/', {
+    getPosts(vue, condition, page, order) {
+        return vue.$http.get(this.api_gateway, {
             params: {
                 orderBy: order.orderBy,
                 orderType: order.orderType,

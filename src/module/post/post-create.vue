@@ -16,7 +16,7 @@
                     <sidebar></sidebar>
                 </div>
                 <div class="col-md-10">
-                    <post-list></post-list>
+                    <post-create></post-create>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
 import header from '../../component/common/header.vue'
 // import footer from '../../component/common/footer.vue'
 import sidebar from '../../component/common/sidebar.vue'
-import postList from '../../component/post/post-list.vue'
+import postCreate from '../../component/post/post-create.vue'
 
 export default {
     data: function () {
@@ -35,12 +35,12 @@ export default {
 
         }
     },
-    
+
     components: {
         "my-header": header,
-        // "my-footer": footer,
+        // "my-footer": Footer,
         'sidebar': sidebar,
-        'post-list': postList
+        'post-create': postCreate
     }
 }
 </script>
