@@ -8,16 +8,16 @@ Vue.js based blog(admin part)
 `web application`
 
 # Name rule
-Var: little camel-case
-Function: little camel-case
-Package: lower-case, split by '-'
-Package Class import & Class: big camel-case
-Path: lower-case, split by '_'
+Var: little camel-case    
+Function: little camel-case  
+Package: lower-case, split by '-'  
+Package Class import & Class: big camel-case  
+Path: lower-case, split by '_'  
 
-Filename: 
-1. `api/` `component/` `lib/` `module/` belong to Class type
-file name use big camel-case
-2. another belong to Package type, use lower-case, split by '-'
+Filename:   
+1. `api/` `component/` `lib/` `module/` belong to Class type  
+file name use big camel-case  
+2. another belong to Package type, use lower-case, split by '-'  
 
 # Using tool & version
 ```javascript
