@@ -134,15 +134,13 @@
         <ul class="nav">
             <!-- Main menu -->
             <li id="dashboard" >
-                <a v-on:click.stop="activeMenu('dashboard')" 
-                    href="/dist/dashboard.html">
+                <a href="/dist/dashboard.html">
                     <i class="glyphicon glyphicon-home"></i> 
                     Dashboard
                 </a>
             </li>
             <li id="post">
-                <a v-on:click.stop="activeMenu('post')" 
-                    href="/dist/post-list.html">
+                <a href="/dist/post-list.html">
                     <i class="glyphicon glyphicon-list"></i>
                     Post
                 </a>
@@ -164,12 +162,17 @@
 </template>
 
 <script>
-import { activeMenu } from 'app_vuex/action.js'
-
 export default {
     data: function () {
         return {
 
+        }
+    },
+
+    props: {
+        actived: {
+            type: String,
+            required: true
         }
     },
 
@@ -196,18 +199,6 @@ export default {
                 submenu.slideDown(350);
                 thisParent.addClass("open");
             }
-        }
-    },
-
-    vuex: {
-        getters: {
-            actived: function (state) {
-                return state.actived;
-            }
-        },
-
-        actions: {
-            activeMenu
         }
     }
 }

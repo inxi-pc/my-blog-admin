@@ -12,11 +12,8 @@ class PostModel {
         this.post_content = "";
         this.post_created_at = "";
         this.post_updated_at = "";
-        this.post_deleted_at = "";
-
-        // addtional business field
-        this.user_name = "";
-        this.category_name = "";
+        this.post_published = "";
+        this.post_enabeld = "";
     }
 }
 

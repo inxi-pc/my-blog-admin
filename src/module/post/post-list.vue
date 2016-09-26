@@ -14,7 +14,7 @@
         <div class="page-content">
             <div class="row">
                 <div class="col-md-2">
-                    <sidebar></sidebar>
+                    <sidebar actived="post"></sidebar>
                 </div>
                 <div class="col-md-10">
                     <post-list></post-list>
@@ -33,7 +33,7 @@ import postList from 'app_component/post/post-list.vue'
 export default {
     data: function () {
         return {
-
+           
         }
     },
     

@@ -14,7 +14,7 @@
         <div class="page-content">
             <div class="row">
                 <div class="col-md-2">
-                    <sidebar></sidebar>
+                    <sidebar actived="dashboard"></sidebar>
                 </div>
                 <div class="col-md-10">
                     
