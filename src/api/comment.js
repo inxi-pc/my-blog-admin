@@ -1,5 +1,6 @@
-export default class Comment {
-    
+import API from 'app_lib/api.js'
+
+class CommentModel {
     constructor() {
         // @primary key
         this.comment_id = 0;
@@ -13,13 +14,20 @@ export default class Comment {
         this.comment_updated_at = "";
         this.comment_deleted_at = "";
     }
+}
+
+export default class Comment extends API {
+    constructor() {
+        super();
+        this.apiGateway += '/comments/';
+    }
 
     static getCommentById(cId) {
         return this.getComment(cId);
     }
 
     static getComment(cId) {
-        var comment = new Comment();
+        var comment = new CommentModel();
         comment.comment_id = 1;
         comment.post_id = 1;
         comment.comment_user_name = "xiong";

@@ -1,4 +1,4 @@
-import API from '../lib/api.js'
+import API from 'app_lib/api.js'
 
 class PostModel {
     constructor() {
@@ -23,8 +23,7 @@ class PostModel {
 export default class Post extends API {
     constructor() {
         super();
-        this.api_gateway = this.api_gateway + '/posts/';
-
+        this.apiGateway  += '/posts/';
     }
 
     getPostById(vue, postId) {
@@ -60,7 +59,7 @@ export default class Post extends API {
     }
 
     getPosts(vue, condition, page, order) {
-        return vue.$http.get(this.api_gateway, {
+        return vue.$http.get(this.apiGateway, {
             params: {
                 orderBy: order.orderBy,
                 orderType: order.orderType,

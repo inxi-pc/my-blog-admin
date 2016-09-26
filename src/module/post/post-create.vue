@@ -1,4 +1,5 @@
-<style src="app/css/common.css"></style>
+<style src="bootstrap/dist/css/bootstrap.css"></style>
+<style src="app_asset/css/common.css"></style>
 <style scoped>
     .page-content > .row {
       margin-left: 0px !important;
@@ -24,10 +25,10 @@
 </template>
 
 <script>
-import header from '../../component/common/header.vue'
-// import footer from '../../component/common/footer.vue'
-import sidebar from '../../component/common/sidebar.vue'
-import postCreate from '../../component/post/post-create.vue'
+import header from 'app_component/common/header.vue'
+// import footer from 'app_component/common/footer.vue'
+import sidebar from 'app_component/common/sidebar.vue'
+import postCreate from 'app_component/post/post-create.vue'
 
 export default {
     data: function () {

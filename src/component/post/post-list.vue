@@ -84,9 +84,9 @@
 </template>
 
 <script>
-import Pagination from 'Pagination'
-import Order from 'Order'
-import Post from 'Post'
+import Pagination from 'app_api/pagination.js'
+import Order from 'app_api/order.js'
+import Post from 'app_api/post.js'
 
 import "datatables_bootstrap/js/dataTables.bootstrap.js"
 import "datatables/media/js/jquery.dataTables.js"

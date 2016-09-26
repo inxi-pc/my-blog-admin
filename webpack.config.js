@@ -6,10 +6,12 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var nodeLibPath = __dirname + '/node_modules/';
+var appSrcPath = __dirname + '/src/';
 var appAssetPath = __dirname + '/static/';
+var appConfigPath = __dirname;
 
 module.exports = {
-    entry: getEntries('./src/module/**/*.js'),
+    entry: getEntries('./src/entry/*.js'),
 
     output: {
         path: __dirname + '/dist/',
@@ -71,15 +73,27 @@ module.exports = {
 
     resolve: {
         alias: {
-            app: appAssetPath,
+            // external lib alias
             bootstrap: nodeLibPath + "bootstrap",
             jquery: nodeLibPath + "jquery",
             jquery_ui: nodeLibPath + "jquery-ui",
             datatables: nodeLibPath + "datatables",
             datatables_bootstrap: nodeLibPath + "datatables-bootstrap",
-            tinymce: nodeLibPath + "tinymce"
+            tinymce: nodeLibPath + "tinymce",
+
+            // src alias
+            app_api: appSrcPath + "api",
+            app_lib: appSrcPath + "lib",
+            app_component: appSrcPath + "component",
+            app_entry: appSrcPath + "entry",
+            app_module: appSrcPath + "module",
+            app_vuex: appSrcPath + "vuex",
+
+            // other alias
+            app_config: appConfigPath,
+            app_asset: appAssetPath
         },
-        modulesDirectories: ['node_modules', 'src/lib', 'src/api', 'src/vuex']
+        modulesDirectories: ['node_modules']
     },
 
     plugins: [
@@ -105,7 +119,7 @@ module.exports = {
 };
 
 (function() {
-    var entries = getEntries('./src/module/*/*.html');
+    var entries = getEntries('./src/view/*.html');
     for (var basename in entries) {
         var conf = {
             filename: basename + '.html',

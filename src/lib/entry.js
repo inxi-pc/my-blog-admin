@@ -2,8 +2,8 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 import Vuex from 'vuex'
 
-import * as Helper from 'helper'
-import vuexConfig from '../vuex/config.js'
+import * as Helper from './helper.js'
+import vuexConfig from 'app_vuex/config.js'
 
 Vue.use(VueResource)
 Vue.use(Vuex)

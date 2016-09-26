@@ -1,8 +1,8 @@
-import config from "../../app.config.json"
+import config from "app_config/app.config.json"
 
 export default class API {
     
     constructor() {
-        this.api_gateway = config.api_gateway;
+        this.apiGateway = config.apiGateway;
     }
 }

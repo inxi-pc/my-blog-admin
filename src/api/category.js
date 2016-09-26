@@ -1,4 +1,6 @@
-export default class Category {
+import API from 'app_lib/api.js'
+
+class CategoryModel {
     constructor() {
         // @primary key
         this.dategory_id = 0;
@@ -10,6 +12,13 @@ export default class Category {
         // addtional business field
         this.post_count = 0;
     }
+}
+
+export default class Category extends API {
+    constructor() {
+        super();
+        this.apiGateway += "/categories/";
+    }
 
     static getCategoryById(cId) {
         return this.getCategory(cId);
@@ -20,7 +29,7 @@ export default class Category {
     }
 
     static getCategory(cond) {
-        var category = new Category();
+        var category = new CategoryModel();
         category.category_id = 1;
         category.category_name = "Javascript";
         category.category_created_at = "2010-03-04 12:00:00";

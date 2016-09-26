@@ -1,5 +1,6 @@
-export default class User {
-    
+import API from 'app_lib/api.js'
+
+class UserModel {
     constructor() {
         this.user_id = 0;
         this.user_name = "";
@@ -9,9 +10,16 @@ export default class User {
         this.user_created_at = "";
         this.user_updated_at = "";
     }
+}
+
+export default class User extends API {
+    constructor() {
+       super();
+       this.apiGateway += '/users/';
+    }
 
     getAuthorizedUser() {
-        var user = new User();
+        var user = new UserModel();
         user.user_id = 1;
         user.user_name = "xiongbingchao";
         user.telephone = "123123123";

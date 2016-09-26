@@ -164,7 +164,7 @@
 </template>
 
 <script>
-import { activeMenu } from 'action'
+import { activeMenu } from 'app_vuex/action.js'
 
 export default {
     data: function () {
