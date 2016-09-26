@@ -24,23 +24,15 @@ export default class Post extends API {
     }
 
     getPostById(vue, postId) {
-        return this.getPost(postId);
+        return this.getPost(vue, postId);
     }
 
     getPost(vue, postId) {
-        var post = new PostModel();
-        post.post_id = 1;
-        post.user_id = 1;
-        post.category_id = 1;
-        post.post_title = "This is test";
-        post.post_content = "Test content, fuck your github";
-        post.post_created_at = "2010-03-04 12:00:00";
-        post.post_updated_at = "2010-03-14 22:00:00";
-
-        post.user_name = "xiong";
-        post.category_name = "Javascript";
-
-        return post;
+        return vue.$http.get(this.apiGateway, {
+            params: {
+                postId: postId
+            }
+        });
     }
 
     getPostsByIds(vue, postIds, page, order) {

@@ -9,7 +9,8 @@ Vue.use(VueResource)
 // Vue.use(Vuex)
 Vue.mixin({
     methods: {  
-        decodeQueryParams: Helper.decodeQueryParams
+        decodeQueryParams: Helper.decodeQueryParams,
+        isNullOrEmpty: Helper.isNullOrEmpty
     }
 })
 

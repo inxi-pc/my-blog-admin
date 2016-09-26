@@ -125,8 +125,8 @@ export default {
                     targets: [7],
                     data: 'post_id',
                     render: function ( data, type, full, meta ) {
-                        return '<a href="'+ data +'">Edit</a>' + '&nbsp'
-                                + '<a href="'+ data +'">Published</a>';
+                        return '<a href="/dist/post-edit.html?post_id='+ data +'">Edit</a>' + '&nbsp'
+                                + '<a href="/dist/post-edit.html?post_id='+ data +'">Published</a>';
                     }
                 }],
 

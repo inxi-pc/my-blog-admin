@@ -39,23 +39,23 @@
 <template>
     <div class="content-box-large">
         <div class="panel-heading">
-            <div class="panel-title">Post Create</div>
+            <div class="panel-title">Post Edit</div>
         </div>
         <div class="panel-body">
             <form class="form-horizontal" role="form">
-                <!--<div class="form-group">
+                <div class="form-group">
                     <label for="inputPostId" class="col-sm-2 control-label">Post Id</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputPostId" readonly=true>
+                        <input type="text" class="form-control" id="inputPostId" readonly=true value="{{ post_id }}">
                     </div>
-                </div>-->
-                <!--<div class="form-group">
+                </div>
+                <div class="form-group">
                     <label for="selectUserId" class="col-sm-2 control-label">User</label>
                     <div class="col-sm-5">
                         <select type="text" class="form-control" id="selectUserId">
                         </select>
                     </div>
-                </div>-->
+                </div>
                 <div class="form-group">
                     <label for="selectCategoryId" class="col-sm-2 control-label">Category</label>
                     <div class="col-sm-5">
@@ -67,7 +67,7 @@
                     <label for="inputPostTitle" class="col-sm-2 control-label">Post title</label>
                     <div class="col-sm-5">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputPostTitle">
+                            <input type="text" class="form-control" id="inputPostTitle" value="{{ post_title }}">
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-remove-circle" style="display:none"></i>
                             </span>
@@ -80,7 +80,7 @@
                 <div class="form-group">
                     <label for="inputPostContent" class="col-sm-2 control-label">Post Content</label>
                     <div class="col-sm-10">
-                        <textarea id="inputPostContent"></textarea>
+                        <textarea id="inputPostContent">{{ post_content }}</textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -95,7 +95,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="button" class="btn btn-primary"
-                        v-on:click="createPost">Create</button>
+                        v-on:click="updatePost">Update</button>
                     </div>
                 </div>
             </form>
@@ -128,15 +128,35 @@ import 'tinymce/plugins/emoticons/plugin'
 import 'tinymce/plugins/template/plugin'
 import 'tinymce/plugins/textcolor/plugin'
 
+import Post from 'app_api/post.js'
+
 export default {
     data: function () {
         return {
-           
+           post_id: 0,
+           user_id: 0,
+           category_id: 0,
+           post_title: "",
+           post_content: "",
+           post_published: false,
+           post_enabled: false
         };
     },
 
     ready: function () {
         this.initialEditor();
+        var params = this.decodeQueryParams();
+        new Post().getPostById(this, params.post_id).then((response) => {
+            this.post_id = response.body[0].post_id,
+            this.user_id = response.body[0].user_id,
+            this.category_id = response.body[0].category_id,
+            this.post_title = response.body[0].post_title,
+            this.post_content = response.body[0].post_content,
+            this.post_published = response.body[0].post_published,
+            this.post_enabled = response.body[0].post_enabled
+        }, (response) => {
+             console.log(response);
+        });
     },
 
     methods: {
@@ -155,32 +175,8 @@ export default {
             });
         },
 
-        createPost: function (event) {
-            var postIdElement = $('#inputPostId');
-            var userIdElement = $('#selectUserId');
-            var categoryElement = $('#selectCategoryId');
-            var postTitleElement = $('#inputPostTitle');
-            var postContentElement = tinymce.activeEditor;
-            var publishedElement = $('#checkboxPublished');
-
-            var userId = $.trim(userIdElement.val());
-            if (this.isNullOrEmpty(userId)) {
-                
-            }
-            var categoryId = $.trim(categoryElement.val());
-            if (this.isNullOrEmpty(categoryId)) {
-                
-            }
-            var postTitle = $.trim(postTitleElement.val());
-            if (this.isNullOrEmpty(postTitle)) {
-                
-            }
-            var postContent = postContentElement.getContent();
-            if (this.isNullOrEmpty(postContent)) {
-                
-            }
-            var published = $.trim($('#checkboxPublished').prop('checked'));    
-            console.log(categoryId);
+        updatePost: function (event) {
+            console.log(this.post_title);
         }
     }
 }
