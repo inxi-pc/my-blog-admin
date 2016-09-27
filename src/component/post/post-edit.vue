@@ -46,20 +46,22 @@
                 <div class="form-group">
                     <label for="inputPostId" class="col-sm-2 control-label">Post Id</label>
                     <div class="col-sm-5">
-                        <input type="text" class="form-control" id="inputPostId" readonly=true value="{{ post_id }}">
+                        <input type="text" class="form-control" id="inputPostId" readonly=true value="{{ post.post_id }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="selectUserId" class="col-sm-2 control-label">User</label>
+                    <label for="inputUserId" class="col-sm-2 control-label">User</label>
                     <div class="col-sm-5">
-                        <select type="text" class="form-control" id="selectUserId">
-                        </select>
+                        <input type="text" class="form-control" id="inputUserId" readonly=true value="{{ post.user_id }}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="selectCategoryId" class="col-sm-2 control-label">Category</label>
                     <div class="col-sm-5">
                         <select type="text" class="form-control" id="selectCategoryId">
+                            <option v-for="category in categoryList" value='{{ category.category_id }}'>
+                                {{ category.category_name_en }} ({{ category.category_name_cn }})
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -67,27 +69,27 @@
                     <label for="inputPostTitle" class="col-sm-2 control-label">Post title</label>
                     <div class="col-sm-5">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputPostTitle" value="{{ post_title }}">
+                            <input type="text" class="form-control" id="inputPostTitle" value="{{ post.post_title }}">
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-remove-circle" style="display:none"></i>
                             </span>
                         </div>
                         <span class="help-block" style="display:none">
-                            <i class="fa fa-warning"></i>error
+                            <i class="fa fa-warning"></i>error message
                         </span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="inputPostContent" class="col-sm-2 control-label">Post Content</label>
                     <div class="col-sm-10">
-                        <textarea id="inputPostContent">{{ post_content }}</textarea>
+                        <textarea id="inputPostContent"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" id="checkboxPublished">Published now?
+                                <input type="checkbox" id="checkboxPublished" checked="{{ post.post_published }}">Published now?
                             </label>
                         </div>
                     </div>
@@ -128,39 +130,44 @@ import 'tinymce/plugins/emoticons/plugin'
 import 'tinymce/plugins/template/plugin'
 import 'tinymce/plugins/textcolor/plugin'
 
+import { PostModel } from 'app_api/post.js'
 import Post from 'app_api/post.js'
+
+import Pagination from 'app_api/pagination.js'
+import Order from 'app_api/order.js'
+import Category from 'app_api/category.js'
 
 export default {
     data: function () {
         return {
-           post_id: 0,
-           user_id: 0,
-           category_id: 0,
-           post_title: "",
-           post_content: "",
-           post_published: false,
-           post_enabled: false
+           post: new PostModel(),
+           categoryList: []
         };
     },
 
     ready: function () {
-        this.initialEditor();
+        // Get post
         var params = this.decodeQueryParams();
         new Post().getPostById(this, params.post_id).then((response) => {
-            this.post_id = response.body[0].post_id,
-            this.user_id = response.body[0].user_id,
-            this.category_id = response.body[0].category_id,
-            this.post_title = response.body[0].post_title,
-            this.post_content = response.body[0].post_content,
-            this.post_published = response.body[0].post_published,
-            this.post_enabled = response.body[0].post_enabled
+            this.post = response.body[0];
+            this.initialEditor();
+            this.bindElement();
         }, (response) => {
              console.log(response);
+        });
+        // Get category list
+        var page = new Pagination(this.offset, this.limit);
+        var order = new Order(this.orderType, this.orderBy, "category_id");
+        new Category().getCategories(this, page, order).then((response) => {
+            this.categoryList = response.body;
+        }, (response) => {
+            console.log(response);
         });
     },
 
     methods: {
         initialEditor: function () {
+            var context = this;
             tinymce.remove();
             tinymce.init({
                 selector: "#inputPostContent",
@@ -171,12 +178,46 @@ export default {
                     "insertdatetime media table contextmenu paste",
                     "emoticons template textcolor"
                 ],
-                toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+                toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+                setup: function (editor) {
+                    editor.on("change", function (e) {
+                        context.post.post_content = editor.getContent();
+                    });
+
+                    editor.on("init", function (e) {
+                        editor.setContent(context.post.post_content);
+                    });
+                }
+            });
+        },
+
+        bindElement: function () {
+            var postIdElement = $("#inputPostId");
+            var userIdElement = $("#inputUserId");
+            var categoryIdElement = $("#selectCategoryId");
+            var postTitleElement = $("#inputPostTitle");
+            var postPublishedElement = $("#checkboxPublished");
+            var context = this;
+
+            categoryIdElement.on("change", function (e) {
+                context.post.category_id = $(e.target).val();
+            });
+
+            postTitleElement.on("change", function (e) {
+                context.post.post_title = $(e.target).val();
+            });
+
+            postPublishedElement.on("change", function (e) {
+                context.post.post_published = $(e.target).prop('checked');
             });
         },
 
         updatePost: function (event) {
-            console.log(this.post_title);
+            new Post().updatePost(this, this.post.post_id, this.post).then((response) => {
+                console.log(response);
+            }, (response) => {
+                console.log(response);
+            });
         }
     }
 }

@@ -3,19 +3,21 @@ import API from 'app_lib/api.js'
 class PostModel {
     constructor() {
         // @primary key
-        this.post_id = 0;
+        this.post_id = null;
         // @reference
-        this.user_id = 0;
+        this.user_id = null;
         // @reference
-        this.category_id = "";
-        this.post_title = "";
-        this.post_content = "";
-        this.post_created_at = "";
-        this.post_updated_at = "";
-        this.post_published = "";
-        this.post_enabeld = "";
+        this.category_id = null;
+        this.post_title = null;
+        this.post_content = null;
+        this.post_created_at = null;
+        this.post_updated_at = null;
+        this.post_published = null;
+        this.post_enabeld = null;
     }
 }
+
+export { PostModel }
 
 export default class Post extends API {
     constructor() {
@@ -23,15 +25,29 @@ export default class Post extends API {
         this.apiGateway  += '/posts/';
     }
 
+    /**
+     * 
+     * @return Promise
+     */
+    updatePost(vue, postId, post) {
+        return vue.$http.put(this.apiGateway + postId, post, { 
+            emulateJSON: true 
+        });
+    }
+
     getPostById(vue, postId) {
         return this.getPost(vue, postId);
     }
+    
+    /**
+     * 
+     * @return Promise
+     */
+    getPost(vue, condition) {
+        var params = this.mergeParams(condition);
 
-    getPost(vue, postId) {
         return vue.$http.get(this.apiGateway, {
-            params: {
-                postId: postId
-            }
+            params: params
         });
     }
 
@@ -39,22 +55,15 @@ export default class Post extends API {
         return this.getPosts(postIds, page, order);
     }
 
-    getPostsByCategory(vue, categoryId, page, order) {
-        return this.getPosts(categoryId, page, order);
-    }
+    /**
+     * 
+     * @return Promise
+     */
+    getPosts(vue, conditions, page, order) {
+        var params = this.mergeParams(conditions, page, order);
 
-    getPostsByUser(vue, userId, page, order) {
-        return this.getPosts(userId, page, order);
-    }
-
-    getPosts(vue, condition, page, order) {
         return vue.$http.get(this.apiGateway, {
-            params: {
-                orderBy: order.orderBy,
-                orderType: order.orderType,
-                limit: page.limit,
-                offset: page.offset
-            }
+            params: params
         });
     }
 }

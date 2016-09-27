@@ -145,6 +145,12 @@
                     Post
                 </a>
             </li>
+            <li id="category">
+                <a href="/dist/category.html">
+                    <i class="glyphicon glyphicon-list"></i>
+                    Category
+                </a>
+            </li>
             <li>
                 <a v-on:click.stop="slideMenu($event)">
                     <i class="glyphicon glyphicon-list"></i> 

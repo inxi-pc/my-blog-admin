@@ -3,14 +3,14 @@ import API from 'app_lib/api.js'
 class CategoryModel {
     constructor() {
         // @primary key
-        this.dategory_id = 0;
+        this.category_id = null;
         // @unique
-        this.category_name = "";
-        this.category_created_at = "";
-        this.category_updated_at = "";
-        this.category_deleted_at = "";
-        // addtional business field
-        this.post_count = 0;
+        this.category_name_en = null;
+        this.category_name_cn = null;
+        this.category_level = null;
+        this.category_created_at = null;
+        this.category_updated_at = null;
+        this.category_enabled = null;
     }
 }
 
@@ -20,37 +20,33 @@ export default class Category extends API {
         this.apiGateway += "/categories/";
     }
 
-    static getCategoryById(cId) {
-        return this.getCategory(cId);
+    getCategoryById(vue, categoryId) {
+        return this.getCategory(vue, categoryId);
     }
 
-    static getCategoryByName(cName) {
-        return this.getCategory(cName);
+    /**
+     * @return Promise
+     */
+    getCategory(vue, condition) {
+        var params = this.mergeParams(condition);
+
+        return vue.$http.get(this.apiGateway, {
+            params: params
+        });
     }
 
-    static getCategory(cond) {
-        var category = new CategoryModel();
-        category.category_id = 1;
-        category.category_name = "Javascript";
-        category.category_created_at = "2010-03-04 12:00:00";
-        category.category_updated_at = "2010-03-14 22:00:00";
-        category.post_count = 1;
-
-        return category;
-    }
-
-    static getCategoriesByIds(cIds, order, by, limit) {
+    getCategoriesByIds(vue, categoryIds, page, order) {
         return this.getCategories(cIds);
     }
 
-    static getCategoriesNewest(order, by, limit) {
-        return this.getCategories();
-    }
+    /**
+     * @return Promise
+     */
+    getCategories(vue, conditions, page, order) {
+        var params = this.mergeParams(conditions, page, order);
 
-    static getCategories(cond, order = "DESC", by = "category_id", limit = 0) {
-        var categories = [];
-        categories.push(this.getCategory(0));
-
-        return categories;
+        return  vue.$http.get(this.apiGateway, {
+            params: params
+        });
     }
 }
