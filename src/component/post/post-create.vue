@@ -140,8 +140,10 @@ import Category from 'app_api/category.js'
 
 export default {
     data: function () {
+        var post = new PostModel();
+        post.user_id = 1;
         return {
-           post: new PostModel(),
+           post: post,
            categoryList: []
         };
     },
