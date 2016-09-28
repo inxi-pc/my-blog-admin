@@ -60,6 +60,9 @@
                     <label for="selectCategoryId" class="col-sm-2 control-label">Category</label>
                     <div class="col-sm-5">
                         <select type="text" class="form-control" id="selectCategoryId">
+                            <option v-for="category in categoryList" value='{{ category.category_id }}'>
+                                {{ category.category_name_en }} ({{ category.category_name_cn }})
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -128,15 +131,31 @@ import 'tinymce/plugins/emoticons/plugin'
 import 'tinymce/plugins/template/plugin'
 import 'tinymce/plugins/textcolor/plugin'
 
+import { PostModel } from 'app_api/post.js'
+import Post from 'app_api/post.js'
+
+import Pagination from 'app_api/pagination.js'
+import Order from 'app_api/order.js'
+import Category from 'app_api/category.js'
+
 export default {
     data: function () {
         return {
-           
+           post: new PostModel(),
+           categoryList: []
         };
     },
 
     ready: function () {
         this.initialEditor();
+         // Get category list
+        var page = new Pagination(this.offset, this.limit);
+        var order = new Order(this.orderType, this.orderBy, "category_id");
+        new Category().getCategories(this, page, order).then((response) => {
+            this.categoryList = response.body;
+        }, (response) => {
+            console.log(response);
+        });
     },
 
     methods: {
@@ -155,32 +174,32 @@ export default {
             });
         },
 
-        createPost: function (event) {
-            var postIdElement = $('#inputPostId');
-            var userIdElement = $('#selectUserId');
-            var categoryElement = $('#selectCategoryId');
-            var postTitleElement = $('#inputPostTitle');
-            var postContentElement = tinymce.activeEditor;
-            var publishedElement = $('#checkboxPublished');
+        bindElement: function () {
+            var categoryIdElement = $("#selectCategoryId");
+            var postTitleElement = $("#inputPostTitle");
+            var postPublishedElement = $("#checkboxPublished");
+            var context = this;
 
-            var userId = $.trim(userIdElement.val());
-            if (this.isNullOrEmpty(userId)) {
-                
-            }
-            var categoryId = $.trim(categoryElement.val());
-            if (this.isNullOrEmpty(categoryId)) {
-                
-            }
-            var postTitle = $.trim(postTitleElement.val());
-            if (this.isNullOrEmpty(postTitle)) {
-                
-            }
-            var postContent = postContentElement.getContent();
-            if (this.isNullOrEmpty(postContent)) {
-                
-            }
-            var published = $.trim($('#checkboxPublished').prop('checked'));    
-            console.log(categoryId);
+            categoryIdElement.on("change", function (e) {
+                context.post.category_id = $(e.target).val();
+            });
+
+            postTitleElement.on("change", function (e) {
+                context.post.post_title = $(e.target).val();
+            });
+
+            postPublishedElement.on("change", function (e) {
+                context.post.post_published = $(e.target).prop('checked');
+            });
+        },
+
+        createPost: function (event) {
+            console.log(this.post);
+            new Post().createPost(this, this.post).then((response) => {
+
+            }, (response) => {
+
+            });
         }
     }
 }

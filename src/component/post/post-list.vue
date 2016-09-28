@@ -60,6 +60,8 @@
                         <th>Content</th>
                         <th>Created At</th>
                         <th>Updated At</th>
+                        <th>Published</th>
+                        <th>Enabled</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -72,10 +74,6 @@
                         <td>{{ post.post_content }}</td>
                         <td>{{ post.post_created_at }}</td>
                         <td>{{ post.post_updated_at }}</td>
-                        <td>
-                            <a>Update</a>
-                            <a>Delete</a>
-                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -87,6 +85,7 @@
 import Pagination from 'app_api/pagination.js'
 import Order from 'app_api/order.js'
 import Post from 'app_api/post.js'
+import { PostModel } from 'app_api/post.js'
 
 import "datatables_bootstrap/js/dataTables.bootstrap.js"
 import "datatables/media/js/jquery.dataTables.js"
@@ -107,6 +106,7 @@ export default {
     ready: function () {
         var page = new Pagination(this.offset, this.limit);
         var order = new Order(this.orderType, this.orderBy, "post_id");
+        var context = this;
 
         new Post().getPosts(this, null, page, order).then((response) => {
             $('#postList').dataTable({
@@ -119,14 +119,16 @@ export default {
                     {'data': 'post_title'},
                     {'data': 'post_content'},
                     {'data': 'post_created_at'},
-                    {'data': 'post_updated_at'}
+                    {'data': 'post_updated_at'},
+                    {'data': 'post_published'},
+                    {'data': 'post_enabled'}
                 ],
                 columnDefs: [ {
-                    targets: [7],
+                    targets: [9],
                     data: 'post_id',
                     render: function ( data, type, full, meta ) {
                         return '<a href="/dist/post-edit.html?post_id='+ data +'">Edit</a>' + '&nbsp'
-                                + '<a href="/dist/post-edit.html?post_id='+ data +'">Published</a>';
+                                + '<a data-id="' + data + '" href="javascript:;" class="published">Published</a>';
                     }
                 }],
 
@@ -137,9 +139,32 @@ export default {
 
                 data: response.body
             });
+            
+            // bind publish action
+            $('.published').each(function (i, element) {
+                $(element).on('click', function (e) {
+                    var postId = $(element).data('id');
+                    context.publishedPost(postId);
+                });
+            });
         }, (response) => {
             console.log(response);
         });
+
+    },
+
+    methods: {
+        publishedPost: function (postId) {
+            var post = new PostModel();
+            post.post_published = true;
+            post.post_id = postId;
+            console.log(post);
+            new Post().updatePost(this, postId, post).then((response) => {
+                
+            }, (response) => {
+                console.log(response);
+            });
+        }
     }
 }
 </script>

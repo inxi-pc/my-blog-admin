@@ -29,6 +29,16 @@ export default class Post extends API {
      * 
      * @return Promise
      */
+    createPost(vue, post) {
+        return vue.$http.post(this.apiGateway, post, { 
+            emulateJSON: true 
+        });
+    }
+
+    /**
+     * 
+     * @return Promise
+     */
     updatePost(vue, postId, post) {
         return vue.$http.put(this.apiGateway + postId, post, { 
             emulateJSON: true 
@@ -61,7 +71,7 @@ export default class Post extends API {
      */
     getPosts(vue, conditions, page, order) {
         var params = this.mergeParams(conditions, page, order);
-
+            
         return vue.$http.get(this.apiGateway, {
             params: params
         });
