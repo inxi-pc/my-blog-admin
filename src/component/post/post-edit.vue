@@ -151,7 +151,7 @@ export default {
         new Post().getPostById(this, params.post_id).then((response) => {
             this.post = response.body[0];
             this.initialEditor();
-            this.bindElement();
+            this.bindElementAction();
         }, (response) => {
              console.log(response);
         });
@@ -191,7 +191,7 @@ export default {
             });
         },
 
-        bindElement: function () {
+        bindElementAction: function () {
             var postIdElement = $("#inputPostId");
             var userIdElement = $("#inputUserId");
             var categoryIdElement = $("#selectCategoryId");

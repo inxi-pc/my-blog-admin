@@ -60,6 +60,7 @@
                     <label for="selectCategoryId" class="col-sm-2 control-label">Category</label>
                     <div class="col-sm-5">
                         <select type="text" class="form-control" id="selectCategoryId">
+                            <option></option>
                             <option v-for="category in categoryList" value='{{ category.category_id }}'>
                                 {{ category.category_name_en }} ({{ category.category_name_cn }})
                             </option>
@@ -158,10 +159,13 @@ export default {
         }, (response) => {
             console.log(response);
         });
+
+        this.bindElementAction();
     },
 
     methods: {
         initialEditor: function () {
+            var context = this;
             tinymce.remove();
             tinymce.init({
                 selector: "#inputPostContent",
@@ -172,11 +176,16 @@ export default {
                     "insertdatetime media table contextmenu paste",
                     "emoticons template textcolor"
                 ],
-                toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+                toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+                setup: function (editor) {
+                    editor.on("change", function (e) {
+                        context.post.post_content = editor.getContent();
+                    });
+                }
             });
         },
 
-        bindElement: function () {
+        bindElementAction: function () {
             var categoryIdElement = $("#selectCategoryId");
             var postTitleElement = $("#inputPostTitle");
             var postPublishedElement = $("#checkboxPublished");

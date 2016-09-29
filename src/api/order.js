@@ -7,19 +7,19 @@ export default class Order {
     setOrderType(orderType) {
         if (orderType != undefined && orderType != null && orderType != "") {
             orderType = orderType.trim().toUpperCase();
-            this.orderType = (
+            this.order_type = (
                 orderType == "DESC" || orderType == "ASC"
             ) ? orderType : "DESC";
         } else {
-            this.orderType = "DESC";
+            this.order_type = "DESC";
         }
     }
 
     setOrderBy(orderBy, fallback) {
         if (orderBy != undefined && orderBy != null && orderBy != "") {
-            this.orderBy = orderBy;
+            this.order_by = orderBy;
         } else {
-            this.orderBy = fallback;
+            this.order_by = fallback;
         }
     }
 }

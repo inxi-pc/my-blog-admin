@@ -13,7 +13,7 @@ class PostModel {
         this.post_created_at = null;
         this.post_updated_at = null;
         this.post_published = null;
-        this.post_enabeld = null;
+        this.post_enabled = null;
     }
 }
 
@@ -30,9 +30,7 @@ export default class Post extends API {
      * @return Promise
      */
     createPost(vue, post) {
-        return vue.$http.post(this.apiGateway, post, { 
-            emulateJSON: true 
-        });
+        return vue.$http.post(this.apiGateway, post);
     }
 
     /**

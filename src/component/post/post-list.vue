@@ -139,14 +139,8 @@ export default {
 
                 data: response.body
             });
-            
-            // bind publish action
-            $('.published').each(function (i, element) {
-                $(element).on('click', function (e) {
-                    var postId = $(element).data('id');
-                    context.publishedPost(postId);
-                });
-            });
+
+            this.bindElementAction();
         }, (response) => {
             console.log(response);
         });
@@ -154,6 +148,16 @@ export default {
     },
 
     methods: {
+        bindElementAction: function () {
+            // bind publish action
+            $('.published').each(function (i, element) {
+                $(element).on('click', function (e) {
+                    var postId = $(element).data('id');
+                    this.publishedPost(postId);
+                });
+            });
+        },
+
         publishedPost: function (postId) {
             var post = new PostModel();
             post.post_published = true;
