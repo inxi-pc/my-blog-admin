@@ -1,4 +1,5 @@
 import API from 'app_lib/api.js'
+import * as Helper from 'app_lib/helper.js'
 
 class PostModel {
     constructor() {
@@ -38,9 +39,7 @@ export default class Post extends API {
      * @return Promise
      */
     updatePost(vue, postId, post) {
-        return vue.$http.put(this.apiGateway + postId, post, { 
-            emulateJSON: true 
-        });
+        return vue.$http.put(this.apiGateway + postId, post);
     }
 
     getPostById(vue, postId) {
@@ -51,12 +50,10 @@ export default class Post extends API {
      * 
      * @return Promise
      */
-    getPost(vue, condition) {
+    getPost(vue, postId, condition) {
         var params = this.mergeParams(condition);
-
-        return vue.$http.get(this.apiGateway, {
-            params: params
-        });
+        var url = Helper.isNullOrEmpty(postId) ? this.apiGateway : this.apiGateway + postId;
+        return vue.$http.get(url, params);
     }
 
     getPostsByIds(vue, postIds, page, order) {

@@ -155,7 +155,7 @@ export default {
         // Get post
         var params = this.decodeQueryParams();
         new Post().getPostById(this, params.post_id).then((response) => {
-            this.post = response.body[0];
+            this.post = response.body;
             this.initialEditor();
             this.bindElementAction();
         }, (response) => {
@@ -219,9 +219,8 @@ export default {
         },
 
         updatePost: function (event) {
-            console.log(this.post);
             new Post().updatePost(this, this.post.post_id, this.post).then((response) => {
-                // window.location.reload();
+
             }, (response) => {
                 console.log(response);
             });

@@ -75,15 +75,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="post in posts">
-                        <td>{{ post.post_id }}</td>
-                        <td>{{ post.user_id }}</td>
-                        <td>{{ post.category_id }}</td>
-                        <td>{{ post.post_title }}</td>
-                        <td>{{ post.post_content }}</td>
-                        <td>{{ post.post_created_at }}</td>
-                        <td>{{ post.post_updated_at }}</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -119,7 +110,6 @@ export default {
 
         new Post().getPosts(this, null, page, order).then((response) => {
             $('#postList').dataTable({
-                scrollX: true,
                 response: true,
                 columns: [
                     {'data': 'post_id'},
@@ -137,7 +127,9 @@ export default {
                     data: 'post_id',
                     render: function ( data, type, full, meta ) {
                         return '<a href="/dist/post-edit.html?post_id='+ data +'">Edit</a>' + '&nbsp'
-                                + '<a data-id="' + data + '" href="javascript:;" class="published">Published</a>';
+                                + '<a data-published="' + full.post_published 
+                                + '" data-id="' + data + '" href="javascript:;" class="published">Published</a>' + '&nbsp'
+                                + '<a data-id="' + data + '" href="javascript:;" class="delete">Delete</a>';
                     }
                 }],
 
@@ -158,20 +150,39 @@ export default {
 
     methods: {
         bindElementAction: function () {
+            var context = this;
             // bind publish action
             $('.published').each(function (i, element) {
                 $(element).on('click', function (e) {
                     var postId = $(element).data('id');
-                    this.publishedPost(postId);
+                    var published = $(element).data('published');
+                    context.publishedPost(postId, published);
+                });
+            });
+
+            $('.delete').each(function (i, element) {
+                $(element).on('click', function (e) {
+                    var postId = $(element).data('id');
+                    context.deletePost(postId);
                 });
             });
         },
 
-        publishedPost: function (postId) {
+        publishedPost: function (postId, published) {
             var post = new PostModel();
-            post.post_published = true;
+            post.post_published = !published;
             post.post_id = postId;
-            console.log(post);
+            new Post().updatePost(this, postId, post).then((response) => {
+                
+            }, (response) => {
+                console.log(response);
+            });
+        },
+
+        deletePost: function (postId) {
+            var post = new PostModel();
+            post.post_enabled = false;
+            post.post_id = postId;
             new Post().updatePost(this, postId, post).then((response) => {
                 
             }, (response) => {

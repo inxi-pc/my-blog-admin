@@ -30,6 +30,10 @@ function isNullOrEmpty(value) {
     return false;
 }
 
+function refreshPage() {
+    window.location.reload();
+}
+
 export { 
     decodeQueryParams, 
     isNullOrEmpty 
