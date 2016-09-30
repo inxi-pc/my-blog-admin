@@ -34,8 +34,7 @@
         clear: both;
     }
 
-    #postList tr, 
-    #postList td {
+    tr, td {
         font-size: 12px;
     }
 </style>

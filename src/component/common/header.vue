@@ -167,6 +167,50 @@
         border-top-color: #fff !important;
         border-bottom-color: #fff !important;
     }
+
+    /* Responsive CSS */
+
+    /* Mobile phones */
+    @media (max-width: 480px) {
+
+    }
+
+    /* Tablets */
+    @media (max-width: 767px) {
+        .container {
+            width:100%;
+        }
+        .header {
+            height:auto;
+            padding:15px 0px;
+        }  
+        .header .logo {
+            text-align:center;
+            padding-bottom:10px;
+        }
+        .header .navbar .nav > li > a:hover {
+            background:#0fa6bc;
+            border-radius:5px;
+        }
+        .navbar-toggle {
+            margin-right:0px !important;
+        }
+    }
+
+    /* Desktop */
+    @media (max-width: 991px) {
+        .header {
+            height:auto;
+            padding:15px 0px;
+        }  
+        .header .logo {
+            text-align:center;
+            padding-bottom:10px;
+        }
+        .header .form {
+            margin:10px auto;
+        }
+    }
 </style>
 
 <template>
