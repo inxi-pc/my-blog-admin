@@ -1,8 +1,10 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
 <style scoped>
     .header {
-        height: 50px;
-        background-color: #2c3742;
+        height: 55px;
+        background-color: #f8f8f8;
+        border-color: #e7e7e7;
+        border-bottom: 1px solid #e5e5e5;
     }
 
     .header .logo h1 {
@@ -12,12 +14,10 @@
     }
 
     .header .logo h1 a {
-        color: #fff;
         font-family: 'Open Sans Condensed', sans-serif;
     }
 
     .header .logo h1 a:hover {
-        color: #fff;
         text-decoration: none;
         border: 0px;
     }
@@ -27,10 +27,6 @@
         width: 100%;
         max-width: 300px;
         margin: 10px auto;
-    }
-
-    .header .navbar * {
-        box-shadow: none !important;
     }
 
     .header .navbar .label {
@@ -50,7 +46,7 @@
     }
 
     .header .navbar .nav>li>a {
-        color: #fff !important;
+        color: #000 !important;
         font-size: 13px !important;
         border-bottom: 0px !important;
         margin-top: 0px !important;
@@ -154,18 +150,6 @@
     .header .dropdown-big .dropdown-foot a:hover {
         color: #555;
         border-bottom: 0px;
-    }
-
-    .header .navbar-nav .caret {
-        border-top-color: #fff !important;
-        border-bottom-color: #fff !important;
-    }
-
-    .header .navbar-nav>.open>a .caret,
-    .header .navbar-nav>.open>a:hover .caret,
-    .header .navbar-nav>.open>a:focus .caret {
-        border-top-color: #fff !important;
-        border-bottom-color: #fff !important;
     }
 
     /* Responsive CSS */
