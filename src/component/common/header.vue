@@ -214,6 +214,8 @@
 </template>
 
 <script>
+import "bootstrap/dist/js/bootstrap.js"
+
 export default {
     data: function () {
         return {

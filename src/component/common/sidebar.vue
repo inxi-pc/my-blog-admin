@@ -5,10 +5,10 @@
         background: #fff;
         border-radius: 10px;
         padding: 10px;
-        border-left: 1px solid #eee;
-        border-top: 1px solid #eee;
-        border-right: 2px solid #eee;
-        border-bottom: 2px solid #eee;
+        border-left: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
     }
 
     .sidebar ul.nav,

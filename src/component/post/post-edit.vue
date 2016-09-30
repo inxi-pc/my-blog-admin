@@ -2,19 +2,20 @@
 <style src="tinymce/skins/lightgray/skin.min.css"></style>
 <style src="tinymce/skins/lightgray/content.min.css"></style>
 <style scoped>
-    .content-box-large {
-        margin-bottom: 30px;
-        background: #fff;
-        border-radius: 10px;
-        padding: 10px;
-        border-left: 1px solid #eee;
-        border-top: 1px solid #eee;
-        border-right: 2px solid #eee;
-        border-bottom: 2px solid #eee;
+    .content-box-header {
+        min-height: 40px;
+        font-size: 16px;
+        background:#f5f5f5;
+        border-top-left-radius:5px;
+        border-top-right-radius:5px;
+        padding:10px;
+        border-left:1px solid #ddd;
+        border-top:1px solid #ddd;
+        border-right:1px solid #ddd;
     }
 
-    .content-box-large {
-        padding: 20px;
+    .content-box-header:after {
+        clear:both;
     }
 
     .panel-heading > .panel-title {
@@ -23,25 +24,30 @@
         padding-top: 0px;
     }
 
-    .panel-heading > .panel-title > * {
-        margin: 0;
+    .content-box-large {
+        margin-bottom: 30px;
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        border-left: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
     }
 
-    .panel-heading > .panel-title > span {
-        font-weight: normal;
-    }
-
-    .panel-body {
-        clear: both;
+    .box-with-header {
+        border-top: none;
+        border-top-left-radius:0px;
+        border-top-right-radius:0px;
     }
 </style>
 
 <template>
-    <div class="content-box-large">
-        <div class="panel-heading">
+    <div class="panel-default">
+        <div class="content-box-header panel-heading">
             <div class="panel-title">Post Edit</div>
         </div>
-        <div class="panel-body">
+        <div class="content-box-large box-with-header">
             <form class="form-horizontal" role="form">
                 <div class="form-group">
                     <label for="inputPostId" class="col-sm-2 control-label">Post Id</label>
