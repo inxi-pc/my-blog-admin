@@ -107,43 +107,71 @@ export default {
         var order = new Order(this.orderType, this.orderBy, "post_id");
         var context = this;
 
-        new Post().getPostList(this, {'post_enabled': true}, page, order).then((response) => {
-            $('#postList').dataTable({
-                response: true,
-                columns: [
-                    {'data': 'post_id'},
-                    {'data': 'user_id'},
-                    {'data': 'category_id'},
-                    {'data': 'post_title'},
-                    {'data': 'post_content'},
-                    {'data': 'post_created_at'},
-                    {'data': 'post_updated_at'},
-                    {'data': 'post_published'}
-                ],
-                columnDefs: [ {
-                    targets: [8],
-                    data: 'post_id',
-                    render: function ( data, type, full, meta ) {
-                        return '<a href="/dist/post-edit.html?post_id='+ data +'">Edit</a>' + '&nbsp'
-                                + '<a data-published="' + full.post_published 
-                                + '" data-id="' + data + '" href="javascript:;" class="published">Published</a>' + '&nbsp'
-                                + '<a data-id="' + data + '" href="javascript:;" class="delete">Delete</a>';
-                    }
-                }],
-
-                // pagination
-                pageLength: page.limit,
-                displayStart: page.offset,
-                order: [0, page.orderType],
-
-                data: response.body.data
-            });
-
-            this.bindElementAction();
-        }, (response) => {
-            console.log(response);
+        $('#postList').dataTable({
+            response: true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: new Post().apiGateway + 'list',
+                data: {
+                    limit: page.limit,
+                    offset: page.offset,
+                    order_by: order.orderBy,
+                    order_type: order.orderType
+                }
+            },
+            columns: [
+                {'data': 'post_id'},
+                {'data': 'user_id'},
+                {'data': 'category_id'},
+                {'data': 'post_title'},
+                {'data': 'post_content'},
+                {'data': 'post_created_at'},
+                {'data': 'post_updated_at'},
+                {'data': 'post_published'}
+            ],
+            columnDefs: [ {
+                targets: [8],
+                data: 'post_id',
+                orderMulti: false,
+                render: function ( data, type, full, meta ) {
+                    return '<a href="/dist/post-edit.html?post_id='+ data +'">Edit</a>' + '&nbsp'
+                            + '<a data-published="' + full.post_published 
+                            + '" data-id="' + data + '" href="javascript:;" class="published">Published</a>' + '&nbsp'
+                            + '<a data-id="' + data + '" href="javascript:;" class="delete">Delete</a>';
+                }
+            }]
         });
 
+        $('#postList').on("order.dt", function () {
+            console.log('orders');
+        });
+
+        $('#postList').on('preXhr.dt', function (e, settings, data) {
+            console.log('pre preXhr');
+            var api = new $.fn.dataTable.Api(settings);
+            var orderInfo = api.order();
+            var columnIndex = orderInfo[0][0];
+            var orderType = orderInfo[0][1];
+            var columnProp = api.column(columnIndex).dataSrc();
+            data.order_by = columnProp;
+            data.order_type = orderType;
+            console.log(orderType);
+        });
+
+        $('#postList').on('xhr.dt', function (e, settings, json, xhr) {
+            console.log('xhr finished');
+            console.log(json);
+            json.recordsFiltered = json.recordsTotal;
+            var api = new $.fn.dataTable.Api(settings);
+            api.page.len(page.limit);
+        });
+
+        $('#postList').on('preInit.dt', function (e, settings) {
+            console.log('pre init');
+        });
+
+        this.bindElementAction();
     },
 
     methods: {
@@ -170,7 +198,7 @@ export default {
             var post = new PostModel();
             post.post_published = !published;
             new Post().updatePost(this, postId, post).then((response) => {
-                window.location.reload();
+                
             }, (response) => {
                 console.log(response);
             });
