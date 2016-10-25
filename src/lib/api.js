@@ -17,8 +17,12 @@ export default class API {
         for (var argsKey in arguments) {
             if (arguments[argsKey] != null 
                 || arguments[argsKey] != undefined) {
-                for (var argKey in arguments[argsKey]) {
-                    params[argKey] = arguments[argsKey][argKey];
+                if (arguments instanceof Object) {
+                    for (var argKey in arguments[argsKey]) {
+                        params[argKey] = arguments[argsKey][argKey];
+                    }
+                } else {
+                    params[argKey] = arguments[argsKey];
                 }
             }
         }

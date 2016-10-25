@@ -4,6 +4,8 @@ class CategoryModel {
     constructor() {
         // @primary key
         this.category_id = null;
+        this.category_parent_id = null;
+        this.category_root_id = null;
         // @unique
         this.category_name_en = null;
         this.category_name_cn = null;
@@ -20,32 +22,48 @@ export default class Category extends API {
         this.apiGateway += "/categories/";
     }
 
+    /**
+     * 
+     * @return Promise
+     */
     getCategoryById(vue, categoryId) {
-        return this.getCategory(vue, categoryId);
+        var url = this.apiGateway + categoryId;
+
+        return vue.$http.get(url);
+    }
+
+    /**
+     * 
+     * @return Promise
+     */
+    getCategoriesByIds(vue, categoryIds) {
+        return this.getCategories(categoryIds);
+    }
+
+    /**
+     * 
+     * @return Promise
+     */
+    getCategoriesByCondition(vue, conditions) {
+        return this.getCategories(vue, conditions);
     }
 
     /**
      * @return Promise
      */
-    getCategory(vue, condition) {
-        var params = this.mergeParams(condition);
+    getCategoryList(vue, conditions, page, order) {
+        var params = this.mergeParams(conditions, page, order);
+        var url = this.apiGateway + 'list';
 
-        return vue.$http.get(this.apiGateway, {
+        return  vue.$http.get(url, {
             params: params
         });
     }
 
-    getCategoriesByIds(vue, categoryIds, page, order) {
-        return this.getCategories(cIds);
-    }
+    getCategories(vue, conditions) {
+        var params = this.mergeParams(conditions);
 
-    /**
-     * @return Promise
-     */
-    getCategories(vue, conditions, page, order) {
-        var params = this.mergeParams(conditions, page, order);
-
-        return  vue.$http.get(this.apiGateway, {
+        return vue.$http.get(this.apiGateway, {
             params: params
         });
     }

@@ -16,6 +16,22 @@ class PostModel {
         this.post_published = null;
         this.post_enabled = null;
     }
+
+    static fromObserverData(data) {
+        var instance = new PostModel();
+
+        if (data instanceof Object) {
+            for (var kd in data) {
+                for (var ki in instance) {
+                    if (ki == kd) {
+                        instance[ki] = data[kd];
+                    }
+                }
+            }
+        }
+        
+        return instance;
+    }
 }
 
 export { PostModel }
@@ -39,34 +55,71 @@ export default class Post extends API {
      * @return Promise
      */
     updatePost(vue, postId, post) {
-        return vue.$http.put(this.apiGateway + postId, post);
-    }
+        var url = this.apiGateway + postId;
+        post.post_id = null;
+        post.post_created_at = null;
+        post.post_updated_at = null;
+        post.post_enabled = null;
 
-    getPostById(vue, postId) {
-        return this.getPost(vue, postId);
+        return vue.$http.put(url, post);
     }
     
     /**
      * 
      * @return Promise
      */
-    getPost(vue, postId, condition) {
-        var params = this.mergeParams(condition);
-        var url = Helper.isNullOrEmpty(postId) ? this.apiGateway : this.apiGateway + postId;
-        return vue.$http.get(url, params);
-    }
+    deletePost(vue, postId) {
+         var url = this.apiGateway + postId;
 
-    getPostsByIds(vue, postIds, page, order) {
-        return this.getPosts(postIds, page, order);
+         return vue.$http.delete(url);
+    }
+    
+    /**
+     * 
+     * @return Promise
+     */
+    getPostById(vue, postId) {
+        var url = this.apiGateway + postId;
+
+        return vue.$http.get(url);
+    }
+    
+    /**
+     * 
+     * @return Promise
+     */
+    getPostsByIds(vue, postIds) {
+        return this.getPosts(vue, postIds);
     }
 
     /**
      * 
      * @return Promise
      */
-    getPosts(vue, conditions, page, order) {
+    getPostsByCondition(vue, conditions) {
+        return this.getPosts(vue, conditions);
+    }
+
+    /**
+     * 
+     * @return Promise
+     */
+    getPostList(vue, conditions, page, order) {
         var params = this.mergeParams(conditions, page, order);
-            
+        var url = this.apiGateway + 'list';
+
+        return vue.$http.get(url, {
+            params: params
+        });
+    }
+
+    /**
+     * 
+     * @return Promise
+     */
+    getPosts(vue, conditions) {
+        var params = this.mergeParams(conditions);
+
         return vue.$http.get(this.apiGateway, {
             params: params
         });

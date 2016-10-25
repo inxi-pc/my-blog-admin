@@ -64,7 +64,7 @@
                 <div class="form-group">
                     <label for="selectCategoryId" class="col-sm-2 control-label">Category</label>
                     <div class="col-sm-5">
-                        <select type="text" class="form-control" id="selectCategoryId">
+                        <select v-model="post.category_id" type="text" class="form-control" id="selectCategoryId">
                             <option v-for="category in categoryList" value='{{ category.category_id }}'>
                                 {{ category.category_name_en }} ({{ category.category_name_cn }})
                             </option>
@@ -158,16 +158,17 @@ export default {
             this.post = response.body;
             this.initialEditor();
             this.bindElementAction();
+
+            // Get category list
+            var page = new Pagination(0, 10);
+            var order = new Order("ASC", "category_id", "category_id");
+            new Category().getCategoryList(this, page, order).then((response) => {
+                this.categoryList = response.body.data;
+            }, (response) => {
+                console.log(response);
+            });
         }, (response) => {
              console.log(response);
-        });
-        // Get category list
-        var page = new Pagination(this.offset, this.limit);
-        var order = new Order(this.orderType, this.orderBy, "category_id");
-        new Category().getCategories(this, page, order).then((response) => {
-            this.categoryList = response.body;
-        }, (response) => {
-            console.log(response);
         });
     },
 
@@ -191,7 +192,11 @@ export default {
                     });
 
                     editor.on("init", function (e) {
-                        editor.setContent(context.post.post_content);
+                        if (context.post.post_content == null) {
+                            editor.setContent("");
+                        } else {
+                            editor.setContent(context.post.post_content);
+                        }
                     });
                 }
             });
@@ -219,8 +224,10 @@ export default {
         },
 
         updatePost: function (event) {
-            new Post().updatePost(this, this.post.post_id, this.post).then((response) => {
-
+            var update = PostModel.fromObserverData(this.post);
+            
+            new Post().updatePost(this, this.post.post_id, update).then((response) => {
+                window.location.reload();
             }, (response) => {
                 console.log(response);
             });

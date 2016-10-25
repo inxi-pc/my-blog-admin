@@ -70,7 +70,6 @@
                         <th>Created At</th>
                         <th>Updated At</th>
                         <th>Published</th>
-                        <th>Enabled</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -108,7 +107,7 @@ export default {
         var order = new Order(this.orderType, this.orderBy, "post_id");
         var context = this;
 
-        new Post().getPosts(this, null, page, order).then((response) => {
+        new Post().getPostList(this, {'post_enabled': true}, page, order).then((response) => {
             $('#postList').dataTable({
                 response: true,
                 columns: [
@@ -119,11 +118,10 @@ export default {
                     {'data': 'post_content'},
                     {'data': 'post_created_at'},
                     {'data': 'post_updated_at'},
-                    {'data': 'post_published'},
-                    {'data': 'post_enabled'}
+                    {'data': 'post_published'}
                 ],
                 columnDefs: [ {
-                    targets: [9],
+                    targets: [8],
                     data: 'post_id',
                     render: function ( data, type, full, meta ) {
                         return '<a href="/dist/post-edit.html?post_id='+ data +'">Edit</a>' + '&nbsp'
@@ -138,7 +136,7 @@ export default {
                 displayStart: page.offset,
                 order: [0, page.orderType],
 
-                data: response.body
+                data: response.body.data
             });
 
             this.bindElementAction();
@@ -171,20 +169,16 @@ export default {
         publishedPost: function (postId, published) {
             var post = new PostModel();
             post.post_published = !published;
-            post.post_id = postId;
             new Post().updatePost(this, postId, post).then((response) => {
-                
+                window.location.reload();
             }, (response) => {
                 console.log(response);
             });
         },
 
         deletePost: function (postId) {
-            var post = new PostModel();
-            post.post_enabled = false;
-            post.post_id = postId;
-            new Post().updatePost(this, postId, post).then((response) => {
-                
+            new Post().deletePost(this, postId).then((response) => {
+                window.location.reload();
             }, (response) => {
                 console.log(response);
             });

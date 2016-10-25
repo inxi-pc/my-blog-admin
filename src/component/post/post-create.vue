@@ -145,10 +145,10 @@ export default {
     ready: function () {
         this.initialEditor();
          // Get category list
-        var page = new Pagination(this.offset, this.limit);
-        var order = new Order(this.orderType, this.orderBy, "category_id");
-        new Category().getCategories(this, page, order).then((response) => {
-            this.categoryList = response.body;
+        var page = new Pagination(0, 10);
+        var order = new Order("DESC", "category_id", "category_id");
+        new Category().getCategoryList(this, page, order).then((response) => {
+            this.categoryList = response.body.data;
         }, (response) => {
             console.log(response);
         });
@@ -198,9 +198,8 @@ export default {
         },
 
         createPost: function (event) {
-            console.log(this.post);
             new Post().createPost(this, this.post).then((response) => {
-
+                window.location.reload();
             }, (response) => {
 
             });
