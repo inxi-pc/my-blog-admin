@@ -1,13 +1,13 @@
 import * as Helper from 'app_lib/helper.js'
 
-export default class Order {
+export default class Sort {
     constructor(orderType, orderBy, fallback) {
         this.setOrder_type(orderType);
         this.setOrder_by(orderBy, fallback);
     }
 
     setOrder_type(orderType) {
-        this.order_type = Order.isDesc(orderType) ? orderType : "ASC";
+        this.order_type = Sort.isDesc(orderType) ? orderType : "ASC";
     }
 
     setOrder_by(orderBy, fallback) {

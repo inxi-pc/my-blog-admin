@@ -82,7 +82,7 @@
 
 <script>
 import Pagination from 'app_api/pagination.js'
-import Order from 'app_api/order.js'
+import Sort from 'app_api/sort.js'
 import Post from 'app_api/post.js'
 import { PostModel } from 'app_api/post.js'
 
@@ -104,9 +104,9 @@ export default {
 
     ready: function () {
         var page = new Pagination(this.offset, this.limit);
-        var order = new Order(this.orderType, this.orderBy, "post_id");
+        var sort = new Sort(this.orderType, this.orderBy, "post_id");
         var context = this;
-        console.log(order);
+
         $('#postList').dataTable({
             response: true,
             "processing": true,
@@ -116,11 +116,11 @@ export default {
                 data: {
                     limit: page.limit,
                     offset: page.offset,
-                    order_by: order.order_by,
-                    order_type: order.order_type
+                    order_by: sort.order_by,
+                    order_type: sort.order_type
                 }
             },
-            order: [[0, 'desc']],
+            order: [[0, sort.order_type]],
             columns: [
                 {'data': 'post_id'},
                 {'data': 'user_id'},
@@ -184,7 +184,6 @@ export default {
                 data.order_type = context.orderType;
                 data.limit = context.limit;
                 data.offset = context.offset;
-                console.log(data);
             });
 
             $('#postList').on('xhr.dt', function (e, settings, json, xhr) {

@@ -140,7 +140,7 @@ import { PostModel } from 'app_api/post.js'
 import Post from 'app_api/post.js'
 
 import Pagination from 'app_api/pagination.js'
-import Order from 'app_api/order.js'
+import Sort from 'app_api/sort.js'
 import Category from 'app_api/category.js'
 
 export default {
@@ -161,8 +161,8 @@ export default {
 
             // Get category list
             var page = new Pagination(0, 10);
-            var order = new Order("ASC", "category_id", "category_id");
-            new Category().getCategoryList(this, page, order).then((response) => {
+            var sort = new Sort("ASC", "category_id", "category_id");
+            new Category().getCategoryList(this, page, sort).then((response) => {
                 this.categoryList = response.body.data;
             }, (response) => {
                 console.log(response);
