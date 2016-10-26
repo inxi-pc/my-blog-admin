@@ -60,8 +60,8 @@ export default class Category extends API {
     /**
      * @return Promise
      */
-    getCategoryList(vue, conditions, page, order) {
-        var params = this.mergeParams(conditions, page, order);
+    getCategoryList(vue, conditions, page, sort) {
+        var params = this.mergeParams(conditions, page, sort);
         var url = this.apiGateway + 'list';
 
         return  vue.$http.get(url, {

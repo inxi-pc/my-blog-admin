@@ -80,6 +80,9 @@ module.exports = {
             datatables: nodeLibPath + "datatables",
             datatables_bootstrap: nodeLibPath + "datatables-bootstrap",
             tinymce: nodeLibPath + "tinymce",
+            bootstrap_treeview: nodeLibPath + "bootstrap-treeview",
+            jquery_fancytree: nodeLibPath + "jquery.fancytree",
+            jquery_ui: nodeLibPath + "jquery-ui",
 
             // src alias
             app_api: appSrcPath + "api",

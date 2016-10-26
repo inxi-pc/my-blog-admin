@@ -1,5 +1,6 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
 <style src="datatables_bootstrap/css/dataTables.bootstrap.css"></style>
+<style src="jquery_fancytree/dist/skin-bootstrap/ui.fancytree.css"></style>
 <style>
     .content-box-header {
         min-height: 40px;
@@ -58,46 +59,50 @@
             </div>
         </div>
         <div class="content-box-large box-with-header">
-            <table id="postList" cellpadding="0" cellspacing="0" border="0"
-            class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Post ID</th>
-                        <th>User ID</th>
-                        <th>Category ID</th>
-                        <th>Title</th>
-                        <th>Content</th>
-                        <th>Created At</th>
-                        <th>Updated At</th>
-                        <th>Published</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <div id="categoryTree"></div>
         </div>
     </div>
 </template>
 
 <script>
+import "jquery_fancytree/dist/src/jquery.fancytree.js"
+
+import Pagination from 'app_api/pagination.js'
+import Sort from 'app_api/sort.js'
 import Category from 'app_api/category.js'
 import { CategoryModel } from 'app_api/category.js'
 
 export default {
     data: function () {
         return {
-            categories: []
+            categories: [],
+            // pagination
+            orderType: "desc",
+            orderBy: "category_id",
+            limit: 10,
+            offset: 0,
+            total: 0
         }
     },
 
     ready: function () {
-        this.bindElementAction();
+        var page = new Pagination(this.offset, this.limit);
+        var sort = new Sort(this.orderType, this.orderBy, "category_id");
+        var context = this;
+
+        new Category().getCategoryList(this, null, page, sort).then((response) => {
+            context.categories = response.body.data;
+            context.bindElementAction();
+        }, (response) => {
+            console.log(response);
+        });
     },
 
     methods: {
         bindElementAction: function () {
-            
+            $("#categoryTree").fancytree({
+                source: this.categories
+            })
         }
     }
 }
