@@ -16,22 +16,6 @@ class PostModel {
         this.post_published = null;
         this.post_enabled = null;
     }
-
-    static fromObserverData(data) {
-        var instance = new PostModel();
-
-        if (data instanceof Object) {
-            for (var kd in data) {
-                for (var ki in instance) {
-                    if (ki == kd) {
-                        instance[ki] = data[kd];
-                    }
-                }
-            }
-        }
-        
-        return instance;
-    }
 }
 
 export { PostModel }

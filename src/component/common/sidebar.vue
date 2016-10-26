@@ -146,7 +146,7 @@
                 </a>
             </li>
             <li id="category">
-                <a href="/dist/category.html">
+                <a href="/dist/category-list.html">
                     <i class="glyphicon glyphicon-list"></i>
                     Category
                 </a>
@@ -154,7 +154,7 @@
             <li>
                 <a v-on:click.stop="slideMenu($event)">
                     <i class="glyphicon glyphicon-list"></i> 
-                    Sub
+                    Others
                     <span class="caret pull-right"></span>
                 </a>
                 <!-- Sub menu -->

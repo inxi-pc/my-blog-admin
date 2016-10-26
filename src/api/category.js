@@ -6,7 +6,6 @@ class CategoryModel {
         this.category_id = null;
         this.category_parent_id = null;
         this.category_root_id = null;
-        // @unique
         this.category_name_en = null;
         this.category_name_cn = null;
         this.category_level = null;
@@ -16,10 +15,20 @@ class CategoryModel {
     }
 }
 
+export { CategoryModel }
+
 export default class Category extends API {
     constructor() {
         super();
         this.apiGateway += "/categories/";
+    }
+
+    /**
+     * 
+     * @return Promise
+     */
+    createCategory(vue, category) {
+        return vue.$http.post(this.apiGateway, category);
     }
 
     /**
@@ -60,6 +69,9 @@ export default class Category extends API {
         });
     }
 
+    /**
+     * @return Promise
+     */
     getCategories(vue, conditions) {
         var params = this.mergeParams(conditions);
 

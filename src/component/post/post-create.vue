@@ -147,7 +147,7 @@ export default {
          // Get category list
         var page = new Pagination(0, 10);
         var sort = new Sort("DESC", "category_id", "category_id");
-        new Category().getCategoryList(this, page, sort).then((response) => {
+        new Category().getCategoryList(this, null, page, sort).then((response) => {
             this.categoryList = response.body.data;
         }, (response) => {
             console.log(response);

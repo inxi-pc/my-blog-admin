@@ -14,10 +14,10 @@
         <div class="page-content">
             <div class="row">
                 <div class="col-md-2">
-                    <sidebar actived="post"></sidebar>
+                    <sidebar actived="category"></sidebar>
                 </div>
                 <div class="col-md-10">
-                    <post-create></post-create>
+                    <category-list></category-list>
                 </div>
             </div>
         </div>
@@ -28,20 +28,20 @@
 import header from 'app_component/common/header.vue'
 // import footer from 'app_component/common/footer.vue'
 import sidebar from 'app_component/common/sidebar.vue'
-import postCreate from 'app_component/post/post-create.vue'
+import categoryList from 'app_component/category/category-list.vue'
 
 export default {
     data: function () {
         return {
-
+           
         }
     },
-
+    
     components: {
         "my-header": header,
         // "my-footer": Footer,
         'sidebar': sidebar,
-        'post-create': postCreate
+        'category-list': categoryList
     }
 }
 </script>

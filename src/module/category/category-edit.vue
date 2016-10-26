@@ -14,10 +14,10 @@
         <div class="page-content">
             <div class="row">
                 <div class="col-md-2">
-                    <sidebar actived="post"></sidebar>
+                    <sidebar actived="category"></sidebar>
                 </div>
                 <div class="col-md-10">
-                    <post-create></post-create>
+                    <category-edit></category-edit>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
 import header from 'app_component/common/header.vue'
 // import footer from 'app_component/common/footer.vue'
 import sidebar from 'app_component/common/sidebar.vue'
-import postCreate from 'app_component/post/post-create.vue'
+import categoryEdit from 'app_component/category/category-edit.vue'
 
 export default {
     data: function () {
@@ -41,7 +41,7 @@ export default {
         "my-header": header,
         // "my-footer": Footer,
         'sidebar': sidebar,
-        'post-create': postCreate
+        'category-edit': categoryEdit
     }
 }
 </script>
