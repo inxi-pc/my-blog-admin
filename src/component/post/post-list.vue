@@ -121,6 +121,8 @@ export default {
                 }
             },
             order: [[0, sort.order_type]],
+            pageLength: context.limit,
+            displayStart: context.offset,
             columns: [
                 {'data': 'post_id'},
                 {'data': 'user_id'},
