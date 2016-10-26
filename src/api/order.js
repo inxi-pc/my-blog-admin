@@ -1,25 +1,30 @@
+import * as Helper from 'app_lib/helper.js'
+
 export default class Order {
     constructor(orderType, orderBy, fallback) {
-        this.setOrderType(orderType);
-        this.setOrderBy(orderBy, fallback);
+        this.setOrder_type(orderType);
+        this.setOrder_by(orderBy, fallback);
     }
 
-    setOrderType(orderType) {
-        if (orderType != undefined && orderType != null && orderType != "") {
-            orderType = orderType.trim().toUpperCase();
-            this.order_type = (
-                orderType == "DESC" || orderType == "ASC"
-            ) ? orderType : "DESC";
-        } else {
-            this.order_type = "DESC";
-        }
+    setOrder_type(orderType) {
+        this.order_type = Order.isDesc(orderType) ? orderType : "ASC";
     }
 
-    setOrderBy(orderBy, fallback) {
-        if (orderBy != undefined && orderBy != null && orderBy != "") {
+    setOrder_by(orderBy, fallback) {
+        if (!Helper.isNullOrEmpty(orderBy)) {
             this.order_by = orderBy;
         } else {
             this.order_by = fallback;
+        }
+    }
+
+    static isDesc(orderType) {
+        if (!Helper.isNullOrEmpty(orderType)) {
+            orderType = orderType.trim().toUpperCase();
+
+            return orderType == "DESC";
+        } else {
+            return false;
         }
     }
 }

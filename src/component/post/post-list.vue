@@ -94,7 +94,7 @@ export default {
         return {
             posts: [],
             // pagination
-            orderType: "DESC",
+            orderType: "desc",
             orderBy: "post_id",
             limit: 10,
             offset: 0,
@@ -106,7 +106,7 @@ export default {
         var page = new Pagination(this.offset, this.limit);
         var order = new Order(this.orderType, this.orderBy, "post_id");
         var context = this;
-
+        console.log(order);
         $('#postList').dataTable({
             response: true,
             "processing": true,
@@ -116,10 +116,11 @@ export default {
                 data: {
                     limit: page.limit,
                     offset: page.offset,
-                    order_by: order.orderBy,
-                    order_type: order.orderType
+                    order_by: order.order_by,
+                    order_type: order.order_type
                 }
             },
+            order: [[0, 'desc']],
             columns: [
                 {'data': 'post_id'},
                 {'data': 'user_id'},
@@ -143,34 +144,6 @@ export default {
             }]
         });
 
-        $('#postList').on("order.dt", function () {
-            console.log('orders');
-        });
-
-        $('#postList').on('preXhr.dt', function (e, settings, data) {
-            console.log('pre preXhr');
-            var api = new $.fn.dataTable.Api(settings);
-            var orderInfo = api.order();
-            var columnIndex = orderInfo[0][0];
-            var orderType = orderInfo[0][1];
-            var columnProp = api.column(columnIndex).dataSrc();
-            data.order_by = columnProp;
-            data.order_type = orderType;
-            console.log(orderType);
-        });
-
-        $('#postList').on('xhr.dt', function (e, settings, json, xhr) {
-            console.log('xhr finished');
-            console.log(json);
-            json.recordsFiltered = json.recordsTotal;
-            var api = new $.fn.dataTable.Api(settings);
-            api.page.len(page.limit);
-        });
-
-        $('#postList').on('preInit.dt', function (e, settings) {
-            console.log('pre init');
-        });
-
         this.bindElementAction();
     },
 
@@ -191,6 +164,33 @@ export default {
                     var postId = $(element).data('id');
                     context.deletePost(postId);
                 });
+            });
+
+            $('#postList').on('preXhr.dt', function (e, settings, data) {
+                console.log('pre preXhr');
+                var api = new $.fn.dataTable.Api(settings);
+
+                context.limit = api.page.len();
+                context.offset = api.page() * api.page.len();
+
+                var orderInfo = api.order();
+                var columnIndex = orderInfo[0][0];
+                var orderType = orderInfo[0][1];
+                var columnProp = api.column(columnIndex).dataSrc();
+                context.orderBy = columnProp;
+                context.orderType = orderType;
+
+                data.order_by = context.orderBy;
+                data.order_type = context.orderType;
+                data.limit = context.limit;
+                data.offset = context.offset;
+                console.log(data);
+            });
+
+            $('#postList').on('xhr.dt', function (e, settings, json, xhr) {
+                console.log('xhr finished');
+                var api = new $.fn.dataTable.Api(settings);
+                json.recordsFiltered = json.recordsTotal;
             });
         },
 
