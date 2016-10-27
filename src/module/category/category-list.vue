@@ -9,15 +9,17 @@
 </style>
 
 <template>
-    <div>
+        <div>
         <my-header></my-header>
-        <div class="page-content">
-            <div class="row">
-                <div class="col-md-2">
-                    <sidebar actived="category"></sidebar>
-                </div>
-                <div class="col-md-10">
-                    <category-list></category-list>
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <sidebar actived="category"></sidebar>
+                    </div>
+                    <div class="col-md-10">
+                        <category-list></category-list>
+                    </div>
                 </div>
             </div>
         </div>

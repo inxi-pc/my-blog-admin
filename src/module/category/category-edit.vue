@@ -11,13 +11,15 @@
 <template>
     <div>
         <my-header></my-header>
-        <div class="page-content">
-            <div class="row">
-                <div class="col-md-2">
-                    <sidebar actived="category"></sidebar>
-                </div>
-                <div class="col-md-10">
-                    <category-edit></category-edit>
+        <div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2">
+                        <sidebar actived="category"></sidebar>
+                    </div>
+                    <div class="col-md-10">
+                        <category-edit></category-edit>
+                    </div>
                 </div>
             </div>
         </div>

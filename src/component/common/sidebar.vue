@@ -1,167 +1,116 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
 <style scoped>
-    .content-box {
-        margin-bottom: 30px;
-        background: #fff;
-        border-radius: 10px;
-        padding: 10px;
-        border-left: 1px solid #ddd;
-        border-top: 1px solid #ddd;
-        border-right: 1px solid #ddd;
-        border-bottom: 1px solid #ddd;
-    }
-
-    .sidebar ul.nav,
-    .sidebar ul.nav ul {
-        list-style: none;
-        padding: 0px;
-        margin: 0px;
-    }
-
-    .sidebar ul.nav ul {
-        margin: 0px;
-        padding: 0px;
-        display: none;
-    }
-
-    .sidebar .nav li.open ul {
-        display: block;
-    }
-
-    .sidebar .nav>li {
-        margin: 0;
-        border-bottom: 1px dashed #eee;
-    }
-
-    .sidebar .nav>li:last-child {
-        border-bottom: 0px;
-    }
-
-    .sidebar .nav>li li {
-        margin: 0;
-    }
-
-    .sidebar .nav>li li a {
-        padding-left: 25px;
-    }
-
-    .sidebar .nav>li>a {
-        font-size: 14px;
-        line-height: 20px;
-        padding: 15px 15px;
-        color: #999;
-        display: block;
-        font-weight: bold;
-        background: none;
-        text-decoration: none;
-        border-top: 0px;
-        font-weight: bold;
-    }
-
-    .sidebar .nav>li>a>i {
-        margin-right: 5px;
-    }
-
-    .sidebar .nav>li>ul>li>a {
-        font-size: 13px;
-        line-height: 20px;
-        padding: 8px 10px 8px 40px;
-        color: #999;
-        background: #fff;
-        display: block;
-        text-decoration: none;
-        border-top: 0px;
-        font-weight: bold;
-    }
-
-    .sidebar .nav>li>ul>li.active>a {
-        background: #fff;
-        border-top: 0px;
-        color: #555;
-    }
-
-    .sidebar .nav>li>ul>li>a:hover {
-        background: #fff;
-        color: #555;
-        border-bottom: 0px;
-    }
-
-    .sidebar .nav li a:hover,
-    .sidebar .nav li.current>a {
-        background: #fff;
-        color: #555;
-        border-bottom: 0px;
-    }
-
-    .sidebar .nav li.open>a {
-        background: #fff;
-        color: #555;
-        border-bottom: 1px dashed #eee;
-    }
-
-    .sidebar .nav a .caret {
-        float: right;
-        width: 0;
-        height: 0;
-        display: inline-block;
-        vertical-align: top;
-        border-top: 4px solid #aaa;
-        border-right: 4px solid transparent;
-        border-left: 4px solid transparent;
-        content: "";
-        margin-top: 8px;
-        margin-left: 2px;
-    }
-
-    .sidebar .nav a:hover .caret {
-        border-top-color: #aaa;
-    }
-
-    .sidebar .nav li.open>a>.caret {
-        border-top: none;
-        border-bottom: 4px solid #aaa !important;
-        border-right: 4px solid transparent;
-        border-left: 4px solid transparent;
-    }
-
-    .sidebar .nav li.open>a:hover>.caret {
-        border-bottom-color: #aaa;
-    }
+	.sidebar {
+		background-color: #fff;
+		padding: 0;
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		border-radius: 0;
+		-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .065);
+		-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, .065);
+		box-shadow: 0 1px 4px rgba(0, 0, 0, .065);
+	}
+	
+	.sidebar > li > a {
+		display: block;
+		width: 190px\9;
+		margin: 0 0 -1px;
+		padding: 8px 14px;
+		border: 1px solid #e5e5e5;
+	}
+	
+	.sidebar > .active > a,
+	.sidebar .active a:hover {
+		background-color: #1e7ae3;
+		color: #fff;
+	}
+	
+	.sidebar > .active > a {
+		position: relative;
+		z-index: 2;
+		padding: 9px 15px;
+		border-bottom: 0;
+		border-top: 0;
+		text-shadow: 0 1px 0 rgba(0, 0, 0, .15);
+		-webkit-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .1), inset -1px 0 0 rgba(0, 0, 0, .1);
+		-moz-box-shadow: inset 1px 0 0 rgba(0, 0, 0, .1), inset -1px 0 0 rgba(0, 0, 0, .1);
+		box-shadow: inset 1px 0 0 rgba(0, 0, 0, .1), inset -1px 0 0 rgba(0, 0, 0, .1);
+	}
+	
+	.left-sidebar > .sidebar {
+		-webkit-border-radius: 6px;
+		-moz-border-radius: 6px;
+		border-radius: 6px;
+	}
+	
+	.left-sidebar > .sidebar > li:first-child > a {
+		-webkit-border-top-left-radius: 6px;
+		-webkit-border-top-right-radius: 6px;
+		-moz-border-radius-topleft: 6px;
+		-moz-border-radius-topright: 6px;
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+	}
+	
+	.left-sidebar > .sidebar > li:last-child > a {
+		-webkit-border-bottom-right-radius: 6px;
+		-webkit-border-bottom-left-radius: 6px;
+		-moz-border-radius-bottomright: 6px;
+		-moz-border-radius-bottomleft: 6px;
+		border-bottom-right-radius: 6px;
+		border-bottom-left-radius: 6px;
+	}
+	
+	.left-sidebar > .sidebar > li .sidebar li a {
+		padding-left: 20px;
+	}
+	
+	.sidebar .glyphicon {
+		float: right;
+		margin-top: 2px;
+		margin-right: -6px;
+		opacity: .25;
+	}
+	
+	.sidebar > li > a:hover {
+		background-color: #f5f5f5;
+	}
+	
+	.sidebar a:hover .glyphicon {
+		opacity: .5;
+	}
+	
+	.sidebar .active .glyphicon,
+	.sidebar .active a:hover .glyphicon {
+		opacity: 1;
+	}
 </style>
 
 <template>
-    <div id="leftSidebar" class="sidebar content-box" style="display: block;">
-        <ul class="nav">
-            <!-- Main menu -->
-            <li id="dashboard" >
-                <a href="/dist/dashboard.html">
-                    <i class="glyphicon glyphicon-home"></i> 
-                    Dashboard
-                </a>
+    <div id="leftSidebar" class="left-sidebar">
+        <ul class="nav navbar-collapse collapse sidebar">
+            <li id="dashboard">
+                <a href="/dist/dashboard.html"><i class="glyphicon glyphicon-chevron-right"></i>Dashboard</a>
             </li>
             <li id="post">
-                <a href="/dist/post-list.html">
-                    <i class="glyphicon glyphicon-list"></i>
-                    Post
-                </a>
+                <a href="/dist/post-list.html"><i class="glyphicon glyphicon-chevron-right"></i>Post</a>
             </li>
             <li id="category">
-                <a href="/dist/category-list.html">
-                    <i class="glyphicon glyphicon-list"></i>
-                    Category
-                </a>
+                <a href="/dist/category-list.html"><i class="glyphicon glyphicon-chevron-right"></i>Category</a>
             </li>
             <li>
-                <a v-on:click.stop="slideMenu($event)">
-                    <i class="glyphicon glyphicon-list"></i> 
-                    Others
-                    <span class="caret pull-right"></span>
-                </a>
-                <!-- Sub menu -->
-                <ul>
-                    <li><a href="">Sub1</a></li>
-                    <li><a href="">Sub2</a></li>
+                <a href="#"><i class="glyphicon glyphicon-chevron-down"></i>Others</a>
+                <ul class="nav navbar-collapse sidebar">
+                    <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> Submenu 1</a></li>
+                    <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> Submenu 2</a></li>
+                    <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> Submenu 3</a></li>
                 </ul>
+            </li>
+            <li class="disabled">
+                <a href="#"><i class="glyphicon glyphicon-chevron-right"></i> Calendar</a>
+            </li>
+            <li>
+                <a href="#"><span class="badge pull-right">731</span>Badge</a>
             </li>
         </ul>
     </div>
@@ -185,27 +134,12 @@ export default {
     ready: function () {
         var actived = $("#" + this.actived);
         var nav = $('#leftSidebar').children('ul');
-        var thisParent = actived.parent('li');
-        nav.children('li').removeClass('open');
-        actived.addClass("open");
+        nav.children('li').removeClass('active');
+        actived.addClass("active");
     },
 
     methods: {
-        slideMenu: function (event) {
-            var nav = $('#leftSidebar').children('ul');
-            var thisParent = $(event.target).parent("li");
-            var submenu = $(event.target).next("ul");
-
-            if(thisParent.hasClass("open")) {
-                submenu.slideUp(350);
-                thisParent.removeClass("open");
-            } else {
-                submenu.slideUp(350);
-                nav.children('li').removeClass("open");
-                submenu.slideDown(350);
-                thisParent.addClass("open");
-            }
-        }
+        
     }
 }
 </script>
