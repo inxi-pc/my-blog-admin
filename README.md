@@ -1,25 +1,17 @@
 # my-blog
 Vue.js based blog(admin part)
 
-# Concept
-`mvvm framework`
-`webpack`
-`single page`
-`web application`
+# Myblog admin架构
+技术栈：核心：vue + webpack  
+扩展：
+* table: datatables(github:)
+* treetable: fancytree(https://github.com/mar10/fancytree/wiki)
 
-# Name rule
-Var: little camel-case    
-Function: little camel-case  
-Package: lower-case, split by '-'  
-Package Class import & Class: big camel-case  
-Path: lower-case, split by '_'  
+# 命名规则
 
-Filename:   
-1. `api/` `component/` `lib/` `module/` belong to Class type  
-file name use big camel-case  
-2. another belong to Package type, use lower-case, split by '-'  
 
-# Using tool & version
+
+# 依赖定义
 ```javascript
 {
   "name": "my-blog",
