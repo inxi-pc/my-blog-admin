@@ -217,6 +217,24 @@ export default {
                             e.stopPropagation();
                         });
                     });
+                },
+
+                expand: function (event, data) {
+                    root.find('.edit').each(function (i, element) {
+                        $(element).on('click', function (e) {
+                            var categoryId = $(element).data('id');
+                            window.location.href = '/dist/category-edit.html?category_id=' + categoryId;
+                            e.stopPropagation();
+                        });
+                    });
+
+                    root.find('.delete').each(function (i, element) {
+                        $(element).on('click', function (e) {
+                            var categoryId = $(element).data('id');
+                            new Category().deleteCategory(context, categoryId);
+                            e.stopPropagation();
+                        });
+                    });
                 }
             });
         },
