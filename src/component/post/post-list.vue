@@ -103,72 +103,57 @@ export default {
     },
 
     ready: function () {
-        var page = new Pagination(this.offset, this.limit);
-        var sort = new Sort(this.orderType, this.orderBy, "post_id");
-        var context = this;
-
-        $('#postList').dataTable({
-            response: true,
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                url: new Post().apiGateway + 'list',
-                data: {
-                    limit: page.limit,
-                    offset: page.offset,
-                    order_by: sort.order_by,
-                    order_type: sort.order_type
-                }
-            },
-            order: [[0, sort.order_type]],
-            pageLength: context.limit,
-            displayStart: context.offset,
-            columns: [
-                {'data': 'post_id'},
-                {'data': 'user_id'},
-                {'data': 'category_id'},
-                {'data': 'post_title'},
-                {'data': 'post_content'},
-                {'data': 'post_created_at'},
-                {'data': 'post_updated_at'},
-                {'data': 'post_published'}
-            ],
-            columnDefs: [ {
-                targets: [8],
-                data: 'post_id',
-                orderMulti: false,
-                render: function ( data, type, full, meta ) {
-                    return '<a href="/dist/post-edit.html?post_id='+ data +'">Edit</a>' + '&nbsp'
-                            + '<a data-published="' + full.post_published 
-                            + '" data-id="' + data + '" href="javascript:;" class="published">Published</a>' + '&nbsp'
-                            + '<a data-id="' + data + '" href="javascript:;" class="delete">Delete</a>';
-                }
-            }]
-        });
-
+        this.initDatatables();
         this.bindElementAction();
     },
 
     methods: {
-        bindElementAction: function () {
+        initDatatables: function () {
+            var page = new Pagination(this.offset, this.limit);
+            var sort = new Sort(this.orderType, this.orderBy, "post_id");
             var context = this;
-            // bind publish action
-            $('.published').each(function (i, element) {
-                $(element).on('click', function (e) {
-                    var postId = $(element).data('id');
-                    var published = $(element).data('published');
-                    context.publishedPost(postId, published);
-                });
+            var root = $(this.$el);
+
+            root.find('#postList').dataTable({
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    url: new Post().apiGateway + 'list',
+                    data: {
+                        limit: page.limit,
+                        offset: page.offset,
+                        order_by: sort.order_by,
+                        order_type: sort.order_type,
+                        post_enabled: true
+                    }
+                },
+                order: [[0, sort.order_type]],
+                pageLength: context.limit,
+                displayStart: context.offset,
+                columns: [
+                    {'data': 'post_id'},
+                    {'data': 'user_id'},
+                    {'data': 'category_id'},
+                    {'data': 'post_title'},
+                    {'data': 'post_content'},
+                    {'data': 'post_created_at'},
+                    {'data': 'post_updated_at'},
+                    {'data': 'post_published'}
+                ],
+                columnDefs: [ {
+                    targets: [8],
+                    data: 'post_id',
+                    orderMulti: false,
+                    render: function ( data, type, full, meta ) {
+                        return '<a data-id="' + data + '" href="javascript:;" class="edit">Edit</a>' + '&nbsp'
+                                + '<a data-published="' + full.post_published 
+                                + '" data-id="' + data + '" href="javascript:;" class="published">Published</a>' + '&nbsp'
+                                + '<a data-id="' + data + '" href="javascript:;" class="delete">Delete</a>';
+                    }
+                }]
             });
 
-            $('.delete').each(function (i, element) {
-                $(element).on('click', function (e) {
-                    var postId = $(element).data('id');
-                    context.deletePost(postId);
-                });
-            });
-
-            $('#postList').on('preXhr.dt', function (e, settings, data) {
+            root.find('#postList').on('preXhr.dt', function (e, settings, data) {
                 console.log('pre preXhr');
                 var api = new $.fn.dataTable.Api(settings);
 
@@ -186,20 +171,49 @@ export default {
                 data.order_type = context.orderType;
                 data.limit = context.limit;
                 data.offset = context.offset;
+                data.post_enabled = true;
             });
 
-            $('#postList').on('xhr.dt', function (e, settings, json, xhr) {
+            root.find('#postList').on('xhr.dt', function (e, settings, json, xhr) {
                 console.log('xhr finished');
                 var api = new $.fn.dataTable.Api(settings);
                 json.recordsFiltered = json.recordsTotal;
             });
+
+            root.find('#postList').on('draw.dt', function (e, settings) {
+                root.find('.published').each(function (i, element) {
+                    $(element).on('click', function (e) {
+                        var postId = $(element).data('id');
+                        var published = $(element).data('published');
+                        context.publishedPost(postId, published);
+                    });
+                });
+
+                root.find('.delete').each(function (i, element) {
+                    $(element).on('click', function (e) {
+                        var postId = $(element).data('id');
+                        context.deletePost(postId);
+                    });
+                });
+
+                root.find('.edit').each(function (i, element) {
+                    $(element).on('click', function (e) {
+                        var postId = $(element).data('id'); 
+                        window.location.href = '/dist/post-edit.html?post_id=' + postId;
+                    });
+                })
+            });
+        },
+
+        bindElementAction: function () {
+
         },
 
         publishedPost: function (postId, published) {
             var post = new PostModel();
             post.post_published = !published;
             new Post().updatePost(this, postId, post).then((response) => {
-                
+                window.location.reload();
             }, (response) => {
                 console.log(response);
             });
