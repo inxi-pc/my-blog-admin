@@ -1,5 +1,9 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
 <style scoped>
+    #leftSidebar {
+        margin-bottom: 15px;
+    }
+
 	.sidebar {
 		background-color: #fff;
 		padding: 0;
@@ -100,7 +104,7 @@
             </li>
             <li>
                 <a href="#"><i class="glyphicon glyphicon-chevron-down"></i>Others</a>
-                <ul class="nav navbar-collapse sidebar">
+                <ul class="nav navbar-collapse collapse sidebar">
                     <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> Submenu 1</a></li>
                     <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> Submenu 2</a></li>
                     <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> Submenu 3</a></li>

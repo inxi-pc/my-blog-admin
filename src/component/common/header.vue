@@ -5,6 +5,7 @@
         background-color: #f8f8f8;
         border-color: #e7e7e7;
         border-bottom: 1px solid #e5e5e5;
+        margin-bottom: 15px;
     }
 
     .header .logo h1 {
