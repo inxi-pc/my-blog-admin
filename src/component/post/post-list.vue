@@ -62,6 +62,7 @@
             class="table table-striped table-bordered">
                 <thead>
                     <tr>
+                        <th>Select</th>
                         <th>Post ID</th>
                         <th>User ID</th>
                         <th>Category ID</th>
@@ -115,9 +116,12 @@ export default {
             var root = $(this.$el);
 
             root.find('#postList').dataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax": {
+                responsive: true,
+                autoWidth: true,
+                scrollX: true,
+                processing: true,
+                serverSide: true,
+                ajax: {
                     url: new Post().apiGateway + 'list',
                     data: {
                         limit: page.limit,
@@ -127,10 +131,12 @@ export default {
                         post_enabled: true
                     }
                 },
-                order: [[0, sort.order_type]],
+                order: [[1, sort.order_type]],
                 pageLength: context.limit,
                 displayStart: context.offset,
+                orderMulti: false,
                 columns: [
+                    {'data': 'post_id'},
                     {'data': 'post_id'},
                     {'data': 'user_id'},
                     {'data': 'category_id'},
@@ -140,10 +146,19 @@ export default {
                     {'data': 'post_updated_at'},
                     {'data': 'post_published'}
                 ],
-                columnDefs: [ {
-                    targets: [8],
+                columnDefs: [
+                {
+                    targets: [0],
                     data: 'post_id',
-                    orderMulti: false,
+                    orderable: false,
+                    render: function ( data, type, full, meta ) {
+                        return "<input type='checkbox'/>";
+                    }
+                },
+                {
+                    targets: [9],
+                    data: 'post_id',
+                    orderable: false,
                     render: function ( data, type, full, meta ) {
                         return '<a data-id="' + data + '" href="javascript:;" class="edit">Edit</a>' + '&nbsp'
                                 + '<a data-published="' + full.post_published 
