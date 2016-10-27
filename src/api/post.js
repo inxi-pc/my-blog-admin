@@ -31,6 +31,8 @@ export default class Post extends API {
      * @return Promise
      */
     createPost(vue, post) {
+        // Todo get session user id
+        post.user_id = 1;
         return vue.$http.post(this.apiGateway, post);
     }
 

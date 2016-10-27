@@ -134,24 +134,23 @@ import Category from 'app_api/category.js'
 
 export default {
     data: function () {
-        var post = new PostModel();
-        post.user_id = 1;
         return {
-           post: post,
+           post: new PostModel(),
            categoryList: []
         };
     },
 
     ready: function () {
-        this.initialEditor();
          // Get category list
-        var page = new Pagination(0, 10);
+        var page = new Pagination(0, 20);
         var sort = new Sort("DESC", "category_id", "category_id");
         new Category().getCategoryList(this, null, page, sort).then((response) => {
             this.categoryList = response.body.data;
         }, (response) => {
             console.log(response);
         });
+
+        this.initialEditor();
 
         this.bindElementAction();
     },
@@ -179,10 +178,11 @@ export default {
         },
 
         bindElementAction: function () {
-            var categoryIdElement = $("#selectCategoryId");
-            var postTitleElement = $("#inputPostTitle");
-            var postPublishedElement = $("#checkboxPublished");
             var context = this;
+            var root = $(this.$el);
+            var categoryIdElement = root.find("#selectCategoryId");
+            var postTitleElement = root.find("#inputPostTitle");
+            var postPublishedElement = root.find("#checkboxPublished");
 
             categoryIdElement.on("change", function (e) {
                 context.post.category_id = $(e.target).val();
@@ -201,7 +201,7 @@ export default {
             new Post().createPost(this, this.post).then((response) => {
                 window.location.reload();
             }, (response) => {
-
+                console.log(response);
             });
         }
     }

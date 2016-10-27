@@ -105,9 +105,8 @@ import { CategoryModel } from 'app_api/category.js'
 
 export default {
     data: function () {
-        var category = new CategoryModel();
         return {
-           category: category,
+           category: new CategoryModel(),
            categoryParentList: []
         };
     },
@@ -129,10 +128,11 @@ export default {
 
     methods: {
         bindElementAction: function () {
-            var categoryParentIdElement = $("#selectCategoryParentId");
-            var categoryNameEnElement = $("#inputCategoryNameEn");
-            var CategoryNameCnElement = $("#inputCategoryNameCn");
             var context = this;
+            var root = $(this.$el);        
+            var categoryParentIdElement = root.find("#selectCategoryParentId");
+            var categoryNameEnElement = root.find("#inputCategoryNameEn");
+            var CategoryNameCnElement = root.find("#inputCategoryNameCn");
 
             categoryParentIdElement.on("change", function (e) {
                 context.category.category_parent_id = $(e.target).val();

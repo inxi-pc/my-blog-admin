@@ -166,7 +166,8 @@ export default {
                         offset: page.offset,
                         order_by: sort.order_by,
                         order_type: sort.order_type,
-                        category_enabled: true
+                        category_enabled: true,
+                        tree_enabled: true
                     }
                 },
                 

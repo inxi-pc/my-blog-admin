@@ -65,6 +65,7 @@
                     <label for="selectCategoryId" class="col-sm-2 control-label">Category</label>
                     <div class="col-sm-5">
                         <select v-model="post.category_id" type="text" class="form-control" id="selectCategoryId">
+                            <option>Select</option>
                             <option v-for="category in categoryList" value='{{ category.category_id }}'>
                                 {{ category.category_name_en }} ({{ category.category_name_cn }})
                             </option>
@@ -88,7 +89,7 @@
                 <div class="form-group">
                     <label for="inputPostContent" class="col-sm-2 control-label">Post Content</label>
                     <div class="col-sm-10">
-                        <textarea id="inputPostContent"></textarea>
+                        <textarea id="inputPostContent" value="{{ post.post_content }}"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
@@ -157,19 +158,20 @@ export default {
         new Post().getPostById(this, params.post_id).then((response) => {
             this.post = response.body;
             this.initialEditor();
-            this.bindElementAction();
-
-            // Get category list
-            var page = new Pagination(0, 10);
-            var sort = new Sort("ASC", "category_id", "category_id");
-            new Category().getCategoryList(this, null, page, sort).then((response) => {
-                this.categoryList = response.body.data;
-            }, (response) => {
-                console.log(response);
-            });
         }, (response) => {
              console.log(response);
         });
+
+        // Get category list
+        var page = new Pagination(0, 20);
+        var sort = new Sort("ASC", "category_id", "category_id");
+        new Category().getCategoryList(this, null, page, sort).then((response) => {
+            this.categoryList = response.body.data;
+        }, (response) => {
+            console.log(response);
+        });
+
+        this.bindElementAction();
     },
 
     methods: {
@@ -203,12 +205,11 @@ export default {
         },
 
         bindElementAction: function () {
-            var postIdElement = $("#inputPostId");
-            var userIdElement = $("#inputUserId");
-            var categoryIdElement = $("#selectCategoryId");
-            var postTitleElement = $("#inputPostTitle");
-            var postPublishedElement = $("#checkboxPublished");
             var context = this;
+            var root = $(this.$el);
+            var categoryIdElement = root.find("#selectCategoryId");
+            var postTitleElement = root.find("#inputPostTitle");
+            var postPublishedElement = root.find("#checkboxPublished");
 
             categoryIdElement.on("change", function (e) {
                 context.post.category_id = $(e.target).val();
@@ -224,11 +225,7 @@ export default {
         },
 
         updatePost: function (event) {  
-            new Post().updatePost(this, this.post.post_id, this.post).then((response) => {
-                window.location.reload();
-            }, (response) => {
-                console.log(response);
-            });
+            console.log(this.post);
         }
     }
 }

@@ -41,16 +41,33 @@
 </style>
 
 <template>
-    <div class="panel-default">
+    <div class="panel-default" id="categoryEditComponent">
         <div class="content-box-header panel-heading">
             <div class="panel-title">Category Create</div>
         </div>
         <div class="content-box-large box-with-header">
             <form class="form-horizontal" role="form">
                 <div class="form-group">
-                    <label for="selectCategoryId" class="col-sm-2 control-label">Parent Category</label>
+                    <label for="inputCategoryId" class="col-sm-2 control-label">Category Id</label>
                     <div class="col-sm-5">
-                        <select type="text" class="form-control" id="selectCategoryId">
+                        <input type="text" class="form-control" id="inputCategoryId" readonly=true value="{{ category.category_id }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="selectParentCategoryId" class="col-sm-2 control-label">Parent Category</label>
+                    <div class="col-sm-5">
+                        <select disabled=true v-model="category.category_parent_id" type="text" class="form-control" id="selectParentCategoryId">
+                            <option></option>
+                            <option v-for="category in categoryParentList" value='{{ category.category_id }}'>
+                                {{ category.category_name_en }} ({{ category.category_name_cn }})
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="selectRootCategoryId" class="col-sm-2 control-label">Root Category</label>
+                    <div class="col-sm-5">
+                        <select disabled=true v-model="category.category_root_id" type="text" class="form-control" id="selectRootCategoryId">
                             <option></option>
                             <option v-for="category in categoryParentList" value='{{ category.category_id }}'>
                                 {{ category.category_name_en }} ({{ category.category_name_cn }})
@@ -62,7 +79,7 @@
                     <label for="inputCategoryNameEn" class="col-sm-2 control-label">Category Name EN</label>
                     <div class="col-sm-5">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputCategoryNameEn">
+                            <input type="text" class="form-control" id="inputCategoryNameEn" value="{{ category.category_name_en }}">
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-remove-circle" style="display:none"></i>
                             </span>
@@ -76,7 +93,7 @@
                     <label for="inputCategoryNameCn" class="col-sm-2 control-label">Category Name CN</label>
                     <div class="col-sm-5">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputCategoryNameCn">
+                            <input type="text" class="form-control" id="inputCategoryNameCn" value="{{ category.category_name_cn }}">
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-remove-circle" style="display:none"></i>
                             </span>
@@ -89,7 +106,7 @@
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="button" class="btn btn-primary"
-                        v-on:click="createCategory">Create</button>
+                        v-on:click="updateCategory">Update</button>
                     </div>
                 </div>
             </form>
@@ -106,18 +123,27 @@ import { CategoryModel } from 'app_api/category.js'
 export default {
     data: function () {
         return {
-           post: post,
+           category: new CategoryModel(),
            categoryParentList: []
         };
     },
 
     ready: function () {
+        // Get category 
+        var params = this.decodeQueryParams();
+        var categoryApi = new Category();
+        categoryApi.getCategoryById(this, params.category_id).then((response) => {
+            this.category = response.body;
+        }, (response) => {
+            console.log(response);
+        });
+
         // Get category parent list
         var page = new Pagination(0, 20);
         var sort = new Sort("DESC", "category_id", "category_id");
         var query = new CategoryModel();
         query.category_enabled = true;
-        new Category().getCategoryList(this, query, page, sort).then((response) => {
+        categoryApi.getCategoryList(this, query, page, sort).then((response) => {
             this.categoryParentList = response.body.data;
         }, (response) => {
             console.log(response);
@@ -128,30 +154,27 @@ export default {
 
     methods: {
         bindElementAction: function () {
-            var categoryIdElement = $("#selectCategoryId");
-            var categoryNameEnElement = $("#inputCategoryNameEn");
-            var CategoryNameCnElement = $("#inputCategoryNameCn");
+            var root = $(this.$el);
             var context = this;
-
-            categoryIdElement.on("change", function (e) {
-                context.category.category_id = $(e.target).val();
-            });
+            var categoryNameEnElement = root.find("#inputCategoryNameEn");
+            var categoryNameCnElement = root.find("#inputCategoryNameCn");
 
             categoryNameEnElement.on("change", function (e) {
                 context.category.category_name_en = $(e.target).val();
             });
 
-            CategoryNameCnElement.on("change", function (e) {
+            categoryNameCnElement.on("change", function (e) {
                 context.category.category_name_cn = $(e.target).val();
             });
         },
 
-        createCategory: function (event) {
-            new Category().createCategory(this, this.category).then((response) => {
+        updateCategory: function () {
+            console.log(this.category);
+            new Category().updateCategory(this, this.category.category_id, this.category).then((response) => {
                 window.location.reload();
             }, (response) => {
-
-            });
+                console.log(response);
+            })
         }
     }
 }

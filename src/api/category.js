@@ -35,6 +35,34 @@ export default class Category extends API {
      * 
      * @return Promise
      */
+    deleteCategory(vue, categoryId) {
+        var url = this.apiGateway + categoryId;
+        
+        return vue.$http.delete(url);
+    }
+
+    /**
+     * 
+     * @return Promise
+     */
+    updateCategory(vue, categoryId, category) {
+        var url = this.apiGateway + categoryId;
+
+        category.category_id = null;
+        category.category_parent_id = null;
+        category.category_root_id = null;
+        category.category_level = null;
+        category.category_created_at = null;
+        category.category_updated_at = null;
+        category.category_enabled = null;
+        category.children = null;
+
+        return vue.$http.put(url, category);
+    }
+    /**
+     * 
+     * @return Promise
+     */
     getCategoryById(vue, categoryId) {
         var url = this.apiGateway + categoryId;
 
@@ -74,6 +102,31 @@ export default class Category extends API {
      */
     getCategories(vue, conditions) {
         var params = this.mergeParams(conditions);
+
+        return vue.$http.get(this.apiGateway, {
+            params: params
+        });
+    }
+
+    /**
+     * @return Promise
+     */
+    getCategoryListTree(vue, conditions, page, sort) {
+        var params = this.mergeParams(conditions, page, sort);
+        params.add({'tree_enabled': true});
+        var url = this.apiGateway + 'list';
+
+        return  vue.$http.get(url, {
+            params: params
+        });
+    }
+
+    /**
+     * @return Promise
+     */
+    getCategoriesTree(vue, conditions, page, sort) {
+        var params = this.mergeParams(conditions);
+        params.add({'tree_enabled': true});
 
         return vue.$http.get(this.apiGateway, {
             params: params
