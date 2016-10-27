@@ -226,6 +226,11 @@ export default {
 
         updatePost: function (event) {  
             console.log(this.post);
+            new Post().updatePost(this, this.post.post_id, this.post).then((response) => {
+                window.location.reload();
+            }, (response) => {
+                console.log(response);
+            })
         }
     }
 }
