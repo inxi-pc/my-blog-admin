@@ -4,13 +4,15 @@ class UserModel {
     constructor() {
         this.user_id = null;
         this.user_name = null;
-        this.telephone = null;
-        this.email = null;
+        this.user_telephone = null;
+        this.user_email = null;
         this.user_password = null;
         this.user_created_at = null;
         this.user_updated_at = null;
     }
 }
+
+export { UserModel };
 
 export default class User extends API {
     constructor() {
@@ -23,7 +25,7 @@ export default class User extends API {
      * @return Promise
      */
     registerUser(vue, user) {
-        var url = this.apiGateway + '/register';
+        var url = this.apiGateway + 'register';
 
         return vue.$http.post(url, user);
     }
@@ -33,7 +35,7 @@ export default class User extends API {
      * @return Promise
      */
     loginUser(vue, user) {
-        var url = this.apiGateway + '/login';
+        var url = this.apiGateway + 'login';
 
         return vue.$http.post(url, user);
     }

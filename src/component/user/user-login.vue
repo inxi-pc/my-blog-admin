@@ -106,10 +106,10 @@
                 <div class="box">
                     <div class="content-wrap">
                         <h6>Log In</h6>
-                        <input class="form-control" type="text" placeholder="E-mail address">
-                        <input class="form-control" type="password" placeholder="Password">
+                        <input id="identifier" class="form-control" type="text" placeholder="Username/E-mail/Telephone">
+                        <input id="password" class="form-control" type="password" placeholder="Password">
                         <div class="action">
-                            <a class="btn btn-primary signup" href="index.html">Login</a>
+                            <a class="btn btn-primary signup" id="login" v-on:click="login">Login</a>
                         </div>                
                     </div>
                 </div>
@@ -119,5 +119,53 @@
 </template>
 
 <script>
+import { UserModel } from 'app_api/user.js'
+import User from 'app_api/user.js'
 
+export default {
+    data: function () {
+        return {
+            user: new UserModel()
+        };
+    },
+
+    ready: function () {
+        this.bindElementAction();
+    },
+
+    methods: {
+        login: function () {
+            new User().loginUser(this, this.user).then((response) => {
+                console.log(response);
+            }, (response) => {
+                console.log(response);
+            });
+        },
+
+        bindElementAction: function () {
+            var context = this;
+            var root = $(this.$el);
+            var identifierElement = root.find("#identifier");
+            var passwordElement = root.find("#password");
+            
+            identifierElement.on("change", function (e) {
+                var value = $(e.target).val();
+                var emailRegExp = new RegExp('[a-zA-Z1-9_-]+@[a-zA-Z1-9_-]+\.\w+');
+                var telephoneRegExp = new RegExp('[1-9]+');
+
+                if (emailRegExp.test(value)) {
+                    context.user.user_email = value;    
+                } else if (telephoneRegExp.test(value)) {
+                    context.user.user_telephone = value;    
+                } else {
+                    context.user.user_name = value;
+                }
+            });
+
+            passwordElement.on("change", function (e) {
+                context.user.user_password = $(e.target).val();
+            });
+        }
+    }
+}
 </script>
