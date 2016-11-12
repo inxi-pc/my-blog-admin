@@ -129,6 +129,9 @@ export default {
                         order_by: sort.order_by,
                         order_type: sort.order_type,
                         post_enabled: true
+                    },
+                    error: function (response) {
+                        context.UnauthorizedCallback(response);
                     }
                 },
                 order: [[1, sort.order_type]],

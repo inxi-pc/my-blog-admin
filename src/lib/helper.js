@@ -30,11 +30,18 @@ function isNullOrEmpty(value) {
     return false;
 }
 
+function UnauthorizedCallback(response) {
+    if (response.status == 401) {
+        window.location.href='/dist/user-login.html';
+    }
+}
+
 function refreshPage() {
     window.location.reload();
 }
 
 export { 
     decodeQueryParams, 
-    isNullOrEmpty 
+    isNullOrEmpty,
+    UnauthorizedCallback 
 }
