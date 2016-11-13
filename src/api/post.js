@@ -33,7 +33,8 @@ export default class Post extends API {
     createPost(vue, post) {
         // Todo get session user id
         post.user_id = 1;
-        return vue.$http.post(this.apiGateway, post);
+        
+        return vue.$http.post(this.apiGateway, post, { credentials: true });
     }
 
     /**
@@ -47,7 +48,7 @@ export default class Post extends API {
         post.post_updated_at = null;
         post.post_enabled = null;
 
-        return vue.$http.put(url, post);
+        return vue.$http.put(url, post, { credentials: true });
     }
     
     /**
@@ -57,7 +58,7 @@ export default class Post extends API {
     deletePost(vue, postId) {
          var url = this.apiGateway + postId;
 
-         return vue.$http.delete(url);
+         return vue.$http.delete(url, { credentials: true });
     }
     
     /**
@@ -67,7 +68,7 @@ export default class Post extends API {
     getPostById(vue, postId) {
         var url = this.apiGateway + postId;
 
-        return vue.$http.get(url);
+        return vue.$http.get(url, { credentials: true });
     }
     
     /**
@@ -95,7 +96,8 @@ export default class Post extends API {
         var url = this.apiGateway + 'list';
 
         return vue.$http.get(url, {
-            params: params
+            params: params,
+            credentials: true
         });
     }
 
@@ -107,7 +109,8 @@ export default class Post extends API {
         var params = this.mergeParams(conditions);
 
         return vue.$http.get(this.apiGateway, {
-            params: params
+            params: params,
+            credentials: true
         });
     }
 }
