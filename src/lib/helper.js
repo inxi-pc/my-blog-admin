@@ -30,10 +30,8 @@ function isNullOrEmpty(value) {
     return false;
 }
 
-function UnauthorizedCallback(response) {
-    if (response.status == 401) {
-        window.location.href='/dist/user-login.html';
-    }
+function redirectToLoginPage() {
+    window.location.href='/dist/user-login.html';
 }
 
 function refreshPage() {
@@ -43,5 +41,6 @@ function refreshPage() {
 export { 
     decodeQueryParams, 
     isNullOrEmpty,
-    UnauthorizedCallback 
+    redirectToLoginPage,
+    refreshPage
 }

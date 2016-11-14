@@ -25,7 +25,7 @@ export default class Post extends API {
         super();
         this.apiGateway  += '/posts/';
         this.listApiGateway = this.apiGateway + 'list';
-        this.token = this.getAuthorizedToken();
+        this.token = API.getAuthorizedToken();
     }
 
     /**
@@ -118,7 +118,7 @@ export default class Post extends API {
      * @return Promise
      */
     getPostList(vue, conditions, page, order) {
-        var params = this.mergeParams(conditions, page, order);
+        var params = API.mergeParams(conditions, page, order);
         var url = this.listApiGateway;
 
         return vue.$http.get(url, {
@@ -134,7 +134,7 @@ export default class Post extends API {
      * @return Promise
      */
     getPosts(vue, conditions) {
-        var params = this.mergeParams(conditions);
+        var params = API.mergeParams(conditions);
 
         return vue.$http.get(this.apiGateway, {
             params: params,

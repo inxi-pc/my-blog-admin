@@ -19,7 +19,7 @@ export default class User extends API {
        super();
        this.apiGateway += '/users/';
        this.listApiGateway = this.apiGateway + 'list';
-       this.token = this.getAuthorizedToken();
+       this.token = API.getAuthorizedToken();
     }
 
     /**

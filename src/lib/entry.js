@@ -10,7 +10,9 @@ Vue.http.interceptors.push((request, next) => {
     request.credentials = true;
 
     next((response) => {
-        Helper.UnauthorizedCallback(response);
+        if (response.status == 401) {
+            Helper.redirectToLoginPage();
+        }
     });
 })
 // Vue.use(Vuex)
@@ -18,7 +20,8 @@ Vue.mixin({
     methods: {  
         decodeQueryParams: Helper.decodeQueryParams,
         isNullOrEmpty: Helper.isNullOrEmpty,
-        UnauthorizedCallback: Helper.UnauthorizedCallback
+        redirectToLoginPage: Helper.redirectToLoginPage,
+        refreshPage: Helper.refreshPage
     }
 })
 

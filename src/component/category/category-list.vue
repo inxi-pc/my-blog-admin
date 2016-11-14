@@ -135,6 +135,16 @@ export default {
             var root = $(this.$el);
             var page = new Pagination(this.offset, this.limit);
             var sort = new Sort(this.orderType, this.orderBy, "category_id");
+            var categoryApi = new Category();
+            var data = {
+                limit: page.limit,
+                offset: page.offset,
+                order_by: sort.order_by,
+                order_type: sort.order_type,
+                category_enabled: true,
+                tree_enabled: true
+            };
+            var ajax = Category.produceAuthorizedAjaxObject(categoryApi.listApiGateway, null, data);
 
             var glyph_opts = {
                 map: {
@@ -159,17 +169,7 @@ export default {
                 extensions: ["glyph", "table"],
                 glyph: glyph_opts,
                 icon: false,
-                source: { 
-                    url: new Category().apiGateway + 'list',
-                    data: {
-                        limit: page.limit,
-                        offset: page.offset,
-                        order_by: sort.order_by,
-                        order_type: sort.order_type,
-                        category_enabled: true,
-                        tree_enabled: true
-                    }
-                },
+                source: ajax,
                 
                 postProcess: function (event, data) {
                     data.result = data.response.data;
@@ -214,7 +214,7 @@ export default {
                     root.find('.delete').each(function (i, element) {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
-                            new Category().deleteCategory(context, categoryId);
+                            categoryApi.deleteCategory(context, categoryId);
                             e.stopPropagation();
                         });
                     });
@@ -232,7 +232,7 @@ export default {
                     root.find('.delete').each(function (i, element) {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
-                            new Category().deleteCategory(context, categoryId);
+                            categoryApi.deleteCategory(context, categoryId);
                             e.stopPropagation();
                         });
                     });

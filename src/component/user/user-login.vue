@@ -136,7 +136,7 @@ export default {
     methods: {
         login: function () {
             new User().loginUser(this, this.user).then((response) => {
-                sessionStorage.setItem('token', response.body.token);
+                API.persistAuthorizedToken(response);
             }, (response) => {
                 console.log(response);
             });

@@ -122,7 +122,7 @@ export default {
                 order_type: sort.order_type,
                 post_enabled: true
             };
-            var ajax = postApi.produceAjaxObject(postApi.listApiGateway, null, data, null);
+            var ajax = Post.produceAuthorizedAjaxObject(postApi.listApiGateway, null, data);
 
             root.find('#postList').dataTable({
                 responsive: true,
