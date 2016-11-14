@@ -1,4 +1,5 @@
 import config from "app_config/app.config.json"
+import * as Helper from './helper.js'
 
 export default class API {
 
@@ -15,8 +16,7 @@ export default class API {
     mergeParams() {
         var params = {};
         for (var argsKey in arguments) {
-            if (arguments[argsKey] != null 
-                || arguments[argsKey] != undefined) {
+            if (!Helper.isNullOrEmpty(arguments[argsKey])) {
                 if (arguments instanceof Object) {
                     for (var argKey in arguments[argsKey]) {
                         params[argKey] = arguments[argsKey][argKey];
@@ -28,5 +28,33 @@ export default class API {
         }
 
         return params;
+    }
+
+    getAuthorizedToken() {
+        return sessionStorage.getItem("token");
+    }
+
+    produceAjaxObject(url, method, data, headers) {
+        var ajax = {};
+        var requiredHeaders = {
+            Authorization: "bearer " + this.getAuthorizedToken()
+        };
+
+        if (!Helper.isNullOrEmpty(url)) {
+            ajax['url'] = url;
+        } 
+        if (!Helper.isNullOrEmpty(method)) {
+            ajax['method'] = method;
+        }
+        if (!Helper.isNullOrEmpty(data)) {
+            ajax['data'] = data;
+        }
+        if (!Helper.isNullOrEmpty(headers)) {
+            ajax['headers'] = this.mergeParams(headers, requiredHeaders);
+        } else {
+            ajax['headers'] = requiredHeaders;
+        }
+       
+        return ajax; 
     }
 }

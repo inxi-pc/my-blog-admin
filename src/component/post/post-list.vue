@@ -114,6 +114,15 @@ export default {
             var sort = new Sort(this.orderType, this.orderBy, "post_id");
             var context = this;
             var root = $(this.$el);
+            var postApi = new Post();
+            var data = {
+                limit: page.limit,
+                offset: page.offset,
+                order_by: sort.order_by,
+                order_type: sort.order_type,
+                post_enabled: true
+            };
+            var ajax = postApi.produceAjaxObject(postApi.listApiGateway, null, data, null);
 
             root.find('#postList').dataTable({
                 responsive: true,
@@ -121,19 +130,7 @@ export default {
                 scrollX: true,
                 processing: true,
                 serverSide: true,
-                ajax: {
-                    url: new Post().apiGateway + 'list',
-                    xhrFields: {
-                        withCredentials: true
-                    },
-                    data: {
-                        limit: page.limit,
-                        offset: page.offset,
-                        order_by: sort.order_by,
-                        order_type: sort.order_type,
-                        post_enabled: true
-                    }
-                },
+                ajax: ajax,
                 order: [[1, sort.order_type]],
                 pageLength: context.limit,
                 displayStart: context.offset,

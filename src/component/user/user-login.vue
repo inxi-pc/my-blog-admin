@@ -136,7 +136,7 @@ export default {
     methods: {
         login: function () {
             new User().loginUser(this, this.user).then((response) => {
-                console.log(response);
+                sessionStorage.setItem('token', response.body.token);
             }, (response) => {
                 console.log(response);
             });

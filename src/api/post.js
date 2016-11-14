@@ -24,6 +24,8 @@ export default class Post extends API {
     constructor() {
         super();
         this.apiGateway  += '/posts/';
+        this.listApiGateway = this.apiGateway + 'list';
+        this.token = this.getAuthorizedToken();
     }
 
     /**
@@ -34,7 +36,11 @@ export default class Post extends API {
         // Todo get session user id
         post.user_id = 1;
         
-        return vue.$http.post(this.apiGateway, post, { credentials: true });
+        return vue.$http.post(this.apiGateway, post, {
+            headers: {
+                Authorization: 'bearer ' + this.token
+            }
+        });
     }
 
     /**
@@ -48,7 +54,11 @@ export default class Post extends API {
         post.post_updated_at = null;
         post.post_enabled = null;
 
-        return vue.$http.put(url, post, { credentials: true });
+        return vue.$http.put(url, post, {
+            headers: {
+                Authorization: 'bearer ' + this.token
+            }
+        });
     }
     
     /**
@@ -56,9 +66,13 @@ export default class Post extends API {
      * @return Promise
      */
     deletePost(vue, postId) {
-         var url = this.apiGateway + postId;
+        var url = this.apiGateway + postId;
 
-         return vue.$http.delete(url, { credentials: true });
+        return vue.$http.delete(url, {
+            headers: {
+                Authorization: 'bearer ' + this.token
+            }
+        });
     }
     
     /**
@@ -68,7 +82,11 @@ export default class Post extends API {
     getPostById(vue, postId) {
         var url = this.apiGateway + postId;
 
-        return vue.$http.get(url, { credentials: true });
+        return vue.$http.get(url, {
+            headers: {
+                Authorization: 'bearer ' + this.token
+            }
+        });
     }
     
     /**
@@ -76,7 +94,11 @@ export default class Post extends API {
      * @return Promise
      */
     getPostsByIds(vue, postIds) {
-        return this.getPosts(vue, postIds);
+        return this.getPosts(vue, postIds, {
+            headers: {
+                Authorization: 'bearer ' + this.token
+            }
+        });
     }
 
     /**
@@ -84,7 +106,11 @@ export default class Post extends API {
      * @return Promise
      */
     getPostsByCondition(vue, conditions) {
-        return this.getPosts(vue, conditions);
+        return this.getPosts(vue, conditions, {
+            headers: {
+                Authorization: 'bearer ' + this.token
+            }
+        });
     }
 
     /**
@@ -93,11 +119,13 @@ export default class Post extends API {
      */
     getPostList(vue, conditions, page, order) {
         var params = this.mergeParams(conditions, page, order);
-        var url = this.apiGateway + 'list';
+        var url = this.listApiGateway;
 
         return vue.$http.get(url, {
             params: params,
-            credentials: true
+            headers: {
+                Authorization: 'bearer ' + this.token
+            }
         });
     }
 
@@ -110,7 +138,9 @@ export default class Post extends API {
 
         return vue.$http.get(this.apiGateway, {
             params: params,
-            credentials: true
+            headers: {
+                Authorization: 'bearer ' + this.token
+            }
         });
     }
 }

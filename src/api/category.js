@@ -21,6 +21,8 @@ export default class Category extends API {
     constructor() {
         super();
         this.apiGateway += "/categories/";
+        this.listApiGateway = this.apiGateway + 'list';
+        this.token = this.getAuthorizedToken();
     }
 
     /**
@@ -90,7 +92,7 @@ export default class Category extends API {
      */
     getCategoryList(vue, conditions, page, sort) {
         var params = this.mergeParams(conditions, page, sort);
-        var url = this.apiGateway + 'list';
+        var url = this.listApiGateway;
 
         return  vue.$http.get(url, {
             params: params
@@ -114,7 +116,7 @@ export default class Category extends API {
     getCategoryListTree(vue, conditions, page, sort) {
         var params = this.mergeParams(conditions, page, sort);
         params.add({'tree_enabled': true});
-        var url = this.apiGateway + 'list';
+        var url = this.listApiGateway;
 
         return  vue.$http.get(url, {
             params: params
