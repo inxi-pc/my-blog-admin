@@ -44,10 +44,18 @@ export default class API {
         var token = sessionStorage.getItem("token");
         if (Helper.isNullOrEmpty(token)) {
             Helper.redirectToLoginPage();
-            throw new Error("Not Authorization");
-        }
+        } 
 
-        return sessionStorage.getItem("token");
+        return token;
+    }
+    
+    /**
+     * UnauthorizedHandler
+     */
+    static UnauthorizedHandler(response) {
+        if (response.status == 401) {
+            Helper.redirectToLoginPage();
+        }
     }
 
     /**
@@ -60,7 +68,7 @@ export default class API {
         };
         var headers = this.mergeParams(requiredHeaders, headers);
 
-        return produceAjaxObject(url, method, data, headers, success, error);
+        return API.produceAjaxObject(url, method, data, headers, success, error);
     }
 
     /**
@@ -88,7 +96,14 @@ export default class API {
             ajax['success'] = success;
         } 
         if (!Helper.isNullOrEmpty(error) && error instanceof Function) {
-            ajax['error'] = error;
+            ajax['error'] = function (error, response) {
+                API.UnauthorizedHandler(response);
+                error(response);
+            };
+        } else {
+            ajax['error'] = function (response) {
+                API.UnauthorizedHandler(response);
+            };
         }
        
         return ajax; 
