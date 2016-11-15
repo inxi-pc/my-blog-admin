@@ -1,10 +1,10 @@
 import Entry from 'app_lib/entry.js'
-import userLogin from 'app_module/user/user-login.vue'
+import login from 'app_module/auth/login.vue'
 
 new Entry({
     el: "#app",
 
     components: {
-        page: userLogin
+        page: login
     }
 })

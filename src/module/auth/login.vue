@@ -10,7 +10,7 @@
         <div>
             <div class="container">
                 <div class="row"> 
-                    <user-login></user-login>
+                    <login></login>
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@
 <script>
 import headerVisitor from 'app_component/common/header-visitor.vue'
 // import footer from 'app_component/common/footer.vue'
-import userLogin from 'app_component/user/user-login.vue'
+import login from 'app_component/auth/login.vue'
 
 export default {
     data: function () {
@@ -31,8 +31,8 @@ export default {
 
     components: {
         "visitor-header": headerVisitor,
-        // "my-footer": Footer,
-        'user-login': userLogin
+        // "my-footer": footer,
+        'login': login
     }
 }
 </script>

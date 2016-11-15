@@ -120,7 +120,7 @@
 
 <script>
 import { UserModel } from 'app_api/user.js'
-import User from 'app_api/user.js'
+import Auth from 'app_api/auth.js'
 
 export default {
     data: function () {
@@ -135,8 +135,8 @@ export default {
 
     methods: {
         login: function () {
-            new User().loginUser(this, this.user).then((response) => {
-                API.persistAuthorizedToken(response);
+            new Auth().login(this, this.user).then((response) => {
+                Auth.persistAuthorizedToken(response);
             }, (response) => {
                 console.log(response);
             });

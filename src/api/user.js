@@ -21,24 +21,4 @@ export default class User extends API {
        this.listApiGateway = this.apiGateway + 'list';
        this.token = API.getAuthorizedToken();
     }
-
-    /**
-     * 
-     * @return Promise
-     */
-    registerUser(vue, user) {
-        var url = this.apiGateway + 'register';
-
-        return vue.$http.post(url, user);
-    }
-
-    /**
-     * 
-     * @return Promise
-     */
-    loginUser(vue, user) {
-        var url = this.apiGateway + 'login';
-
-        return vue.$http.post(url, user);
-    }
 }

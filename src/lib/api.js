@@ -1,5 +1,7 @@
+import JwtDecoder from "jwt-decode"
 import config from "app_config/app.config.json"
 import * as Helper from './helper.js'
+import { UserModel } from 'app_api/user.js'
 
 export default class API {
 
@@ -34,6 +36,7 @@ export default class API {
      * Store Authorization token
      */
     static persistAuthorizedToken(response) {
+        console.log(response);
         sessionStorage.setItem('token', response.body.token);
     }
 
@@ -44,9 +47,28 @@ export default class API {
         var token = sessionStorage.getItem("token");
         if (Helper.isNullOrEmpty(token)) {
             Helper.redirectToLoginPage();
-        } 
+        } else {
+            var decodedToken = JwtDecoder(token);
+            var expired = decodedToken.exp;
+            var expiredDate = new Date(expired * 1000);
+            var now = new Date();
+            console.log(expired);
+            console.log(expiredDate);
+            console.log(now);
+
+            if (now > expired) {
+                Helper.redirectToLoginPage();
+            }
+        }
 
         return token;
+    }
+
+    static getAuthorizedUser() {
+        var user = new UserModel();
+        var token = API.getAuthorizedToken();
+        var decodedToken = JwtDecoder(token);
+        var expired = decodedToken.exp;
     }
     
     /**
