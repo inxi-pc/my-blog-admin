@@ -3,6 +3,7 @@ import VueResource from 'vue-resource'
 // import Vuex from 'vuex'
 
 import * as Helper from './helper.js'
+import Auth from 'app_api/auth.js'
 // import vuexConfig from 'app_vuex/config.js'
 
 Vue.use(VueResource)
@@ -10,9 +11,7 @@ Vue.http.interceptors.push((request, next) => {
     request.credentials = true;
 
     next((response) => {
-        if (response.status == 401) {
-            Helper.redirectToLoginPage();
-        }
+        Auth.unauthorizedHandler(response);
     });
 })
 // Vue.use(Vuex)

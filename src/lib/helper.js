@@ -31,7 +31,7 @@ function isNullOrEmpty(value) {
 }
 
 function redirectToLoginPage() {
-    window.location.href='/dist/user-login.html';
+    window.location.href='/dist/login.html';
 }
 
 function refreshPage() {

@@ -1,10 +1,9 @@
 import JwtDecoder from "jwt-decode"
+
 import config from "app_config/app.config.json"
 import * as Helper from './helper.js'
-import { UserModel } from 'app_api/user.js'
 
 export default class API {
-
     constructor() {
         this.apiGateway = config.apiGateway;
     }
@@ -33,54 +32,6 @@ export default class API {
     }
 
     /**
-     * Store Authorization token
-     */
-    static persistAuthorizedToken(response) {
-        console.log(response);
-        sessionStorage.setItem('token', response.body.token);
-    }
-
-    /**
-     * Get Authorization token
-     */
-    static getAuthorizedToken() {
-        var token = sessionStorage.getItem("token");
-        if (Helper.isNullOrEmpty(token)) {
-            Helper.redirectToLoginPage();
-        } else {
-            var decodedToken = JwtDecoder(token);
-            var expired = decodedToken.exp;
-            var expiredDate = new Date(expired * 1000);
-            var now = new Date();
-            console.log(expired);
-            console.log(expiredDate);
-            console.log(now);
-
-            if (now > expired) {
-                Helper.redirectToLoginPage();
-            }
-        }
-
-        return token;
-    }
-
-    static getAuthorizedUser() {
-        var user = new UserModel();
-        var token = API.getAuthorizedToken();
-        var decodedToken = JwtDecoder(token);
-        var expired = decodedToken.exp;
-    }
-    
-    /**
-     * UnauthorizedHandler
-     */
-    static UnauthorizedHandler(response) {
-        if (response.status == 401) {
-            Helper.redirectToLoginPage();
-        }
-    }
-
-    /**
      * 
      * Generate authorized ajax object for 3rd library, like datatables
      */
@@ -99,6 +50,7 @@ export default class API {
      */
     static produceAjaxObject(url, method, data, headers, success, error) {
         var ajax = {};
+        var Auth = require('app_api/auth.js');
 
         if (!Helper.isNullOrEmpty(url)) {
             ajax['url'] = url;
@@ -119,12 +71,12 @@ export default class API {
         } 
         if (!Helper.isNullOrEmpty(error) && error instanceof Function) {
             ajax['error'] = function (error, response) {
-                API.UnauthorizedHandler(response);
+                Auth.unauthorizedHandler(response);
                 error(response);
             };
         } else {
             ajax['error'] = function (response) {
-                API.UnauthorizedHandler(response);
+                Auth.unauthorizedHandler(response);
             };
         }
        
