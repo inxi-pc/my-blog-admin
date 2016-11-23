@@ -1,4 +1,6 @@
 import API from 'app_lib/api.js'
+import Auth from 'app_api/auth.js'
+import * as Helper from 'app_lib/helper.js'
 
 class CategoryModel {
     constructor() {
@@ -22,7 +24,6 @@ export default class Category extends API {
         super();
         this.apiGateway += "/categories/";
         this.listApiGateway = this.apiGateway + 'list';
-        this.token = API.getAuthorizedToken();
     }
 
     /**

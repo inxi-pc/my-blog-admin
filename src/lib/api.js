@@ -1,5 +1,3 @@
-import JwtDecoder from "jwt-decode"
-
 import config from "app_config/app.config.json"
 import * as Helper from './helper.js'
 
@@ -33,24 +31,10 @@ export default class API {
 
     /**
      * 
-     * Generate authorized ajax object for 3rd library, like datatables
-     */
-    static produceAuthorizedAjaxObject(url, method, data, headers, success, error) {
-        var requiredHeaders = {
-            Authorization: "bearer " + API.getAuthorizedToken()
-        };
-        var headers = this.mergeParams(requiredHeaders, headers);
-
-        return API.produceAjaxObject(url, method, data, headers, success, error);
-    }
-
-    /**
-     * 
      * Basic ajax generation method
      */
     static produceAjaxObject(url, method, data, headers, success, error) {
         var ajax = {};
-        var Auth = require('app_api/auth.js');
 
         if (!Helper.isNullOrEmpty(url)) {
             ajax['url'] = url;
@@ -70,15 +54,8 @@ export default class API {
             ajax['success'] = success;
         } 
         if (!Helper.isNullOrEmpty(error) && error instanceof Function) {
-            ajax['error'] = function (error, response) {
-                Auth.unauthorizedHandler(response);
-                error(response);
-            };
-        } else {
-            ajax['error'] = function (response) {
-                Auth.unauthorizedHandler(response);
-            };
-        }
+            ajax['error'] = error;
+        } 
        
         return ajax; 
     }

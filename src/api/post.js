@@ -1,4 +1,5 @@
 import API from 'app_lib/api.js'
+import Auth from 'app_api/auth.js'
 import * as Helper from 'app_lib/helper.js'
 
 class PostModel {
@@ -25,7 +26,6 @@ export default class Post extends API {
         super();
         this.apiGateway  += '/posts/';
         this.listApiGateway = this.apiGateway + 'list';
-        this.token = API.getAuthorizedToken();
     }
 
     /**
@@ -38,7 +38,7 @@ export default class Post extends API {
         
         return vue.$http.post(this.apiGateway, post, {
             headers: {
-                Authorization: 'bearer ' + this.token
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
             }
         });
     }
@@ -56,7 +56,7 @@ export default class Post extends API {
 
         return vue.$http.put(url, post, {
             headers: {
-                Authorization: 'bearer ' + this.token
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
             }
         });
     }
@@ -70,7 +70,7 @@ export default class Post extends API {
 
         return vue.$http.delete(url, {
             headers: {
-                Authorization: 'bearer ' + this.token
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
             }
         });
     }
@@ -84,7 +84,7 @@ export default class Post extends API {
 
         return vue.$http.get(url, {
             headers: {
-                Authorization: 'bearer ' + this.token
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
             }
         });
     }
@@ -96,7 +96,7 @@ export default class Post extends API {
     getPostsByIds(vue, postIds) {
         return this.getPosts(vue, postIds, {
             headers: {
-                Authorization: 'bearer ' + this.token
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
             }
         });
     }
@@ -108,7 +108,7 @@ export default class Post extends API {
     getPostsByCondition(vue, conditions) {
         return this.getPosts(vue, conditions, {
             headers: {
-                Authorization: 'bearer ' + this.token
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
             }
         });
     }
@@ -124,7 +124,7 @@ export default class Post extends API {
         return vue.$http.get(url, {
             params: params,
             headers: {
-                Authorization: 'bearer ' + this.token
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
             }
         });
     }
@@ -139,7 +139,7 @@ export default class Post extends API {
         return vue.$http.get(this.apiGateway, {
             params: params,
             headers: {
-                Authorization: 'bearer ' + this.token
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
             }
         });
     }

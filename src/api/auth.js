@@ -1,4 +1,7 @@
+import JwtDecoder from "jwt-decode"
+
 import API from 'app_lib/api.js'
+import * as Helper from 'app_lib/helper.js'
 
 export default class Auth extends API {
     constructor() {
@@ -27,22 +30,34 @@ export default class Auth extends API {
      */
     static getAuthorizedToken() {
         var token = sessionStorage.getItem("token");
-        if (Helper.isNullOrEmpty(token)) {
-            Helper.redirectToLoginPage();
-        } else {
+        if (!Helper.isNullOrEmpty(token)) {
             var decodedToken = JwtDecoder(token);
             var expired = decodedToken.exp;
             var expiredDate = new Date(expired * 1000);
             var now = new Date();
             console.log(expiredDate);
             console.log(now);
-
             if (now > expired) {
                 Helper.redirectToLoginPage();
             } else {
                 return token;
             }
+        } else {
+            Helper.redirectToLoginPage();
         }
+    }
+
+    /**
+     * 
+     * Generate authorized ajax object for 3rd library, like datatables
+     */
+    static produceAuthorizedAjaxObject(url, method, data, headers, success, error) {
+        var requiredHeaders = {
+            Authorization: "bearer " + Auth.getAuthorizedToken()
+        };
+        var headers = this.mergeParams(requiredHeaders, headers);
+
+        return API.produceAjaxObject(url, method, data, headers, success, Auth.unauthorizedHandler);
     }
 
     /**

@@ -85,6 +85,7 @@
 import Pagination from 'app_api/pagination.js'
 import Sort from 'app_api/sort.js'
 import Post from 'app_api/post.js'
+import Auth from 'app_api/auth.js'
 import { PostModel } from 'app_api/post.js'
 
 import "datatables_bootstrap/js/dataTables.bootstrap.js"
@@ -122,7 +123,7 @@ export default {
                 order_type: sort.order_type,
                 post_enabled: true
             };
-            var ajax = Post.produceAuthorizedAjaxObject(postApi.listApiGateway, null, data);
+            var ajax = Auth.produceAuthorizedAjaxObject(postApi.listApiGateway, null, data);
 
             root.find('#postList').dataTable({
                 responsive: true,

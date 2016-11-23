@@ -109,6 +109,7 @@ import 'jquery.fancytree/dist/src/jquery.fancytree.table'
 import Pagination from 'app_api/pagination.js'
 import Sort from 'app_api/sort.js'
 import Category from 'app_api/category.js'
+import Auth from 'app_api/auth.js'
 import { CategoryModel } from 'app_api/category.js'
 
 export default {
@@ -144,7 +145,7 @@ export default {
                 category_enabled: true,
                 tree_enabled: true
             };
-            var ajax = Category.produceAuthorizedAjaxObject(categoryApi.listApiGateway, null, data);
+            var ajax = Auth.produceAuthorizedAjaxObject(categoryApi.listApiGateway, null, data);
 
             var glyph_opts = {
                 map: {
