@@ -27,7 +27,6 @@ var helpers = {};
 for (var i in Helper) {
     helpers[i] = Helper[i];
 }
-helpers['unauthorizedHandler'] = unauthorizedHandler;
 
 Vue.mixin({
     methods: helpers
