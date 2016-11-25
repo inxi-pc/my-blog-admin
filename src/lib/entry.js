@@ -11,17 +11,20 @@ Vue.http.interceptors.push((request, next) => {
     request.credentials = true;
 
     next((response) => {
-        Auth.unauthorizedHandler(response);
+        if (response.status == 401) {
+            Helper.Redirection.redirectToLoginPage();
+        }
     });
 })
+
 // Vue.use(Vuex)
+
+var helpers = {};
+for (var i in Helper) {
+    helpers[i] = Helper[i];
+}
 Vue.mixin({
-    methods: {  
-        decodeQueryParams: Helper.decodeQueryParams,
-        isNullOrEmpty: Helper.isNullOrEmpty,
-        redirectToLoginPage: Helper.redirectToLoginPage,
-        refreshPage: Helper.refreshPage
-    }
+    methods: helpers
 })
 
 export default Vue.extend({

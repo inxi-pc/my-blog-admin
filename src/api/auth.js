@@ -6,45 +6,39 @@ import * as Helper from 'app_lib/helper.js'
 export default class Auth extends API {
     constructor() {
        super();
-    }
-    
-    /**
-     * UnauthorizedHandler
-     */
-    static unauthorizedHandler(response) {
-        if (response.status == 401) {
-            Helper.redirectToLoginPage();
-        }
+       this.apiGateway += '/users/';
     }
 
     /**
      * Store Authorization token
      */
     static persistAuthorizedToken(response) {
-        console.log(response);
         sessionStorage.setItem('token', response.body.token);
+    }
+
+    /**
+     * Destroy Authorization token
+     */
+    static destoryAuthorizedToken() {
+        sessionStorage.removeItem('token');
     }
 
     /**
      * Get Authorization token
      */
     static getAuthorizedToken() {
-        var token = sessionStorage.getItem("token");
-        if (!Helper.isNullOrEmpty(token)) {
-            var decodedToken = JwtDecoder(token);
-            var expired = decodedToken.exp;
-            var expiredDate = new Date(expired * 1000);
-            var now = new Date();
-            console.log(expiredDate);
-            console.log(now);
-            if (now > expired) {
-                Helper.redirectToLoginPage();
-            } else {
-                return token;
-            }
-        } else {
-            Helper.redirectToLoginPage();
-        }
+        return sessionStorage.getItem("token");
+    }
+
+    /**
+     * Get Authorization user
+     */
+    static getAuthorizedUser() {
+        var token = Auth.getAuthorizedToken();
+        var decodedToken = JwtDecoder(token);
+        console.log(decodedToken);
+
+        return decodedToken;
     }
 
     /**
@@ -57,7 +51,11 @@ export default class Auth extends API {
         };
         var headers = this.mergeParams(requiredHeaders, headers);
 
-        return API.produceAjaxObject(url, method, data, headers, success, Auth.unauthorizedHandler);
+        return API.produceAjaxObject(url, method, data, headers, success, function (response) {
+            if (response.status == 401) {
+                Helper.redirectToLoginPage();
+            }
+        });
     }
 
     /**
@@ -78,5 +76,12 @@ export default class Auth extends API {
         var url = this.apiGateway + 'login';
 
         return vue.$http.post(url, user);
+    }
+
+    /**
+     * @return 
+     */
+    logout(vue) {
+        Auth.destoryAuthorizedToken();
     }
 }

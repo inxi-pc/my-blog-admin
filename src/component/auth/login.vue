@@ -106,8 +106,8 @@
                 <div class="box">
                     <div class="content-wrap">
                         <h6>Log In</h6>
-                        <input id="identifier" class="form-control" type="text" placeholder="Username/E-mail/Telephone">
-                        <input id="password" class="form-control" type="password" placeholder="Password">
+                        <input v-on:change="changeIdentifier" id="identifier" class="form-control" type="text" placeholder="Username/E-mail/Telephone">
+                        <input v-on:change="changePassword" id="password" class="form-control" type="password" placeholder="Password">
                         <div class="action">
                             <a class="btn btn-primary signup" id="login" v-on:click="login">Login</a>
                         </div>                
@@ -130,41 +130,39 @@ export default {
     },
 
     ready: function () {
-        this.bindElementAction();
+
     },
 
     methods: {
+        changePassword: function (e) {
+            this.user.user_password = $(e.target).val();
+        },
+
+        changeIdentifier: function (e) {
+            var value = $(e.target).val();
+            var emailRegExp = new RegExp('[a-zA-Z1-9_-]+@[a-zA-Z1-9_-]+\.\w+');
+            var telephoneRegExp = new RegExp('[1-9]+');
+
+            if (emailRegExp.test(value)) {
+                this.user.user_email = value;    
+            } else if (telephoneRegExp.test(value)) {
+                this.user.user_telephone = value;    
+            } else {
+                this.user.user_name = value;
+            }
+        },
+
         login: function () {
             new Auth().login(this, this.user).then((response) => {
                 Auth.persistAuthorizedToken(response);
+                this.redirectToIndex();
             }, (response) => {
                 console.log(response);
             });
         },
 
-        bindElementAction: function () {
-            var context = this;
-            var root = $(this.$el);
-            var identifierElement = root.find("#identifier");
-            var passwordElement = root.find("#password");
-            
-            identifierElement.on("change", function (e) {
-                var value = $(e.target).val();
-                var emailRegExp = new RegExp('[a-zA-Z1-9_-]+@[a-zA-Z1-9_-]+\.\w+');
-                var telephoneRegExp = new RegExp('[1-9]+');
-
-                if (emailRegExp.test(value)) {
-                    context.user.user_email = value;    
-                } else if (telephoneRegExp.test(value)) {
-                    context.user.user_telephone = value;    
-                } else {
-                    context.user.user_name = value;
-                }
-            });
-
-            passwordElement.on("change", function (e) {
-                context.user.user_password = $(e.target).val();
-            });
+        redirectToIndex: function () {
+            this.redirect("/dist/dashboard.html");
         }
     }
 }

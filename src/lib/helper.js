@@ -30,17 +30,23 @@ function isNullOrEmpty(value) {
     return false;
 }
 
-function redirectToLoginPage() {
-    window.location.href='/dist/login.html';
-}
-
 function refreshPage() {
     window.location.reload();
+}
+
+function redirectToLoginPage() {
+    var href = '/dist/login.html';
+    redirect(href);
+}
+
+function redirect(url) {
+    window.location.href = url;
 }
 
 export { 
     decodeQueryParams, 
     isNullOrEmpty,
+    refreshPage,
     redirectToLoginPage,
-    refreshPage
+    redirect
 }

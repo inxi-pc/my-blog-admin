@@ -226,11 +226,11 @@
                             <ul class="nav navbar-nav">
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        My Account <b class="caret"></b>
+                                        {{ user.user_name }}&nbsp&nbsp<b class="caret"></b>
                                     </a>
                                     <ul class="dropdown-menu animated fadeInUp">
-                                    <li><a href="">Profile</a></li>
-                                    <li><a href="">Logout</a></li>
+                                    <li><a v-on:click="redirectToProfile">Profile</a></li>
+                                    <li><a v-on:click="logout">Logout</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -244,11 +244,34 @@
 
 <script>
 import "bootstrap/dist/js/bootstrap.js"
+import { UserModel } from "app_api/user.js"
+import Auth from 'app_api/auth.js'
+import User from 'app_api/user.js'
 
 export default {
     data: function () {
         return {
+            user: new UserModel()
+        }
+    },
 
+    ready: function () {
+        var user = Auth.getAuthorizedUser();
+        new User().getUserById(this, user.user_id).then((response) => {
+            this.user = response.body;
+        }, (response) => {
+            console.log(response);
+        });
+    },
+
+    methods: {
+        redirectToProfile() {
+            this.redirect("/dist/profile.html");
+        },
+        
+        logout() {
+            new Auth().logout();
+            this.redirectToLoginPage();
         }
     }
 }

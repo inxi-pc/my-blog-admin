@@ -31,7 +31,11 @@ export default class Category extends API {
      * @return Promise
      */
     createCategory(vue, category) {
-        return vue.$http.post(this.apiGateway, category);
+        return vue.$http.post(this.apiGateway, category, {
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        });
     }
 
     /**
@@ -41,7 +45,11 @@ export default class Category extends API {
     deleteCategory(vue, categoryId) {
         var url = this.apiGateway + categoryId;
         
-        return vue.$http.delete(url);
+        return vue.$http.delete(url, {
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        });
     }
 
     /**
@@ -60,7 +68,11 @@ export default class Category extends API {
         category.category_enabled = null;
         category.children = null;
 
-        return vue.$http.put(url, category);
+        return vue.$http.put(url, category, {
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        });
     }
     /**
      * 
@@ -69,7 +81,11 @@ export default class Category extends API {
     getCategoryById(vue, categoryId) {
         var url = this.apiGateway + categoryId;
 
-        return vue.$http.get(url);
+        return vue.$http.get(url, {
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        });
     }
 
     /**
@@ -77,7 +93,11 @@ export default class Category extends API {
      * @return Promise
      */
     getCategoriesByIds(vue, categoryIds) {
-        return this.getCategories(categoryIds);
+        return this.getCategories(categoryIds, {
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        });
     }
 
     /**
@@ -85,7 +105,11 @@ export default class Category extends API {
      * @return Promise
      */
     getCategoriesByCondition(vue, conditions) {
-        return this.getCategories(vue, conditions);
+        return this.getCategories(vue, conditions, {
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        });
     }
 
     /**
@@ -96,7 +120,10 @@ export default class Category extends API {
         var url = this.listApiGateway;
 
         return  vue.$http.get(url, {
-            params: params
+            params: params,
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
         });
     }
 
@@ -107,7 +134,10 @@ export default class Category extends API {
         var params = API.mergeParams(conditions);
 
         return vue.$http.get(this.apiGateway, {
-            params: params
+            params: params,
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
         });
     }
 
@@ -120,7 +150,10 @@ export default class Category extends API {
         var url = this.listApiGateway;
 
         return  vue.$http.get(url, {
-            params: params
+            params: params,
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
         });
     }
 
@@ -132,7 +165,10 @@ export default class Category extends API {
         params.add({'tree_enabled': true});
 
         return vue.$http.get(this.apiGateway, {
-            params: params
+            params: params,
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
         });
     }
 }

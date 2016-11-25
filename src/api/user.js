@@ -22,4 +22,14 @@ export default class User extends API {
        this.apiGateway += '/users/';
        this.listApiGateway = this.apiGateway + 'list';
     }
+
+    getUserById(vue, userId) {
+        var url = this.apiGateway + userId;
+
+        return vue.$http.get(url, {
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        });
+    }
 }

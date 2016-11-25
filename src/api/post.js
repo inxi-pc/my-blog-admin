@@ -33,14 +33,14 @@ export default class Post extends API {
      * @return Promise
      */
     createPost(vue, post) {
-        // Todo get session user id
-        post.user_id = 1;
-        
+        var user = Auth.getAuthorizedUser();
+        post.user_id = user.user_id;
+
         return vue.$http.post(this.apiGateway, post, {
             headers: {
                 Authorization: 'bearer ' + Auth.getAuthorizedToken()
             }
-        });
+        });    
     }
 
     /**
