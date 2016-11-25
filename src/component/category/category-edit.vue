@@ -79,7 +79,7 @@
                     <label for="inputCategoryNameEn" class="col-sm-2 control-label">Category Name EN</label>
                     <div class="col-sm-5">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputCategoryNameEn" value="{{ category.category_name_en }}">
+                            <input v-on:change="changeCategoryNameEn" type="text" class="form-control" id="inputCategoryNameEn" value="{{ category.category_name_en }}">
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-remove-circle" style="display:none"></i>
                             </span>
@@ -93,7 +93,7 @@
                     <label for="inputCategoryNameCn" class="col-sm-2 control-label">Category Name CN</label>
                     <div class="col-sm-5">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputCategoryNameCn" value="{{ category.category_name_cn }}">
+                            <input v-on:change="changeCategoryNameCn" type="text" class="form-control" id="inputCategoryNameCn" value="{{ category.category_name_cn }}">
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-remove-circle" style="display:none"></i>
                             </span>
@@ -148,24 +148,19 @@ export default {
         }, (response) => {
             console.log(response);
         });
-
-        this.bindElementAction();
     },
 
     methods: {
-        bindElementAction: function () {
-            var root = $(this.$el);
-            var context = this;
-            var categoryNameEnElement = root.find("#inputCategoryNameEn");
-            var categoryNameCnElement = root.find("#inputCategoryNameCn");
+        changeCategoryParentId: function (e) {
+            this.category.category_parent_id = $(e.target).val(); 
+        },
 
-            categoryNameEnElement.on("change", function (e) {
-                context.category.category_name_en = $(e.target).val();
-            });
+        changeCategoryNameEn: function (e) {
+            this.category.category_name_en = $(e.target).val();
+        },
 
-            categoryNameCnElement.on("change", function (e) {
-                context.category.category_name_cn = $(e.target).val();
-            });
+        changeCategoryNameCn: function (e) {
+            this.category.category_name_cn = $(e.target).val();
         },
 
         updateCategory: function () {

@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <label for="selectCategoryId" class="col-sm-2 control-label">Category</label>
                     <div class="col-sm-5">
-                        <select type="text" class="form-control" id="selectCategoryId">
+                        <select v-on:change="changeCategoryId" type="text" class="form-control" id="selectCategoryId">
                             <option></option>
                             <option v-for="category in categoryList" value='{{ category.category_id }}'>
                                 {{ category.category_name_en }} ({{ category.category_name_cn }})
@@ -64,7 +64,7 @@
                     <label for="inputPostTitle" class="col-sm-2 control-label">Post title</label>
                     <div class="col-sm-5">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputPostTitle">
+                            <input v-on:change="changePostTitle" type="text" class="form-control" id="inputPostTitle">
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-remove-circle" style="display:none"></i>
                             </span>
@@ -84,7 +84,7 @@
                     <div class="col-sm-offset-2 col-sm-10">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" id="checkboxPublished">Published now?
+                                <input v-on:change="changePostPublished" type="checkbox" id="checkboxPublished">Published now?
                             </label>
                         </div>
                     </div>
@@ -151,8 +151,6 @@ export default {
         });
 
         this.initialEditor();
-
-        this.bindElementAction();
     },
 
     methods: {
@@ -177,24 +175,16 @@ export default {
             });
         },
 
-        bindElementAction: function () {
-            var context = this;
-            var root = $(this.$el);
-            var categoryIdElement = root.find("#selectCategoryId");
-            var postTitleElement = root.find("#inputPostTitle");
-            var postPublishedElement = root.find("#checkboxPublished");
+        changeCategoryId: function () {
+            this.post.category_id = $(e.target).val();
+        },
 
-            categoryIdElement.on("change", function (e) {
-                context.post.category_id = $(e.target).val();
-            });
+        changePostTitle: function () {
+            this.post.post_title = $(e.target).val();
+        },
 
-            postTitleElement.on("change", function (e) {
-                context.post.post_title = $(e.target).val();
-            });
-
-            postPublishedElement.on("change", function (e) {
-                context.post.post_published = $(e.target).prop('checked');
-            });
+        changePostPublished: function () {
+            this.post.post_published = $(e.target).prop('checked');
         },
 
         createPost: function (event) {

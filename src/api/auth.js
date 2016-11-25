@@ -35,10 +35,12 @@ export default class Auth extends API {
      */
     static getAuthorizedUser() {
         var token = Auth.getAuthorizedToken();
-        var decodedToken = JwtDecoder(token);
-        console.log(decodedToken);
-
-        return decodedToken;
+        
+        try {
+            return JwtDecoder(token);
+        } catch (e) {
+            Helper.redirectToLoginPage();
+        }
     }
 
     /**
@@ -51,11 +53,7 @@ export default class Auth extends API {
         };
         var headers = this.mergeParams(requiredHeaders, headers);
 
-        return API.produceAjaxObject(url, method, data, headers, success, function (response) {
-            if (response.status == 401) {
-                Helper.redirectToLoginPage();
-            }
-        });
+        return API.produceAjaxObject(url, method, data, headers, success, error);
     }
 
     /**

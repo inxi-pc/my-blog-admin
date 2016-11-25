@@ -257,6 +257,7 @@ export default {
 
     ready: function () {
         var user = Auth.getAuthorizedUser();
+    
         new User().getUserById(this, user.user_id).then((response) => {
             this.user = response.body;
         }, (response) => {

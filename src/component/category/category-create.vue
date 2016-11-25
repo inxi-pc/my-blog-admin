@@ -50,7 +50,7 @@
                 <div class="form-group">
                     <label for="selectCategoryParentId" class="col-sm-2 control-label">Parent Category</label>
                     <div class="col-sm-5">
-                        <select type="text" class="form-control" id="selectCategoryParentId">
+                        <select v-on:change="changeCategoryParentId" type="text" class="form-control" id="selectCategoryParentId">
                             <option>Select</option>
                             <option v-for="category in categoryParentList" value='{{ category.category_id }}'>
                                 (level: {{ category.category_level }}) {{ category.category_name_en }} ({{ category.category_name_cn }})
@@ -62,7 +62,7 @@
                     <label for="inputCategoryNameEn" class="col-sm-2 control-label">Category Name EN</label>
                     <div class="col-sm-5">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputCategoryNameEn">
+                            <input v-on:change="changeCategoryNameEn" type="text" class="form-control" id="inputCategoryNameEn">
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-remove-circle" style="display:none"></i>
                             </span>
@@ -76,7 +76,7 @@
                     <label for="inputCategoryNameCn" class="col-sm-2 control-label">Category Name CN</label>
                     <div class="col-sm-5">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputCategoryNameCn">
+                            <input v-on:change="changeCategoryNameCn" type="text" class="form-control" id="inputCategoryNameCn">
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-remove-circle" style="display:none"></i>
                             </span>
@@ -88,8 +88,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="button" class="btn btn-primary"
-                        v-on:click="createCategory">Create</button>
+                        <button type="button" class="btn btn-primary" v-on:click="createCategory">Create</button>
                     </div>
                 </div>
             </form>
@@ -122,29 +121,19 @@ export default {
         }, (response) => {
             console.log(response);
         });
-
-        this.bindElementAction();
     },
 
     methods: {
-        bindElementAction: function () {
-            var context = this;
-            var root = $(this.$el);        
-            var categoryParentIdElement = root.find("#selectCategoryParentId");
-            var categoryNameEnElement = root.find("#inputCategoryNameEn");
-            var CategoryNameCnElement = root.find("#inputCategoryNameCn");
+        changeCategoryParentId: function (e) {
+            this.category.category_parent_id = $(e.target).val(); 
+        },
 
-            categoryParentIdElement.on("change", function (e) {
-                context.category.category_parent_id = $(e.target).val();
-            });
+        changeCategoryNameEn: function (e) {
+            this.category.category_name_en = $(e.target).val();
+        },
 
-            categoryNameEnElement.on("change", function (e) {
-                context.category.category_name_en = $(e.target).val();
-            });
-
-            CategoryNameCnElement.on("change", function (e) {
-                context.category.category_name_cn = $(e.target).val();
-            });
+        changeCategoryNameCn: function (e) {
+            this.category.category_name_cn = $(e.target).val();
         },
 
         createCategory: function (event) {
