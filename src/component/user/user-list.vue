@@ -64,7 +64,7 @@
                     <tr>
                         <th>Select</th>
                         <th>User ID</th>
-                        <th>Username</th>
+                        <th>User Name</th>
                         <th>User Email</th>
                         <th>User Telephone</th>
                         <th>Created At</th>
@@ -84,6 +84,7 @@
 import Pagination from 'app_api/pagination.js'
 import Sort from 'app_api/sort.js'
 import User from 'app_api/user.js'
+import Auth from 'app_api/auth.js'
 import { UserModel } from 'app_api/user.js'
 
 import "datatables_bootstrap/js/dataTables.bootstrap.js"
@@ -104,15 +105,23 @@ export default {
 
     ready: function () {
         this.initDatatables();
-        this.bindElementAction();
     },
 
     methods: {
         initDatatables: function () {
             var page = new Pagination(this.offset, this.limit);
-            var sort = new Sort(this.orderType, this.orderBy, "user_id");
+            var sort = new Sort(this.orderType, this.orderBy, "post_id");
             var context = this;
             var root = $(this.$el);
+            var userApi = new User();
+            var data = {
+                limit: page.limit,
+                offset: page.offset,
+                order_by: sort.order_by,
+                order_type: sort.order_type,
+                user_enabled: true
+            };
+            var ajax = Auth.produceAuthorizedAjaxObject(userApi.listApiGateway, null, data);
 
             root.find('#userList').dataTable({
                 responsive: true,
@@ -120,22 +129,15 @@ export default {
                 scrollX: true,
                 processing: true,
                 serverSide: true,
-                ajax: {
-                    url: new User().apiGateway + 'list',
-                    data: {
-                        limit: page.limit,
-                        offset: page.offset,
-                        order_by: sort.order_by,
-                        order_type: sort.order_type
-                    }
-                },
+                ajax: ajax,
                 order: [[1, sort.order_type]],
                 pageLength: context.limit,
                 displayStart: context.offset,
                 orderMulti: false,
                 columns: [
                     {'data': 'user_id'},
-                    {'data': 'username'},
+                    {'data': 'user_id'},
+                    {'data': 'user_name'},
                     {'data': 'user_email'},
                     {'data': 'user_telephone'},
                     {'data': 'user_created_at'},
@@ -199,19 +201,15 @@ export default {
                 root.find('.edit').each(function (i, element) {
                     $(element).on('click', function (e) {
                         var userId = $(element).data('id'); 
-                        window.location.href = '/dist/user-edit.html?user_id=' + userId;
+                        context.redirect('/dist/user-edit.html?user_id=' + userId);
                     });
                 })
             });
         },
 
-        bindElementAction: function () {
-
-        },
-
         disableUser: function (userId) {
             new User().disableUser(this, userId).then((response) => {
-                window.location.reload();
+                this.refreshPage();
             }, (response) => {
                 console.log(response);
             });

@@ -23,10 +23,106 @@ export default class User extends API {
        this.listApiGateway = this.apiGateway + 'list';
     }
 
+    /**
+     * 
+     * @return Promise
+     */
+    createUser(vue, user) {
+        return vue.$http.user(this.apiGateway, user, {
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        });    
+    }
+
+    /**
+     * 
+     * @return Promise
+     */
+    updateUser(vue, userId, user) {
+        var url = this.apiGateway + userId;
+        user.user_id = null;
+        user.user_name = null;
+        user.user_created_at = null;
+        user.user_updated_at = null;
+        user.user_enabled = null;
+
+        return vue.$http.put(url, user, {
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        });
+    }
+    
+    /**
+     * 
+     * @return Promise
+     */
+    deleteUser(vue, userId) {
+        var url = this.apiGateway + userId;
+
+        return vue.$http.delete(url, {
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        });
+    }
+    
+    /**
+     * 
+     * @return Promise
+     */
     getUserById(vue, userId) {
         var url = this.apiGateway + userId;
 
         return vue.$http.get(url, {
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        });
+    }
+
+    /**
+     * 
+     * @return Promise
+     */
+    getUsersByIds(vue, userIds) {
+        return this.getUsers(vue, userIds);
+    }
+
+    /**
+     * 
+     * @return Promise
+     */
+    getUsersByCondition(vue, conditions) {
+        return this.getUsers(vue, conditions);
+    }
+
+    /**
+     * 
+     * @return Promise
+     */
+    getUserList(vue, conditions, page, order) {
+        var params = API.mergeParams(conditions, page, order);
+        var url = this.listApiGateway;
+
+        return vue.$http.get(url, {
+            params: params,
+            headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        });
+    }
+
+    /**
+     * 
+     * @return Promise
+     */
+    getUsers(vue, conditions) {
+        var params = API.mergeParams(conditions);
+
+        return vue.$http.get(this.apiGateway, {
+            params: params,
             headers: {
                 Authorization: 'bearer ' + Auth.getAuthorizedToken()
             }

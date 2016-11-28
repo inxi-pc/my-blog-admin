@@ -189,7 +189,7 @@ export default {
 
         createPost: function (event) {
             new Post().createPost(this, this.post).then((response) => {
-                window.location.reload();
+                this.refreshPage();
             }, (response) => {
                 console.log(response);
             });

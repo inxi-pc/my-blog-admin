@@ -102,6 +102,9 @@
             <li id="category">
                 <a href="/dist/category-list.html"><i class="glyphicon glyphicon-chevron-right"></i>Category</a>
             </li>
+			<li class="user">
+                <a href="/dist/user-list.html"><i class="glyphicon glyphicon-chevron-right"></i>User</a>
+            </li>
             <li>
                 <a href="#"><i class="glyphicon glyphicon-chevron-down"></i>Others</a>
                 <ul class="nav navbar-collapse collapse sidebar">
@@ -110,9 +113,7 @@
                     <li><a href="#"><i class="glyphicon glyphicon-chevron-right"></i> Submenu 3</a></li>
                 </ul>
             </li>
-            <li class="disabled">
-                <a href="#"><i class="glyphicon glyphicon-chevron-right"></i> Calendar</a>
-            </li>
+
             <li>
                 <a href="#"><span class="badge pull-right">731</span>Badge</a>
             </li>

@@ -166,7 +166,7 @@ export default {
         updateCategory: function () {
             console.log(this.category);
             new Category().updateCategory(this, this.category.category_id, this.category).then((response) => {
-                window.location.reload();
+                this.refreshPage();
             }, (response) => {
                 console.log(response);
             })

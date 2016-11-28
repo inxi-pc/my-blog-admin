@@ -138,7 +138,7 @@ export default {
 
         createCategory: function (event) {
             new Category().createCategory(this, this.category).then((response) => {
-                window.location.reload();
+                this.refreshPage();
             }, (response) => {
                 console.log(response);
             });

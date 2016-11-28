@@ -206,7 +206,7 @@ export default {
                     root.find('.edit').each(function (i, element) {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
-                            window.location.href = '/dist/category-edit.html?category_id=' + categoryId;
+                            context.redirect('/dist/category-edit.html?category_id=' + categoryId);
                             e.stopPropagation();
                         });
                     });
@@ -224,7 +224,7 @@ export default {
                     root.find('.edit').each(function (i, element) {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
-                            window.location.href = '/dist/category-edit.html?category_id=' + categoryId;
+                            context.redirect('/dist/category-edit.html?category_id=' + categoryId);
                             e.stopPropagation();
                         });
                     });

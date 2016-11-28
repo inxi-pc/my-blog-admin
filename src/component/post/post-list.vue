@@ -214,7 +214,7 @@ export default {
                 root.find('.edit').each(function (i, element) {
                     $(element).on('click', function (e) {
                         var postId = $(element).data('id'); 
-                        window.location.href = '/dist/post-edit.html?post_id=' + postId;
+                        context.redirect('/dist/post-edit.html?post_id=' + postId);
                     });
                 })
             });
@@ -224,7 +224,7 @@ export default {
             var post = new PostModel();
             post.post_published = !published;
             new Post().updatePost(this, postId, post).then((response) => {
-                window.location.reload();
+                this.refreshPage();
             }, (response) => {
                 console.log(response);
             });
@@ -232,7 +232,7 @@ export default {
 
         deletePost: function (postId) {
             new Post().deletePost(this, postId).then((response) => {
-                window.location.reload();
+                this.refreshPage();
             }, (response) => {
                 console.log(response);
             });
