@@ -6,7 +6,7 @@ import * as Helper from 'app_lib/helper.js'
 export default class Auth extends API {
     constructor() {
        super();
-       this.apiGateway += '/users/';
+       this.apiGateway += '/';
     }
 
     /**
