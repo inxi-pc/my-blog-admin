@@ -106,7 +106,6 @@ export default {
 
     ready: function () {
         this.initDatatables();
-        this.bindElementAction();
     },
 
     methods: {
@@ -219,10 +218,6 @@ export default {
                     });
                 })
             });
-        },
-
-        bindElementAction: function () {
-
         },
 
         publishedPost: function (postId, published) {

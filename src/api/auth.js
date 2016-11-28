@@ -39,7 +39,7 @@ export default class Auth extends API {
         try {
             return JwtDecoder(token);
         } catch (e) {
-            Helper.redirectToLoginPage();
+            API.unauthorizedHandle();
         }
     }
 
@@ -81,5 +81,37 @@ export default class Auth extends API {
      */
     logout(vue) {
         Auth.destoryAuthorizedToken();
+        this.clearPingTask();
+    }
+
+    /**
+     * RefreshToken
+     */
+    ping(vue, userId) {
+        var url = this.apiGateway + 'ping/' + userId;
+
+        vue.$http.post(url, null, {
+             headers: {
+                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+            }
+        }).then((response) => {
+            Auth.persistAuthorizedToken(response);
+        }, (response) => {
+            console.log(response);
+        })
+    }
+
+    setPingTask(vue) {
+        this.clearPingTask();
+        
+        var context = this;
+        var user = Auth.getAuthorizedUser();
+        setInterval(function () {   
+            context.ping(vue, user.user_id);
+        }, API.getPingInterval());
+    }
+
+    clearPingTask() {
+        clearInterval();
     }
 }

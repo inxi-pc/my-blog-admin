@@ -1,18 +1,4 @@
-function decodeQueryParams() {
-    var params = [], hash;
-    var url = window.location.href;
-    if (url.indexOf('?') != -1) {
-        var hashes = url.slice(url.indexOf('?') + 1).split('&');
-        for (var k in hashes) {
-            if (hashes[k].search("=") != -1) {
-                hash = hashes[k].split('=');
-                params[hash[0]] = hash[1];
-            }
-        }
-    }
- 
-    return params;
-}
+import config from "app_config/app.config.json"
 
 function isNullOrEmpty(value) {
     // null or undefined
@@ -30,10 +16,6 @@ function isNullOrEmpty(value) {
     return false;
 }
 
-function refreshPage() {
-    window.location.reload();
-}
-
 function redirectToLoginPage() {
     var href = '/dist/login.html';
     redirect(href);
@@ -43,10 +25,13 @@ function redirect(url) {
     window.location.href = url;
 }
 
+function getConfig(name) {
+    return config[name];
+}
+
 export { 
-    decodeQueryParams, 
     isNullOrEmpty,
-    refreshPage,
+    redirect,
     redirectToLoginPage,
-    redirect
+    getConfig
 }

@@ -1,9 +1,8 @@
-import config from "app_config/app.config.json"
 import * as Helper from './helper.js'
 
 export default class API {
     constructor() {
-        this.apiGateway = config.apiGateway;
+        this.apiGateway = Helper.getConfig('apiGateway');
     }
 
     /**
@@ -27,6 +26,16 @@ export default class API {
         }
 
         return params;
+    }
+
+    static unauthorizedHandle() {
+        Helper.redirectToLoginPage();
+    }
+
+    static getPingInterval() {
+        var interval = Helper.getConfig('pingInterval');
+
+        return interval > 1000 ? interval : 30000;
     }
 
     /**

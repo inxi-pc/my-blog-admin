@@ -129,10 +129,6 @@ export default {
         };
     },
 
-    ready: function () {
-
-    },
-
     methods: {
         changePassword: function (e) {
             this.user.user_password = $(e.target).val();
@@ -154,6 +150,7 @@ export default {
 
         login: function () {
             new Auth().login(this, this.user).then((response) => {
+                console.log(response);
                 Auth.persistAuthorizedToken(response);
                 this.redirectToIndex();
             }, (response) => {
@@ -163,7 +160,7 @@ export default {
 
         redirectToIndex: function () {
             this.redirect("/dist/dashboard.html");
-        }
+        },
     }
 }
 </script>

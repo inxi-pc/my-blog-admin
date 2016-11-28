@@ -256,6 +256,8 @@ export default {
     },
 
     ready: function () {
+        new Auth().setPingTask(this);
+        
         var user = Auth.getAuthorizedUser();
     
         new User().getUserById(this, user.user_id).then((response) => {

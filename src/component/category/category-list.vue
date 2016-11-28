@@ -127,7 +127,6 @@ export default {
 
     ready: function () {
         this.initFancyTree();
-        this.bindElementAction();
     },
 
     methods: {
@@ -240,10 +239,6 @@ export default {
                 }
             });
         },
-
-        bindElementAction: function () {
-
-        }
     }
 }
 </script>
