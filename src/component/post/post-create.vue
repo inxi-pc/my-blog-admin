@@ -175,15 +175,16 @@ export default {
             });
         },
 
-        changeCategoryId: function () {
+        changeCategoryId: function (e) {
+            console.log($(e.target).val());
             this.post.category_id = $(e.target).val();
         },
 
-        changePostTitle: function () {
+        changePostTitle: function (e) {
             this.post.post_title = $(e.target).val();
         },
 
-        changePostPublished: function () {
+        changePostPublished: function (e) {
             this.post.post_published = $(e.target).prop('checked');
         },
 
