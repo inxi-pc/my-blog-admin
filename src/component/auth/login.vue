@@ -31,7 +31,7 @@
     
     .login-wrapper .box h6 {
         text-transform: uppercase;
-        margin-bottom: 35px;
+        margin-bottom: 25px;
         font-size: 18px;
         font-weight: 600;
     }
@@ -106,10 +106,14 @@
                 <div class="box">
                     <div class="content-wrap">
                         <h6>Log In</h6>
+                        <div id="errorMsg">
+                            <p style="color: #ff4500"></p>
+                        </div>
                         <input v-on:change="changeIdentifier" id="identifier" class="form-control" type="text" placeholder="Username/E-mail/Telephone">
                         <input v-on:change="changePassword" id="password" class="form-control" type="password" placeholder="Password">
                         <div class="action">
                             <a class="btn btn-primary signup" id="login" v-on:click="login">Login</a>
+                            <span style="display:none;color: #ff4500">Processing...</span>
                         </div>                
                     </div>
                 </div>
@@ -147,14 +151,32 @@ export default {
                 this.user.user_name = value;
             }
         },
+        
+        toggleLoginAction: function (loginButton, msg) {
+            var root = $(this.$el);
+            var hintElement = loginButton.next('span');
+            var errorMsgElement = root.find('#errorMsg');
+            errorMsgElement.children('p').text(msg);
 
-        login: function () {
+            if (hintElement.is(":visible")) {
+                loginButton.attr('disabled', false);
+                hintElement.hide();
+            } else {
+                loginButton.attr('disabled', true);
+                hintElement.show()
+            }
+        },
+
+        login: function (e) {
+            var loginButton = $(e.target);
+            this.toggleLoginAction(loginButton);
             new Auth().login(this, this.user).then((response) => {
-                console.log(response);
                 Auth.persistAuthorizedToken(response);
+                this.toggleLoginAction(loginButton);
                 this.redirectToIndex();
-            }, (response) => {
+            }, (response) => { 
                 console.log(response);
+                this.toggleLoginAction(loginButton, 'User or Password issue, please retry!');
             });
         },
 
