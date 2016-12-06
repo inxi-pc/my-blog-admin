@@ -17,7 +17,7 @@ function isNullOrEmpty(value) {
 }
 
 function redirectToLoginPage() {
-    var href = '/dist/login.html';
+    var href = '/login.html';
     redirect(href);
 }
 

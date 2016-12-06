@@ -181,7 +181,7 @@ export default {
         },
 
         redirectToIndex: function () {
-            this.redirect("/dist/dashboard.html");
+            this.redirect("/dashboard.html");
         },
     }
 }

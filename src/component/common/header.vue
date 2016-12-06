@@ -269,7 +269,7 @@ export default {
 
     methods: {
         redirectToProfile() {
-            this.redirect("/dist/profile.html");
+            this.redirect("/profile.html");
         },
         
         logout() {

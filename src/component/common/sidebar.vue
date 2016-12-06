@@ -94,16 +94,16 @@
     <div id="leftSidebar" class="left-sidebar">
         <ul class="nav navbar-collapse collapse sidebar">
             <li id="dashboard">
-                <a href="/dist/dashboard.html"><i class="glyphicon glyphicon-chevron-right"></i>Dashboard</a>
+                <a href="/dashboard.html"><i class="glyphicon glyphicon-chevron-right"></i>Dashboard</a>
             </li>
             <li id="post">
-                <a href="/dist/post-list.html"><i class="glyphicon glyphicon-chevron-right"></i>Post</a>
+                <a href="/post-list.html"><i class="glyphicon glyphicon-chevron-right"></i>Post</a>
             </li>
             <li id="category">
-                <a href="/dist/category-list.html"><i class="glyphicon glyphicon-chevron-right"></i>Category</a>
+                <a href="/category-list.html"><i class="glyphicon glyphicon-chevron-right"></i>Category</a>
             </li>
 			<li class="user">
-                <a href="/dist/user-list.html"><i class="glyphicon glyphicon-chevron-right"></i>User</a>
+                <a href="/user-list.html"><i class="glyphicon glyphicon-chevron-right"></i>User</a>
             </li>
             <li>
                 <a href="#"><i class="glyphicon glyphicon-chevron-down"></i>Others</a>

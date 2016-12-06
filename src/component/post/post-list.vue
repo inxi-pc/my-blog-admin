@@ -54,7 +54,7 @@
         <div class="content-box-header panel-heading">
             <div class="panel-title">Post List</div>
             <div class="action">
-                <a href="/dist/post-create.html">Create Post</a>
+                <a href="/post-create.html">Create Post</a>
             </div>
         </div>
         <div class="content-box-large box-with-header">
@@ -214,7 +214,7 @@ export default {
                 root.find('.edit').each(function (i, element) {
                     $(element).on('click', function (e) {
                         var postId = $(element).data('id'); 
-                        context.redirect('/dist/post-edit.html?post_id=' + postId);
+                        context.redirect('/post-edit.html?post_id=' + postId);
                     });
                 })
             });
