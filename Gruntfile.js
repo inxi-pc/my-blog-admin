@@ -14,7 +14,7 @@ module.exports = function(grunt) {
         var pathToConfig = grunt.config('env.pathToConfig');
         var envProd = grunt.config('env.prod');
         var envDev = grunt.config('env.dev');
-        console.log(envDev);
+        
         if (env == 'prod') {
             grunt.file.write(pathToConfig + "app.config.json" , envProd);
         } else {
