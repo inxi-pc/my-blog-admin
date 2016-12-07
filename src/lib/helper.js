@@ -16,22 +16,11 @@ function isNullOrEmpty(value) {
     return false;
 }
 
-function redirectToLoginPage() {
-    var href = '/login.html';
-    redirect(href);
-}
-
-function redirect(url) {
-    window.location.href = url;
-}
-
 function getConfig(name) {
     return config[name];
 }
 
 export { 
     isNullOrEmpty,
-    redirect,
-    redirectToLoginPage,
     getConfig
 }

@@ -2,22 +2,16 @@ import Vue from 'vue'
 import VueResource from 'vue-resource'
 
 import * as Helper from './helper.js'
-import Auth from 'app_api/auth.js'
+import API from './api.js'
 
 Vue.use(VueResource)
 Vue.http.interceptors.push((request, next) => {
     request.credentials = true;
 
     next((response) => {
-       unauthorizedHandler(response);
+       API.responseHandler(response);
     });
 })
-
-function unauthorizedHandler (response) {
-    if (response.status == 401) {
-        Helper.redirectToLoginPage();
-    }
-}
 
 function decodeQueryParams() {
     var params = [], hash;
@@ -35,8 +29,17 @@ function decodeQueryParams() {
     return params;
 }
 
+function redirect(url) {
+    window.location.href = url;
+}
+
 function refreshPage() {
     window.location.reload();
+}
+
+function redirectToLoginPage() {
+    var href = '/login.html';
+    redirect(href);
 }
 
 var methods = {};
@@ -45,6 +48,8 @@ for (var i in Helper) {
 }
 methods['decodeQueryParams'] = decodeQueryParams;
 methods['refreshPage'] = refreshPage;
+methods['redirect'] = redirect;
+methods['redirectToLoginPage'] = redirectToLoginPage;
 
 Vue.mixin({
     methods: methods

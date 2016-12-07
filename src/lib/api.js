@@ -28,8 +28,10 @@ export default class API {
         return params;
     }
 
-    static unauthorizedHandle() {
-        Helper.redirectToLoginPage();
+    static responseHandler(response) {
+        if (response.status == 401) {
+            window.location.href = '/login.html';
+        }
     }
 
     static getPingInterval() {

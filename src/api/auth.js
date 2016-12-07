@@ -39,7 +39,7 @@ export default class Auth extends API {
         try {
             return JwtDecoder(token);
         } catch (e) {
-            API.unauthorizedHandle();
+            API.responseHandler({status: 401});
         }
     }
 
@@ -51,7 +51,7 @@ export default class Auth extends API {
         var requiredHeaders = {
             Authorization: "bearer " + Auth.getAuthorizedToken()
         };
-        var headers = this.mergeParams(requiredHeaders, headers);
+        var headers = API.mergeParams(requiredHeaders, headers);
 
         return API.produceAjaxObject(url, method, data, headers, success, error);
     }
@@ -87,6 +87,16 @@ export default class Auth extends API {
     /**
      * RefreshToken
      */
+    setPingTask(vue) {
+        this.clearPingTask();
+        
+        var context = this;
+        var user = Auth.getAuthorizedUser();
+        setInterval(function () {   
+            context.ping(vue, user.user_id);
+        }, API.getPingInterval());
+    }
+
     ping(vue, userId) {
         var url = this.apiGateway + 'ping/' + userId;
 
@@ -99,16 +109,6 @@ export default class Auth extends API {
         }, (response) => {
             console.log(response);
         })
-    }
-
-    setPingTask(vue) {
-        this.clearPingTask();
-        
-        var context = this;
-        var user = Auth.getAuthorizedUser();
-        setInterval(function () {   
-            context.ping(vue, user.user_id);
-        }, API.getPingInterval());
     }
 
     clearPingTask() {
