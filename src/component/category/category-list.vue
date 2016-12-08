@@ -69,24 +69,24 @@
                 </colgroup>
                 <thead>
                     <tr>
-                        <th>Expland</th> 
-                        <th>Category Id</th> 
-                        <th>Category Name EN</th> 
-                        <th>Category Name CN</th> 
-                        <th>Category Level</th> 
-                        <th>Created At</th> 
+                        <th>Expland</th>
+                        <th>Category Id</th>
+                        <th>Category Name EN</th>
+                        <th>Category Name CN</th>
+                        <th>Category Level</th>
+                        <th>Created At</th>
                         <th>Updated At</th>
                         <th>Operation</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td></td> 
-                        <td></td> 
-                        <td></td> 
-                        <td></td> 
-                        <td></td> 
-                        <td></td> 
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -170,7 +170,7 @@ export default {
                 glyph: glyph_opts,
                 icon: false,
                 source: ajax,
-                
+
                 postProcess: function (event, data) {
                     data.result = data.response.data;
                 },
@@ -182,7 +182,7 @@ export default {
                 renderColumns: function (event, data) {
                     var node = data.node;
                     var tdList = $(node.tr).find(">td");
-                    var operationHtml = '<a class="edit" data-id="' + node.data.category_id + '" href="#">Edit</a>'  
+                    var operationHtml = '<a class="edit" data-id="' + node.data.category_id + '" href="#">Edit</a>'
                                         + '&nbsp' +
                                         '<a class="delete" data-id="' + node.data.category_id +'" href="#">Delete</a>';
                     tdList.eq(1).text(node.data.category_id);
@@ -224,7 +224,7 @@ export default {
                     root.find('.edit').each(function (i, element) {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
-                            context.redirect('/dist/category-edit.html?category_id=' + categoryId);
+                            context.redirect('/category-edit.html?category_id=' + categoryId);
                             e.stopPropagation();
                         });
                     });
