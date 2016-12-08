@@ -27,33 +27,33 @@ export default class Category extends API {
     }
 
     /**
-     * 
+     *
      * @return Promise
      */
     createCategory(vue, category) {
         return vue.$http.post(this.apiGateway, category, {
             headers: {
-                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+                Authorization: 'bearer ' + API.getAuthorizedToken()
             }
         });
     }
 
     /**
-     * 
+     *
      * @return Promise
      */
     deleteCategory(vue, categoryId) {
         var url = this.apiGateway + categoryId;
-        
+
         return vue.$http.delete(url, {
             headers: {
-                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+                Authorization: 'bearer ' + API.getAuthorizedToken()
             }
         });
     }
 
     /**
-     * 
+     *
      * @return Promise
      */
     updateCategory(vue, categoryId, category) {
@@ -70,12 +70,12 @@ export default class Category extends API {
 
         return vue.$http.put(url, category, {
             headers: {
-                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+                Authorization: 'bearer ' + API.getAuthorizedToken()
             }
         });
     }
     /**
-     * 
+     *
      * @return Promise
      */
     getCategoryById(vue, categoryId) {
@@ -83,31 +83,31 @@ export default class Category extends API {
 
         return vue.$http.get(url, {
             headers: {
-                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+                Authorization: 'bearer ' + API.getAuthorizedToken()
             }
         });
     }
 
     /**
-     * 
+     *
      * @return Promise
      */
     getCategoriesByIds(vue, categoryIds) {
         return this.getCategories(categoryIds, {
             headers: {
-                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+                Authorization: 'bearer ' + API.getAuthorizedToken()
             }
         });
     }
 
     /**
-     * 
+     *
      * @return Promise
      */
     getCategoriesByCondition(vue, conditions) {
         return this.getCategories(vue, conditions, {
             headers: {
-                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+                Authorization: 'bearer ' + API.getAuthorizedToken()
             }
         });
     }
@@ -122,7 +122,7 @@ export default class Category extends API {
         return  vue.$http.get(url, {
             params: params,
             headers: {
-                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+                Authorization: 'bearer ' + API.getAuthorizedToken()
             }
         });
     }
@@ -136,7 +136,7 @@ export default class Category extends API {
         return vue.$http.get(this.apiGateway, {
             params: params,
             headers: {
-                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+                Authorization: 'bearer ' + API.getAuthorizedToken()
             }
         });
     }
@@ -152,7 +152,7 @@ export default class Category extends API {
         return  vue.$http.get(url, {
             params: params,
             headers: {
-                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+                Authorization: 'bearer ' + API.getAuthorizedToken()
             }
         });
     }
@@ -167,7 +167,7 @@ export default class Category extends API {
         return vue.$http.get(this.apiGateway, {
             params: params,
             headers: {
-                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+                Authorization: 'bearer ' + API.getAuthorizedToken()
             }
         });
     }

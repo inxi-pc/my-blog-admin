@@ -1,5 +1,3 @@
-import JwtDecoder from "jwt-decode"
-
 import API from 'app_lib/api.js'
 import * as Helper from 'app_lib/helper.js'
 
@@ -10,54 +8,7 @@ export default class Auth extends API {
     }
 
     /**
-     * Store Authorization token
-     */
-    static persistAuthorizedToken(response) {
-        sessionStorage.setItem('token', response.body.token);
-    }
-
-    /**
-     * Destroy Authorization token
-     */
-    static destoryAuthorizedToken() {
-        sessionStorage.removeItem('token');
-    }
-
-    /**
-     * Get Authorization token
-     */
-    static getAuthorizedToken() {
-        return sessionStorage.getItem("token");
-    }
-
-    /**
-     * Get Authorization user
-     */
-    static getAuthorizedUser() {
-        var token = Auth.getAuthorizedToken();
-        
-        try {
-            return JwtDecoder(token);
-        } catch (e) {
-            API.responseHandler({status: 401});
-        }
-    }
-
-    /**
-     * 
-     * Generate authorized ajax object for 3rd library, like datatables
-     */
-    static produceAuthorizedAjaxObject(url, method, data, headers, success, error) {
-        var requiredHeaders = {
-            Authorization: "bearer " + Auth.getAuthorizedToken()
-        };
-        var headers = API.mergeParams(requiredHeaders, headers);
-
-        return API.produceAjaxObject(url, method, data, headers, success, error);
-    }
-
-    /**
-     * 
+     *
      * @return Promise
      */
     register(vue, user) {
@@ -67,7 +18,7 @@ export default class Auth extends API {
     }
 
     /**
-     * 
+     *
      * @return Promise
      */
     login(vue, user) {
@@ -77,7 +28,7 @@ export default class Auth extends API {
     }
 
     /**
-     * @return 
+     * @return
      */
     logout(vue) {
         Auth.destoryAuthorizedToken();
@@ -89,12 +40,16 @@ export default class Auth extends API {
      */
     setPingTask(vue) {
         this.clearPingTask();
-        
+
         var context = this;
         var user = Auth.getAuthorizedUser();
-        setInterval(function () {   
+        setInterval(function () {
             context.ping(vue, user.user_id);
         }, API.getPingInterval());
+    }
+
+    clearPingTask() {
+        clearInterval();
     }
 
     ping(vue, userId) {
@@ -102,16 +57,12 @@ export default class Auth extends API {
 
         vue.$http.post(url, null, {
              headers: {
-                Authorization: 'bearer ' + Auth.getAuthorizedToken()
+                Authorization: 'bearer ' + API.getAuthorizedToken()
             }
         }).then((response) => {
             Auth.persistAuthorizedToken(response);
         }, (response) => {
             console.log(response);
         })
-    }
-
-    clearPingTask() {
-        clearInterval();
     }
 }

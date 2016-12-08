@@ -1,3 +1,5 @@
+import JwtDecoder from "jwt-decode"
+
 import * as Helper from './helper.js'
 
 export default class API {
@@ -7,7 +9,7 @@ export default class API {
 
     /**
      * Merge the params
-     * 
+     *
      * @param Object or Array
      * @return Object
      */
@@ -41,7 +43,54 @@ export default class API {
     }
 
     /**
-     * 
+     * Store Authorization token
+     */
+    static persistAuthorizedToken(response) {
+        sessionStorage.setItem('token', response.body.token);
+    }
+
+    /**
+     * Destroy Authorization token
+     */
+    static destoryAuthorizedToken() {
+        sessionStorage.removeItem('token');
+    }
+
+    /**
+     * Get Authorization token
+     */
+    static getAuthorizedToken() {
+        return sessionStorage.getItem("token");
+    }
+
+    /**
+     * Get Authorization user
+     */
+    static getAuthorizedUser() {
+        var token = API.getAuthorizedToken();
+
+        try {
+            return JwtDecoder(token);
+        } catch (e) {
+            API.responseHandler({status: 401});
+        }
+    }
+
+    /**
+     *
+     * Generate authorized ajax object for 3rd library, like datatables
+     */
+    static produceAuthorizedAjaxObject(url, method, data, headers, success, error) {
+        var requiredHeaders = {
+            Authorization: "bearer " + API.getAuthorizedToken()
+        };
+        var headers = API.mergeParams(requiredHeaders, headers);
+
+        return API.produceAjaxObject(url, method, data, headers, success, error);
+    }
+
+    /**
+     *
      * Basic ajax generation method
      */
     static produceAjaxObject(url, method, data, headers, success, error) {
@@ -49,7 +98,7 @@ export default class API {
 
         if (!Helper.isNullOrEmpty(url)) {
             ajax['url'] = url;
-        } 
+        }
         if (!Helper.isNullOrEmpty(method)) {
             ajax['method'] = method;
         }
@@ -63,11 +112,11 @@ export default class API {
         }
         if (!Helper.isNullOrEmpty(success) && success instanceof Function) {
             ajax['success'] = success;
-        } 
+        }
         if (!Helper.isNullOrEmpty(error) && error instanceof Function) {
             ajax['error'] = error;
-        } 
-       
-        return ajax; 
+        }
+
+        return ajax;
     }
 }
