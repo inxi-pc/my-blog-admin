@@ -214,9 +214,12 @@ export default {
                     root.find('.delete').each(function (i, element) {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
-                            categoryApi.deleteCategory(context, categoryId);
+                            categoryApi.deleteCategory(context, categoryId).then((response) => {
+                                context.refreshPage();
+                            }, (response) => {
+                                console.log(response);
+                            });
                             e.stopPropagation();
-                            context.refreshPage();
                         });
                     });
                 },
@@ -233,9 +236,12 @@ export default {
                     root.find('.delete').each(function (i, element) {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
-                            categoryApi.deleteCategory(context, categoryId);
+                            categoryApi.deleteCategory(context, categoryId).then((response) => {
+                                context.refreshPage();
+                            }, (response) => {
+                                console.log(response);
+                            });
                             e.stopPropagation();
-                            context.refreshPage();
                         });
                     });
                 }
