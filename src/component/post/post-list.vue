@@ -1,6 +1,15 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
 <style src="datatables_bootstrap/css/dataTables.bootstrap.css"></style>
 <style>
+    .post-content {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        max-height: 85px;
+    }
+
     .content-box-header {
         min-height: 40px;
         font-size: 16px;
@@ -156,12 +165,20 @@ export default {
                     }
                 },
                 {
+                    targets: [5],
+                    data: 'post_content',
+                    orderable: false,
+                    render: function ( data, type, full, meta ) {
+                        return "<div class='post-content'>" + data + "</div>"
+                    }
+                },
+                {
                     targets: [9],
                     data: 'post_id',
                     orderable: false,
                     render: function ( data, type, full, meta ) {
                         return '<a data-id="' + data + '" href="javascript:;" class="edit">Edit</a>' + '&nbsp'
-                                + '<a data-published="' + full.post_published 
+                                + '<a data-published="' + full.post_published
                                 + '" data-id="' + data + '" href="javascript:;" class="published">Published</a>' + '&nbsp'
                                 + '<a data-id="' + data + '" href="javascript:;" class="delete">Delete</a>';
                     }
@@ -213,7 +230,7 @@ export default {
 
                 root.find('.edit').each(function (i, element) {
                     $(element).on('click', function (e) {
-                        var postId = $(element).data('id'); 
+                        var postId = $(element).data('id');
                         context.redirect('/post-edit.html?post_id=' + postId);
                     });
                 })

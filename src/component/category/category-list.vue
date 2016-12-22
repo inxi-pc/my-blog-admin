@@ -216,6 +216,7 @@ export default {
                             var categoryId = $(element).data('id');
                             categoryApi.deleteCategory(context, categoryId);
                             e.stopPropagation();
+                            context.refreshPage();
                         });
                     });
                 },
@@ -234,11 +235,12 @@ export default {
                             var categoryId = $(element).data('id');
                             categoryApi.deleteCategory(context, categoryId);
                             e.stopPropagation();
+                            context.refreshPage();
                         });
                     });
                 }
             });
-        },
+        }
     }
 }
 </script>

@@ -1,6 +1,7 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
 <style src="tinymce/skins/lightgray/skin.min.css"></style>
 <style src="tinymce/skins/lightgray/content.min.css"></style>
+<style src="tinymce/plugins/visualblocks/css/visualblocks.css"></style>
 <style scoped>
     .content-box-header {
         min-height: 40px;
@@ -136,6 +137,7 @@ import 'tinymce/plugins/paste/plugin'
 import 'tinymce/plugins/emoticons/plugin'
 import 'tinymce/plugins/template/plugin'
 import 'tinymce/plugins/textcolor/plugin'
+import 'tinymce/plugins/autoresize/plugin'
 
 import { PostModel } from 'app_api/post.js'
 import Post from 'app_api/post.js'
@@ -185,7 +187,7 @@ export default {
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",
                     "insertdatetime media table contextmenu paste",
-                    "emoticons template textcolor"
+                    "emoticons template textcolor autoresize"
                 ],
                 toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
                 setup: function (editor) {
@@ -224,7 +226,7 @@ export default {
             });
         },
 
-        updatePost: function (event) {  
+        updatePost: function (event) {
             console.log(this.post);
             new Post().updatePost(this, this.post.post_id, this.post).then((response) => {
                 this.refreshPage();
