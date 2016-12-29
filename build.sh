@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cur_dir=`pwd`
-conf_dir=$cur_dir/src/main/resources
 env='development'
 region='local'
 enable_dev_server=false
