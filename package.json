@@ -47,7 +47,8 @@
   },
   "scripts": {
     "dev": "webpack-dev-server --inline --hot --port 8081 --content-base build/",
-    "build": "webpack --progress --display-modules --display-chunks -v"
+    "build:dev": "webpack --progress --display-modules --display-chunks -v",
+    "build:prod": "NODE_ENV=production webpack --progress --display-modules --display-chunks -v"
   },
   "author": "Owen Xiong",
   "license": "ISC"

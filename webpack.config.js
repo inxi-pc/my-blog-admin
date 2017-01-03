@@ -90,6 +90,12 @@ module.exports = {
     },
 
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
+            }
+        }),
+
         new ExtractTextPlugin("css/[name].css"),
 
         new webpack.ProvidePlugin({
@@ -146,6 +152,7 @@ module.exports = {
 };
 
 (function() {
+    // register copy html file plugins
     var entries = getEntries('./src/view/*.html');
     for (var basename in entries) {
         var conf = {
@@ -156,6 +163,13 @@ module.exports = {
         };
 
         module.exports.plugins.push(new HtmlWebpackPlugin(conf));
+    }
+
+    // get external env
+    if (process.env.NODE_ENV == 'production') {
+        module.exports.plugins.push(new webpack.optimize.UglifyJsPlugin({
+            compress: { warnings: false }
+        }));
     }
 })();
 
