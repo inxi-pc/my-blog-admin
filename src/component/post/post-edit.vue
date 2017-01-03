@@ -183,6 +183,7 @@ export default {
             tinymce.init({
                 selector: "#inputPostContent",
                 skin: false,
+                content_css: 'css/post-edit.css',
                 plugins: [
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",
