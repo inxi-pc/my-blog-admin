@@ -55,7 +55,7 @@ module.exports = {
                 ]
             },
             {
-            test: /tinymce\/(themes|plugins)\//,
+                test: /tinymce\/(themes|plugins)\//,
                 loaders: [
                     'imports?this=>window'
                 ]
