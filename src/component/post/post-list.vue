@@ -1,5 +1,5 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
-<style src="datatables_bootstrap/css/dataTables.bootstrap.css"></style>
+<style src="datatables-bootstrap/css/dataTables.bootstrap.css"></style>
 <style>
     .post-content {
         overflow: hidden;
@@ -97,7 +97,7 @@ import Post from 'app_api/post.js'
 import Auth from 'app_api/auth.js'
 import { PostModel } from 'app_api/post.js'
 
-import "datatables_bootstrap/js/dataTables.bootstrap.js"
+import "datatables-bootstrap/js/dataTables.bootstrap.js"
 import "datatables/media/js/jquery.dataTables.js"
 
 export default {

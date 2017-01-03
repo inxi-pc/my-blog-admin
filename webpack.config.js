@@ -4,6 +4,7 @@ var path = require('path');
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 var nodeLibPath = __dirname + '/node_modules/';
 var appSrcPath = __dirname + '/src/';
@@ -73,14 +74,6 @@ module.exports = {
 
     resolve: {
         alias: {
-            // external lib alias
-            bootstrap: nodeLibPath + "bootstrap",
-            jquery: nodeLibPath + "jquery",
-            jquery_ui: nodeLibPath + "jquery-ui",
-            datatables: nodeLibPath + "datatables",
-            datatables_bootstrap: nodeLibPath + "datatables-bootstrap",
-            tinymce: nodeLibPath + "tinymce",
-
             // src alias
             app_api: appSrcPath + "api",
             app_lib: appSrcPath + "lib",
@@ -109,6 +102,40 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             filename: "js/vendor.bundle.js",
             name: 'vendor'
+        }),
+
+        new FaviconsWebpackPlugin({
+            // Your source logo
+            logo: './static/images/icon.png',
+            // The prefix for all image files (might be a folder or a name)
+            prefix: 'icons-[hash]/',
+            // Emit all stats of the generated icons
+            emitStats: false,
+            // The name of the json containing all favicon information
+            statsFilename: 'iconstats-[hash].json',
+            // Generate a cache file with control hashes and
+            // don't rebuild the favicons until those hashes change
+            persistentCache: true,
+            // Inject the html into the html-webpack-plugin
+            inject: true,
+            // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
+            background: '#fff',
+            // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
+            title: 'This is a bear, named Owen',
+
+            // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
+            icons: {
+                android: false,
+                appleIcon: false,
+                appleStartup: false,
+                coast: false,
+                favicons: true,
+                firefox: false,
+                opengraph: false,
+                twitter: false,
+                yandex: false,
+                windows: false
+            }
         })
     ],
 
@@ -124,8 +151,10 @@ module.exports = {
         var conf = {
             filename: basename + '.html',
             template: entries[basename],
-            inject: false
+            inject: false,
+            title: 'This is a bear, named Owen'
         };
+
         module.exports.plugins.push(new HtmlWebpackPlugin(conf));
     }
 })();
@@ -140,6 +169,6 @@ function getEntries(globPath) {
         basename = path.basename(entry, path.extname(entry));
         entries[basename] = entry;
     });
- 
+
     return entries;
 }

@@ -1,5 +1,5 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
-<style src="datatables_bootstrap/css/dataTables.bootstrap.css"></style>
+<style src="datatables-bootstrap/css/dataTables.bootstrap.css"></style>
 <style>
     .content-box-header {
         min-height: 40px;
@@ -87,7 +87,7 @@ import User from 'app_api/user.js'
 import Auth from 'app_api/auth.js'
 import { UserModel } from 'app_api/user.js'
 
-import "datatables_bootstrap/js/dataTables.bootstrap.js"
+import "datatables-bootstrap/js/dataTables.bootstrap.js"
 import "datatables/media/js/jquery.dataTables.js"
 
 export default {
@@ -200,7 +200,7 @@ export default {
 
                 root.find('.edit').each(function (i, element) {
                     $(element).on('click', function (e) {
-                        var userId = $(element).data('id'); 
+                        var userId = $(element).data('id');
                         context.redirect('/user-edit.html?user_id=' + userId);
                     });
                 })
