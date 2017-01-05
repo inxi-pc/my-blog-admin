@@ -155,11 +155,16 @@ export default {
 
     methods: {
         initialEditor: function () {
+            require.context(
+              'file-loader?[path][name].[ext]&context=node_modules/tinymce!tinymce/skins',
+              true,
+              /.*/
+            );
             var context = this;
             tinymce.remove();
             tinymce.init({
                 selector: "#inputPostContent",
-                skin: false,
+                skin: 'lightgray',
                 content_css: 'css/post-create.css',
                 plugins: [
                     "advlist autolink lists link image charmap print preview anchor",

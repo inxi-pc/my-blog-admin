@@ -2,6 +2,6 @@ body {
     font-family: 'Open Sans', sans-serif!important;
     position: relative;
     margin: 0px;
-    font-size: 12px;
+    font-size: 12px!important;
     padding: 0px;
 }
