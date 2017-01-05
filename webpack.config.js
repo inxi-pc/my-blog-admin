@@ -176,7 +176,10 @@ module.exports = {
     // add UglifyJsPlugin
     if (!isDebug) {
         module.exports.plugins.push(new webpack.optimize.UglifyJsPlugin({
-            compress: { warnings: false }
+            compress: { warnings: false },
+            output: {
+                "ascii_only": true
+            }
         }));
     }
 })();
