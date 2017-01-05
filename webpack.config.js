@@ -11,65 +11,66 @@ var appSrcPath = __dirname + '/src/';
 var appAssetPath = __dirname + '/static/';
 var appConfigPath = __dirname;
 
+// swith the prod or dev config, will affect plugin
+var isDebug = process.env.NODE_ENV == 'production' ? false : true;
+var entries = getEntries('./src/entry/*.js');
+entries['vendor'] = ['jquery'];
+
 module.exports = {
-    entry: getEntries('./src/entry/*.js'),
+    entry: entries,
 
     output: {
         path: __dirname + '/dist/',
         publicPath: "/",
         filename: 'js/[name].bundle.js',
-        chunkFilename: "js/[id].js"
+        chunkFilename: 'js/chunk/[name].js'
+    },
+
+    performance: {
+        hints: isDebug
     },
 
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.vue$/, // a regex for matching all files that end in `.vue`
-                loader: 'vue'   // loader to use for matched files
+                test: /\.vue$/,
+                loader: 'vue-loader'
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader', // Enable es6 support by babels
-                exclude: /node_modules\//
-            },
-            {
-                test: /\.json$/,
-                loader: 'json-loader',
-                exclude: /node_modules\//
+                exclude: /node_modules\//,
+                loader: 'babel-loader'
             },
             {
                 test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
-                loader: 'file-loader?name=resource/[name].[ext]'
+                loader: 'file-loader',
+                options: {
+                    name: 'resource/[name].[ext]'
+                }
             },
             // Todo: url-loader has a bug, if file length > limit
             // then the file name is not same as prefix rule
             {
                 test: /\.(png|jpg|gif)$/,
-                loader: 'url-loader?limit=8192'
+                loader: 'url-loader',
+                options: {
+                    limit: 8192
+                }
             },
             {
                 test: require.resolve('tinymce/tinymce'),
                 loaders: [
-                    'imports?this=>window',
-                    'exports?window.tinymce'
+                    'imports-loader?this=>window',
+                    'exports-loader?window.tinymce'
                 ]
             },
             {
                 test: /tinymce\/(themes|plugins)\//,
                 loaders: [
-                    'imports?this=>window'
+                    'imports-loader?this=>window'
                 ]
             }
         ]
-    },
-
-    vue: {
-        loaders: {
-            css: ExtractTextPlugin.extract(
-                "style-loader",
-                "css-loader"
-            )
-        }
     },
 
     resolve: {
@@ -85,18 +86,31 @@ module.exports = {
             // other alias
             app_config: appConfigPath,
             app_asset: appAssetPath
-        },
-        modulesDirectories: ['node_modules']
+        }
     },
 
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
+        new webpack.LoaderOptionsPlugin({
+            debug: isDebug,
+            minimize: !isDebug,
+            options: {
+                vue: {
+                    loaders: {
+                        css: ExtractTextPlugin.extract({
+                            fallbackLoader: 'style-loader',
+                            loader: 'css-loader',
+                            publicPath: '/'
+                        })
+                    }
+                }
             }
         }),
 
-        new ExtractTextPlugin("css/[name].css"),
+        new ExtractTextPlugin({
+            filename: 'css/[name].css',
+            disable: false,
+            allChunks: true
+        }),
 
         new webpack.ProvidePlugin({
             $: "jquery",
@@ -106,8 +120,7 @@ module.exports = {
         }),
 
         new webpack.optimize.CommonsChunkPlugin({
-            filename: "js/vendor.bundle.js",
-            name: 'vendor'
+            names: ['vendor', 'mainfest']
         }),
 
         new FaviconsWebpackPlugin({
@@ -143,12 +156,7 @@ module.exports = {
                 windows: false
             }
         })
-    ],
-
-    babel: {
-        presets: ['es2015'],
-        plugins: ['transform-runtime']
-    }
+    ]
 };
 
 (function() {
@@ -165,8 +173,8 @@ module.exports = {
         module.exports.plugins.push(new HtmlWebpackPlugin(conf));
     }
 
-    // get external env
-    if (process.env.NODE_ENV == 'production') {
+    // add UglifyJsPlugin
+    if (!isDebug) {
         module.exports.plugins.push(new webpack.optimize.UglifyJsPlugin({
             compress: { warnings: false }
         }));
