@@ -1,6 +1,7 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
 <style src="tinymce/skins/lightgray/skin.min.css"></style>
 <style src="tinymce/skins/lightgray/content.min.css"></style>
+<style src="tinymce/plugins/visualblocks/css/visualblocks.css"></style>
 <style scoped>
     .content-box-header {
         min-height: 40px;
@@ -138,13 +139,14 @@ export default {
             require.context(
               'file-loader?name=js/chunk/[path][name].[ext]&context=node_modules/tinymce!tinymce/',
               true,
-              /.*/
+              /\/skins|themes|plugins/
             );
             var context = this;
             tinymce.remove();
             tinymce.init({
                 selector: "#inputPostContent",
                 skin: 'lightgray',
+                content_css: 'css/post.css',
                 plugins: [
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",
