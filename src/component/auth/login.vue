@@ -173,7 +173,7 @@ export default {
             new Auth().login(this, this.user).then((response) => {
                 Auth.persistAuthorizedToken(response);
                 this.toggleLoginAction(loginButton);
-                this.redirect("/dashboard.html");
+                this.gotoModule("dashboard");
             }, (response) => {
                 console.log(response);
                 this.toggleLoginAction(loginButton, 'User or Password issue, please retry!');

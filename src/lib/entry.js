@@ -29,8 +29,8 @@ function decodeQueryParams() {
     return params;
 }
 
-function redirect(url) {
-    window.location.href = url;
+function gotoModule(moduleName) {
+    window.location.href = '/' + moduleName + '.html';
 }
 
 function refreshPage() {
@@ -43,7 +43,7 @@ for (var i in Helper) {
 }
 methods['decodeQueryParams'] = decodeQueryParams;
 methods['refreshPage'] = refreshPage;
-methods['redirect'] = redirect;
+methods['gotoModule'] = gotoModule;
 Vue.mixin({
     methods: methods
 })

@@ -94,16 +94,23 @@
     <div id="leftSidebar" class="left-sidebar">
         <ul class="nav navbar-collapse collapse sidebar">
             <li id="dashboard">
-                <a href="/dashboard.html"><i class="glyphicon glyphicon-chevron-right"></i>Dashboard</a>
+                <a href="javascript:;" v-on:click="this.gotoModule('dashboard')">
+                    <i class="glyphicon glyphicon-chevron-right"></i>Dashboard
+                </a>
             </li>
             <li id="post">
-                <a href="/post.html"><i class="glyphicon glyphicon-chevron-right"></i>Post</a>
+                <a href="javascript:;" v-on:click="this.gotoModule('post')">
+                    <i class="glyphicon glyphicon-chevron-right"></i>Post</a>
             </li>
             <li id="category">
-                <a href="/category.html"><i class="glyphicon glyphicon-chevron-right"></i>Category</a>
+                <a href="javascript:;" v-on:click="this.gotoModule('category')">
+                    <i class="glyphicon glyphicon-chevron-right"></i>Category
+                </a>
             </li>
 			<li class="user">
-                <a href="/user.html"><i class="glyphicon glyphicon-chevron-right"></i>User</a>
+                <a href="javascript:;" v-on:click="this.gotoModule('user')">
+                    <i class="glyphicon glyphicon-chevron-right"></i>User
+                </a>
             </li>
             <!-- <li>
                 <a href="#"><i class="glyphicon glyphicon-chevron-down"></i>Others</a>
@@ -140,10 +147,6 @@ export default {
         var nav = $('#leftSidebar').children('ul');
         nav.children('li').removeClass('active');
         actived.addClass("active");
-    },
-
-    methods: {
-
     }
 }
 </script>

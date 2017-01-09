@@ -18,8 +18,7 @@
                         <sidebar actived="dashboard"></sidebar>
                     </div>
                     <div class="col-md-10">
-                        <router-view>
-                        </router-view>
+
                     </div>
                 </div>
             </div>

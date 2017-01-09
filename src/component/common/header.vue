@@ -168,7 +168,7 @@
         .header {
             height:auto;
             padding:15px 0px;
-        }  
+        }
         .header .logo {
             text-align:center;
             padding-bottom:10px;
@@ -187,7 +187,7 @@
         .header {
             height:auto;
             padding:15px 0px;
-        }  
+        }
         .header .logo {
             text-align:center;
             padding-bottom:10px;
@@ -229,8 +229,8 @@
                                         {{ user.user_name }}&nbsp&nbsp<b class="caret"></b>
                                     </a>
                                     <ul class="dropdown-menu animated fadeInUp">
-                                    <li><a v-on:click="redirectToProfile">Profile</a></li>
-                                    <li><a v-on:click="logout">Logout</a></li>
+                                    <li><a href="javascript:;" v-on:click="this.gotoModule('profile')">Profile</a></li>
+                                    <li><a href="javascript:;" v-on:click="logout">Logout</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -244,6 +244,7 @@
 
 <script>
 import "bootstrap/dist/js/bootstrap.js"
+
 import { UserModel } from "app_api/user.js"
 import Auth from 'app_api/auth.js'
 import User from 'app_api/user.js'
@@ -257,9 +258,8 @@ export default {
 
     ready: function () {
         new Auth().setPingTask(this);
-        
         var user = Auth.getAuthorizedUser();
-    
+
         new User().getUserById(this, user.user_id).then((response) => {
             this.user = response.body;
         }, (response) => {
@@ -268,13 +268,9 @@ export default {
     },
 
     methods: {
-        redirectToProfile() {
-            this.redirect("/profile.html");
-        },
-        
         logout() {
             new Auth().logout();
-            this.redirectToLoginPage();
+            this.gotoModule("auth");
         }
     }
 }

@@ -161,7 +161,7 @@
         .header {
             height:auto;
             padding:15px 0px;
-        }  
+        }
         .header .logo {
             text-align:center;
             padding-bottom:10px;
@@ -180,7 +180,7 @@
         .header {
             height:auto;
             padding:15px 0px;
-        }  
+        }
         .header .logo {
             text-align:center;
             padding-bottom:10px;
@@ -195,7 +195,7 @@
                 <div class="col-md-5">
                     <!-- Logo -->
                     <div class="logo">
-                        <h1><a href="">Owen's Blog</a></h1>
+                        <h1><a href="#">Owen's Blog</a></h1>
                     </div>
                 </div>
             </div>
@@ -204,8 +204,6 @@
 </template>
 
 <script>
-import "bootstrap/dist/js/bootstrap.js"
-
 export default {
     data: function () {
         return {
