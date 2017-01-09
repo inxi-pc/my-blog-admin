@@ -187,9 +187,9 @@ export default {
                 renderColumns: function (event, data) {
                     var node = data.node;
                     var tdList = $(node.tr).find(">td");
-                    var operationHtml = '<a class="edit" data-id="' + node.data.category_id + '" href="#">Edit</a>'
+                    var operationHtml = '<a class="edit" data-id="' + node.data.category_id + '" href="javascript:;">Edit</a>'
                                         + '&nbsp' +
-                                        '<a class="delete" data-id="' + node.data.category_id +'" href="#">Delete</a>';
+                                        '<a class="delete" data-id="' + node.data.category_id +'" href="javascript:;">Delete</a>';
                     tdList.eq(1).text(node.data.category_id);
                     tdList.eq(2).text(node.data.category_name_en);
                     tdList.eq(3).text(node.data.category_name_cn);
@@ -200,6 +200,7 @@ export default {
                 },
 
                 click: function (event, data) {
+                    console.log(event);
                     if (data.node.isExpanded()) {
                         data.node.setExpanded(false);
                     } else {
@@ -225,7 +226,9 @@ export default {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
                             categoryApi.deleteCategory(context, categoryId).then((response) => {
-                                context.refreshPage();
+                                context.$router.go({
+                                    name: 'category-list'
+                                });
                             }, (response) => {
                                 console.log(response);
                             });
@@ -252,7 +255,9 @@ export default {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
                             categoryApi.deleteCategory(context, categoryId).then((response) => {
-                                context.refreshPage();
+                                context.$router.go({
+                                    name: 'category-list'
+                                });
                             }, (response) => {
                                 console.log(response);
                             });

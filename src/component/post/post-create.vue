@@ -119,19 +119,17 @@ export default {
         };
     },
 
-    route: {
-        data: function (transition) {
-             // Get category list
-            var page = new Pagination(0, 20);
-            var sort = new Sort("DESC", "category_id", "category_id");
-            new Category().getCategoryList(this, {category_enabled: true}, page, sort).then((response) => {
-                this.categoryList = response.body.data;
-            }, (response) => {
-                console.log(response);
-            });
+    ready: function (transition) {
+         // Get category list
+        var page = new Pagination(0, 20);
+        var sort = new Sort("DESC", "category_id", "category_id");
+        new Category().getCategoryList(this, {category_enabled: true}, page, sort).then((response) => {
+            this.categoryList = response.body.data;
+        }, (response) => {
+            console.log(response);
+        });
 
-            this.initialEditor();
-        },
+        this.initialEditor();
     },
 
     methods: {

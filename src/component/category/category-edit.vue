@@ -130,8 +130,13 @@ export default {
         };
     },
 
+    ready: function () {
+        console.log('ready');
+    },
+
     route: {
         data: function (transition) {
+            console.log(transition);
             if (!Helper.isNullOrEmpty(transition.to.params.categoryId)) {
                 var categoryApi = new Category();
                 categoryApi.getCategoryById(this, transition.to.params.categoryId).then((response) => {
