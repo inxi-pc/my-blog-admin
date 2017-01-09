@@ -15,25 +15,25 @@ router.map({
     '/': {
         name: 'category-list',
         component: function (resolve) {
-          require(['app_component/category/category-list.vue'], resolve)
+            require(['app_component/category/category-list.vue'], resolve)
         }
     },
     '/category-list': {
         name: 'category-list',
         component: function (resolve) {
-          require(['app_component/category/category-list.vue'], resolve)
+            require(['app_component/category/category-list.vue'], resolve)
         }
     },
     '/category-create' : {
         name: 'category-create',
         component: function (resolve) {
-          require(['app_component/category/category-create.vue'], resolve)
+            require(['app_component/category/category-create.vue'], resolve)
         }
     },
     '/category-edit/:categoryId': {
         name: 'category-edit',
         component: function (resolve) {
-          require(['app_component/category/category-edit.vue'], resolve)
+            require(['app_component/category/category-edit.vue'], resolve)
         }
     }
 })

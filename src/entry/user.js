@@ -15,25 +15,25 @@ router.map({
     '/': {
         name: 'user-list',
         component: function (resolve) {
-          require(['app_component/user/user-list.vue'], resolve)
+            require(['app_component/user/user-list.vue'], resolve)
         }
     },
     '/user-list': {
         name: 'user-list',
         component: function (resolve) {
-          require(['app_component/user/user-list.vue'], resolve)
+            require(['app_component/user/user-list.vue'], resolve)
         }
     },
     '/user-create' : {
         name: 'user-create',
         component: function (resolve) {
-          require(['app_component/user/user-create.vue'], resolve)
+            require(['app_component/user/user-create.vue'], resolve)
         }
     },
     '/user-edit/:userId': {
         name: 'user-edit',
         component: function (resolve) {
-          require(['app_component/user/user-edit.vue'], resolve)
+            require(['app_component/user/user-edit.vue'], resolve)
         }
     }
 })

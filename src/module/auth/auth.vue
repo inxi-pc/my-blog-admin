@@ -8,8 +8,9 @@
     <div>
         <visitor-header></visitor-header>
         <div class="container">
-            <div class="row"> 
-                <register></register>
+            <div class="row">
+                <router-view>
+                </router-view>
             </div>
         </div>
     </div>
@@ -18,7 +19,6 @@
 <script>
 import headerVisitor from 'app_component/common/header-visitor.vue'
 // import footer from 'app_component/common/footer.vue'
-import register from 'app_component/auth/register.vue'
 
 export default {
     data: function () {
@@ -28,9 +28,8 @@ export default {
     },
 
     components: {
-        'visitor-header': headerVisitor,
+        "visitor-header": headerVisitor,
         // "my-footer": footer,
-        'register': register
     }
 }
 </script>

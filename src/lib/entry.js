@@ -25,7 +25,7 @@ function decodeQueryParams() {
             }
         }
     }
- 
+
     return params;
 }
 
@@ -37,11 +37,6 @@ function refreshPage() {
     window.location.reload();
 }
 
-function redirectToLoginPage() {
-    var href = '/login.html';
-    redirect(href);
-}
-
 var methods = {};
 for (var i in Helper) {
     methods[i] = Helper[i];
@@ -49,8 +44,6 @@ for (var i in Helper) {
 methods['decodeQueryParams'] = decodeQueryParams;
 methods['refreshPage'] = refreshPage;
 methods['redirect'] = redirect;
-methods['redirectToLoginPage'] = redirectToLoginPage;
-
 Vue.mixin({
     methods: methods
 })

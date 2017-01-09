@@ -15,25 +15,25 @@ router.map({
     '/': {
         name: 'post-list',
         component: function (resolve) {
-          require(['app_component/post/post-list.vue'], resolve)
+            require(['app_component/post/post-list.vue'], resolve)
         }
     },
     '/post-list': {
         name: 'post-list',
         component: function (resolve) {
-          require(['app_component/post/post-list.vue'], resolve)
+            require(['app_component/post/post-list.vue'], resolve)
         }
     },
     '/post-create' : {
         name: 'post-create',
         component: function (resolve) {
-          require(['app_component/post/post-create.vue'], resolve)
+            require(['app_component/post/post-create.vue'], resolve)
         }
     },
     '/post-edit/:postId': {
         name: 'post-edit',
         component: function (resolve) {
-          require(['app_component/post/post-edit.vue'], resolve)
+            require(['app_component/post/post-edit.vue'], resolve)
         }
     }
 })
