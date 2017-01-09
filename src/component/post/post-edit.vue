@@ -1,7 +1,6 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
 <style src="tinymce/skins/lightgray/skin.min.css"></style>
 <style src="tinymce/skins/lightgray/content.min.css"></style>
-<style src="tinymce/plugins/visualblocks/css/visualblocks.css"></style>
 <style scoped>
     .content-box-header {
         min-height: 40px;
@@ -115,29 +114,8 @@
 
 <script>
 import tinymce from 'tinymce/tinymce'
-import 'tinymce/themes/modern/theme'
-import 'tinymce/plugins/advlist/plugin'
-import 'tinymce/plugins/autolink/plugin'
-import 'tinymce/plugins/lists/plugin'
-import 'tinymce/plugins/link/plugin'
-import 'tinymce/plugins/image/plugin'
-import 'tinymce/plugins/charmap/plugin'
-import 'tinymce/plugins/print/plugin'
-import 'tinymce/plugins/preview/plugin'
-import 'tinymce/plugins/anchor/plugin'
-import 'tinymce/plugins/searchreplace/plugin'
-import 'tinymce/plugins/visualblocks/plugin'
-import 'tinymce/plugins/code/plugin'
-import 'tinymce/plugins/fullscreen/plugin'
-import 'tinymce/plugins/insertdatetime/plugin'
-import 'tinymce/plugins/media/plugin'
-import 'tinymce/plugins/table/plugin'
-import 'tinymce/plugins/contextmenu/plugin'
-import 'tinymce/plugins/paste/plugin'
-import 'tinymce/plugins/emoticons/plugin'
-import 'tinymce/plugins/template/plugin'
-import 'tinymce/plugins/textcolor/plugin'
-import 'tinymce/plugins/autoresize/plugin'
+
+import * as Helper from 'app_lib/helper.js'
 
 import { PostModel } from 'app_api/post.js'
 import Post from 'app_api/post.js'
@@ -154,36 +132,42 @@ export default {
         };
     },
 
-    ready: function () {
-        // Get post
-        var params = this.decodeQueryParams();
-        new Post().getPostById(this, params.post_id).then((response) => {
-            this.post = response.body;
-            this.initialEditor();
-        }, (response) => {
-             console.log(response);
-        });
+    route: {
+        data: function (transition) {
+            if (!Helper.isNullOrEmpty(transition.to.params.postId)) {
+                new Post().getPostById(this, transition.to.params.postId).then((response) => {
+                    this.post = response.body;
+                    this.initialEditor();
+                }, (response) => {
+                     console.log(response);
+                });
 
-        // Get category list
-        var page = new Pagination(0, 20);
-        var sort = new Sort("ASC", "category_id", "category_id");
-        new Category().getCategoryList(this, null, page, sort).then((response) => {
-            this.categoryList = response.body.data;
-        }, (response) => {
-            console.log(response);
-        });
+                // Get category list
+                var page = new Pagination(0, 20);
+                var sort = new Sort("ASC", "category_id", "category_id");
+                new Category().getCategoryList(this, null, page, sort).then((response) => {
+                    this.categoryList = response.body.data;
+                }, (response) => {
+                    console.log(response);
+                });
 
-        this.bindElementAction();
+                this.bindElementAction();
+            }
+        }
     },
 
     methods: {
         initialEditor: function () {
+            require.context(
+              'file-loader?name=js/chunk/[path][name].[ext]&context=node_modules/tinymce!tinymce/',
+              true,
+              /.*/
+            );
             var context = this;
             tinymce.remove();
             tinymce.init({
                 selector: "#inputPostContent",
-                skin: false,
-                content_css: 'css/post-edit.css',
+                skin: 'lightgray',
                 plugins: [
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",

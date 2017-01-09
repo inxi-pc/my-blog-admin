@@ -102,28 +102,6 @@
 
 <script>
 import tinymce from 'tinymce/tinymce'
-import 'tinymce/themes/modern/theme'
-import 'tinymce/plugins/advlist/plugin'
-import 'tinymce/plugins/autolink/plugin'
-import 'tinymce/plugins/lists/plugin'
-import 'tinymce/plugins/link/plugin'
-import 'tinymce/plugins/image/plugin'
-import 'tinymce/plugins/charmap/plugin'
-import 'tinymce/plugins/print/plugin'
-import 'tinymce/plugins/preview/plugin'
-import 'tinymce/plugins/anchor/plugin'
-import 'tinymce/plugins/searchreplace/plugin'
-import 'tinymce/plugins/visualblocks/plugin'
-import 'tinymce/plugins/code/plugin'
-import 'tinymce/plugins/fullscreen/plugin'
-import 'tinymce/plugins/insertdatetime/plugin'
-import 'tinymce/plugins/media/plugin'
-import 'tinymce/plugins/table/plugin'
-import 'tinymce/plugins/contextmenu/plugin'
-import 'tinymce/plugins/paste/plugin'
-import 'tinymce/plugins/emoticons/plugin'
-import 'tinymce/plugins/template/plugin'
-import 'tinymce/plugins/textcolor/plugin'
 
 import { PostModel } from 'app_api/post.js'
 import Post from 'app_api/post.js'
@@ -140,23 +118,25 @@ export default {
         };
     },
 
-    ready: function () {
-         // Get category list
-        var page = new Pagination(0, 20);
-        var sort = new Sort("DESC", "category_id", "category_id");
-        new Category().getCategoryList(this, {category_enabled: true}, page, sort).then((response) => {
-            this.categoryList = response.body.data;
-        }, (response) => {
-            console.log(response);
-        });
+    route: {
+        data: function (transition) {
+             // Get category list
+            var page = new Pagination(0, 20);
+            var sort = new Sort("DESC", "category_id", "category_id");
+            new Category().getCategoryList(this, {category_enabled: true}, page, sort).then((response) => {
+                this.categoryList = response.body.data;
+            }, (response) => {
+                console.log(response);
+            });
 
-        this.initialEditor();
+            this.initialEditor();
+        },
     },
 
     methods: {
         initialEditor: function () {
             require.context(
-              'file-loader?[path][name].[ext]&context=node_modules/tinymce!tinymce/skins',
+              'file-loader?name=js/chunk/[path][name].[ext]&context=node_modules/tinymce!tinymce/',
               true,
               /.*/
             );
@@ -165,7 +145,6 @@ export default {
             tinymce.init({
                 selector: "#inputPostContent",
                 skin: 'lightgray',
-                content_css: 'css/post-create.css',
                 plugins: [
                     "advlist autolink lists link image charmap print preview anchor",
                     "searchreplace visualblocks code fullscreen",

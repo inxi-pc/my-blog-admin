@@ -63,7 +63,12 @@
         <div class="content-box-header panel-heading">
             <div class="panel-title">Post List</div>
             <div class="action">
-                <a href="/post-create.html">Create Post</a>
+                <a class="active" title="Post Create"
+                v-link="{
+                    name: 'post-create'
+                }">
+                    Post Create
+                </a>
             </div>
         </div>
         <div class="content-box-large box-with-header">
@@ -231,7 +236,12 @@ export default {
                 root.find('.edit').each(function (i, element) {
                     $(element).on('click', function (e) {
                         var postId = $(element).data('id');
-                        context.redirect('/post-edit.html?post_id=' + postId);
+                        context.$router.go({
+                            name: 'post-edit',
+                            params: {
+                                postId: postId
+                            }
+                        });
                     });
                 })
             });

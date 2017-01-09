@@ -18,7 +18,8 @@
                         <sidebar actived="post"></sidebar>
                     </div>
                     <div class="col-md-10">
-                        <post-list></post-list>
+                        <router-view>
+                        </router-view>
                     </div>
                 </div>
             </div>
@@ -30,20 +31,18 @@
 import header from 'app_component/common/header.vue'
 // import footer from 'app_component/common/footer.vue'
 import sidebar from 'app_component/common/sidebar.vue'
-import postList from 'app_component/post/post-list.vue'
 
 export default {
     data: function () {
         return {
-           
+
         }
     },
-    
+
     components: {
         "my-header": header,
         // "my-footer": Footer,
-        'sidebar': sidebar,
-        'post-list': postList
+        'sidebar': sidebar
     }
 }
 </script>
