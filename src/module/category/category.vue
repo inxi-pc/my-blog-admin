@@ -9,16 +9,17 @@
 </style>
 
 <template>
-    <div>
+        <div>
         <my-header></my-header>
         <div>
             <div class="container">
                 <div class="row">
                     <div class="col-md-2">
-                        <sidebar actived="user"></sidebar>
+                        <sidebar actived="category"></sidebar>
                     </div>
                     <div class="col-md-10">
-                        <user-list></user-list>
+                        <router-view>
+                        </router-view>
                     </div>
                 </div>
             </div>
@@ -30,20 +31,18 @@
 import header from 'app_component/common/header.vue'
 // import footer from 'app_component/common/footer.vue'
 import sidebar from 'app_component/common/sidebar.vue'
-import userList from 'app_component/user/user-list.vue'
 
 export default {
     data: function () {
         return {
-           
+
         }
     },
-    
+
     components: {
         "my-header": header,
         // "my-footer": Footer,
-        'sidebar': sidebar,
-        'user-list': userList
+        'sidebar': sidebar
     }
 }
 </script>

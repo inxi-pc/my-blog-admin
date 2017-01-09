@@ -63,11 +63,11 @@
         <div class="content-box-header panel-heading">
             <div class="panel-title">Post List</div>
             <div class="action">
-                <a class="active" title="Post Create"
+                <a class="active" title="create post"
                 v-link="{
                     name: 'post-create'
                 }">
-                    Post Create
+                    Create Post
                 </a>
             </div>
         </div>

@@ -54,7 +54,12 @@
         <div class="content-box-header panel-heading">
             <div class="panel-title">User List</div>
             <div class="action">
-                <a href="/user-create.html">Create User</a>
+                <a class="active" title="create user"
+                v-link="{
+                    name: 'user-create'
+                }">
+                    Create User
+                </a>
             </div>
         </div>
         <div class="content-box-large box-with-header">
@@ -201,7 +206,12 @@ export default {
                 root.find('.edit').each(function (i, element) {
                     $(element).on('click', function (e) {
                         var userId = $(element).data('id');
-                        context.redirect('/user-edit.html?user_id=' + userId);
+                        context.$router.go({
+                            name: 'user-edit',
+                            params: {
+                                userId: userId
+                            }
+                        });
                     });
                 })
             });

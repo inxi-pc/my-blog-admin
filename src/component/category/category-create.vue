@@ -110,22 +110,24 @@ export default {
         };
     },
 
-    ready: function () {
-        // Get category parent list
-        var page = new Pagination(0, 20);
-        var sort = new Sort("DESC", "category_id", "category_id");
-        var query = new CategoryModel();
-        query.category_enabled = true;
-        new Category().getCategoryList(this, query, page, sort).then((response) => {
-            this.categoryParentList = response.body.data;
-        }, (response) => {
-            console.log(response);
-        });
+    route: {
+        data: function () {
+            // Get category parent list
+            var page = new Pagination(0, 20);
+            var sort = new Sort("DESC", "category_id", "category_id");
+            var query = new CategoryModel();
+            query.category_enabled = true;
+            new Category().getCategoryList(this, query, page, sort).then((response) => {
+                this.categoryParentList = response.body.data;
+            }, (response) => {
+                console.log(response);
+            });
+        }
     },
 
     methods: {
         changeCategoryParentId: function (e) {
-            this.category.category_parent_id = $(e.target).val(); 
+            this.category.category_parent_id = $(e.target).val();
         },
 
         changeCategoryNameEn: function (e) {

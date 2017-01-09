@@ -54,7 +54,12 @@
         <div class="content-box-header panel-heading">
             <div class="panel-title">Category List</div>
             <div class="action">
-                <a href="/category-create.html">Create Category</a>
+                <a class="active" title="create category"
+                v-link="{
+                    name: 'category-create'
+                }">
+                    Create Category
+                </a>
             </div>
         </div>
         <div class="content-box-large box-with-header">
@@ -206,7 +211,12 @@ export default {
                     root.find('.edit').each(function (i, element) {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
-                            context.redirect('/category-edit.html?category_id=' + categoryId);
+                            context.$router.go({
+                                name: 'category-edit',
+                                params: {
+                                    categoryId: categoryId
+                                }
+                            });
                             e.stopPropagation();
                         });
                     });
@@ -228,7 +238,12 @@ export default {
                     root.find('.edit').each(function (i, element) {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
-                            context.redirect('/category-edit.html?category_id=' + categoryId);
+                            context.$router.go({
+                                name: 'category-edit',
+                                params: {
+                                    categoryId: categoryId
+                                }
+                            });
                             e.stopPropagation();
                         });
                     });

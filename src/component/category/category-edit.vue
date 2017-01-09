@@ -115,6 +115,8 @@
 </template>
 
 <script>
+import * as Helper from 'app_lib/helper.js'
+
 import Pagination from 'app_api/pagination.js'
 import Sort from 'app_api/sort.js'
 import Category from 'app_api/category.js'
@@ -128,31 +130,33 @@ export default {
         };
     },
 
-    ready: function () {
-        // Get category 
-        var params = this.decodeQueryParams();
-        var categoryApi = new Category();
-        categoryApi.getCategoryById(this, params.category_id).then((response) => {
-            this.category = response.body;
-        }, (response) => {
-            console.log(response);
-        });
+    route: {
+        data: function (transition) {
+            if (!Helper.isNullOrEmpty(transition.to.params.categoryId)) {
+                var categoryApi = new Category();
+                categoryApi.getCategoryById(this, transition.to.params.categoryId).then((response) => {
+                    this.category = response.body;
+                }, (response) => {
+                    console.log(response);
+                });
 
-        // Get category parent list
-        var page = new Pagination(0, 20);
-        var sort = new Sort("DESC", "category_id", "category_id");
-        var query = new CategoryModel();
-        query.category_enabled = true;
-        categoryApi.getCategoryList(this, query, page, sort).then((response) => {
-            this.categoryParentList = response.body.data;
-        }, (response) => {
-            console.log(response);
-        });
+                // Get category parent list
+                var page = new Pagination(0, 20);
+                var sort = new Sort("DESC", "category_id", "category_id");
+                var query = new CategoryModel();
+                query.category_enabled = true;
+                categoryApi.getCategoryList(this, query, page, sort).then((response) => {
+                    this.categoryParentList = response.body.data;
+                }, (response) => {
+                    console.log(response);
+                });
+            }
+        },
     },
 
     methods: {
         changeCategoryParentId: function (e) {
-            this.category.category_parent_id = $(e.target).val(); 
+            this.category.category_parent_id = $(e.target).val();
         },
 
         changeCategoryNameEn: function (e) {
