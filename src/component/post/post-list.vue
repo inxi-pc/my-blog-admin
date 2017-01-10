@@ -120,6 +120,7 @@ export default {
 
     ready: function () {
         this.initDatatables();
+        console.log('ready');
     },
 
     methods: {
@@ -214,11 +215,16 @@ export default {
             root.find('#postList').on('xhr.dt', function (e, settings, json, xhr) {
                 console.log('xhr finished');
                 var api = new $.fn.dataTable.Api(settings);
-                json.recordsFiltered = json.recordsTotal;
+                if (!context.isNullOrEmpty(json)) {
+                    json.recordsFiltered = json.recordsTotal;
+                }
+
+                return true;
             });
 
             root.find('#postList').on('draw.dt', function (e, settings) {
                 root.find('.published').each(function (i, element) {
+                    console.log('bind');
                     $(element).on('click', function (e) {
                         var postId = $(element).data('id');
                         var published = $(element).data('published');
@@ -251,7 +257,9 @@ export default {
             var post = new PostModel();
             post.post_published = !published;
             new Post().updatePost(this, postId, post).then((response) => {
-                this.refreshPage();
+                this.$router.go({
+                    name: 'post-list'
+                });
             }, (response) => {
                 console.log(response);
             });
@@ -259,7 +267,9 @@ export default {
 
         deletePost: function (postId) {
             new Post().deletePost(this, postId).then((response) => {
-                this.refreshPage();
+                this.$router.go({
+                    name: 'post-list'
+                });
             }, (response) => {
                 console.log(response);
             });

@@ -115,8 +115,6 @@
 </template>
 
 <script>
-import * as Helper from 'app_lib/helper.js'
-
 import Pagination from 'app_api/pagination.js'
 import Sort from 'app_api/sort.js'
 import Category from 'app_api/category.js'
@@ -130,14 +128,9 @@ export default {
         };
     },
 
-    ready: function () {
-        console.log('ready');
-    },
-
     route: {
         data: function (transition) {
-            console.log(transition);
-            if (!Helper.isNullOrEmpty(transition.to.params.categoryId)) {
+            if (!this.isNullOrEmpty(transition.to.params.categoryId)) {
                 var categoryApi = new Category();
                 categoryApi.getCategoryById(this, transition.to.params.categoryId).then((response) => {
                     this.category = response.body;
@@ -173,9 +166,10 @@ export default {
         },
 
         updateCategory: function () {
-            console.log(this.category);
             new Category().updateCategory(this, this.category.category_id, this.category).then((response) => {
-                this.refreshPage();
+                this.$router.go({
+                    name: 'category-list'
+                })
             }, (response) => {
                 console.log(response);
             })

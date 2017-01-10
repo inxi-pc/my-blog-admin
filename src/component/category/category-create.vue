@@ -138,7 +138,9 @@ export default {
 
         createCategory: function (event) {
             new Category().createCategory(this, this.category).then((response) => {
-                this.refreshPage();
+                this.$router.go({
+                    name: 'category-list'
+                });
             }, (response) => {
                 console.log(response);
             });

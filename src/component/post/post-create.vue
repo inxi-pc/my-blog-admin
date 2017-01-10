@@ -161,7 +161,6 @@ export default {
         },
 
         changeCategoryId: function (e) {
-            console.log($(e.target).val());
             this.post.category_id = $(e.target).val();
         },
 
@@ -175,7 +174,9 @@ export default {
 
         createPost: function (event) {
             new Post().createPost(this, this.post).then((response) => {
-                this.refreshPage();
+                this.$router.go({
+                    name: 'post-list'
+                });
             }, (response) => {
                 console.log(response);
             });

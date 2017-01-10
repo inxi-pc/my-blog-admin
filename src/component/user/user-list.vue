@@ -192,7 +192,11 @@ export default {
             root.find('#userList').on('xhr.dt', function (e, settings, json, xhr) {
                 console.log('xhr finished');
                 var api = new $.fn.dataTable.Api(settings);
-                json.recordsFiltered = json.recordsTotal;
+                if (!context.isNullOrEmpty(json)) {
+                    json.recordsFiltered = json.recordsTotal;
+                }
+
+                return true;
             });
 
             root.find('#userList').on('draw.dt', function (e, settings) {

@@ -120,8 +120,6 @@
 <script>
 import tinymce from 'tinymce/tinymce'
 
-import * as Helper from 'app_lib/helper.js'
-
 import { PostModel } from 'app_api/post.js'
 import Post from 'app_api/post.js'
 
@@ -139,7 +137,7 @@ export default {
 
     route: {
         data: function (transition) {
-            if (!Helper.isNullOrEmpty(transition.to.params.postId)) {
+            if (!this.isNullOrEmpty(transition.to.params.postId)) {
                 new Post().getPostById(this, transition.to.params.postId).then((response) => {
                     this.post = response.body;
                     this.initialEditor();
