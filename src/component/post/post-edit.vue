@@ -69,7 +69,7 @@
                 <div class="form-group">
                     <label for="selectCategoryId" class="col-sm-2 control-label">Category</label>
                     <div class="col-sm-5">
-                        <select v-model="post.category_id" type="text" class="form-control" id="selectCategoryId">
+                        <select v-on:change='changePostCategoryId' v-model="post.category_id" type="text" class="form-control" id="selectCategoryId">
                             <option>Select</option>
                             <option v-for="category in categoryList" value='{{ category.category_id }}'>
                                 {{ category.category_name_en }} ({{ category.category_name_cn }})
@@ -81,7 +81,7 @@
                     <label for="inputPostTitle" class="col-sm-2 control-label">Post title</label>
                     <div class="col-sm-5">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="inputPostTitle" value="{{ post.post_title }}">
+                            <input v-on:change='changePostTitle' type="text" class="form-control" id="inputPostTitle" value="{{ post.post_title }}">
                             <span class="input-group-addon">
                                 <i class="glyphicon glyphicon-remove-circle" style="display:none"></i>
                             </span>
@@ -99,7 +99,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <div class="checkbox">
+                        <div class="checkbox" v-on:change='changePostPublished'>
                             <label>
                                 <input type="checkbox" id="checkboxPublished" checked="{{ post.post_published }}">Published now?
                             </label>
@@ -148,13 +148,11 @@ export default {
                 // Get category list
                 var page = new Pagination(0, 20);
                 var sort = new Sort("ASC", "category_id", "category_id");
-                new Category().getCategoryList(this, null, page, sort).then((response) => {
+                new Category().getCategoryList(this, { category_enabled: true }, page, sort).then((response) => {
                     this.categoryList = response.body.data;
                 }, (response) => {
                     console.log(response);
                 });
-
-                this.bindElementAction();
             }
         }
     },
@@ -195,30 +193,23 @@ export default {
             });
         },
 
-        bindElementAction: function () {
-            var context = this;
-            var root = $(this.$el);
-            var categoryIdElement = root.find("#selectCategoryId");
-            var postTitleElement = root.find("#inputPostTitle");
-            var postPublishedElement = root.find("#checkboxPublished");
+        changePostCategoryId: function (e) {
+            this.post.category_id = $(e.target).val();
+        },
 
-            categoryIdElement.on("change", function (e) {
-                context.post.category_id = $(e.target).val();
-            });
+        changePostTitle: function (e) {
+            this.post.post_title = $(e.target).val();
+        },
 
-            postTitleElement.on("change", function (e) {
-                context.post.post_title = $(e.target).val();
-            });
-
-            postPublishedElement.on("change", function (e) {
-                context.post.post_published = $(e.target).prop('checked');
-            });
+        changePostPublished: function (e) {
+            this.post.post_published = $(e.target).prop('checked');
         },
 
         updatePost: function (event) {
-            console.log(this.post);
             new Post().updatePost(this, this.post.post_id, this.post).then((response) => {
-                this.refreshPage();
+                this.$router.go({
+                    name: 'post-list'
+                });
             }, (response) => {
                 console.log(response);
             })

@@ -76,7 +76,7 @@ module.exports = {
     resolve: {
         alias: {
             // src alias
-            app_api: appSrcPath + "api",
+            app_api: appSrcPath + "api/src/api",
             app_lib: appSrcPath + "lib",
             app_component: appSrcPath + "component",
             app_entry: appSrcPath + "entry",

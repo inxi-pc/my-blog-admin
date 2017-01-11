@@ -30,15 +30,18 @@ export default class API {
         return params;
     }
 
-    static clone(clone, obj) {
+    static clone(obj) {
+        var clone = new obj.constructor;
         for (var i in obj) {
             clone[i] = obj[i];
         }
+
+        return clone;
     }
 
     static responseHandler(response) {
         if (response.status == 401) {
-            window.location.href = '/login.html';
+            Helper.gotoModule('auth');
         }
     }
 

@@ -29,21 +29,11 @@ function decodeQueryParams() {
     return params;
 }
 
-function gotoModule(moduleName) {
-    window.location.href = '/' + moduleName + '.html';
-}
-
-function refreshPage() {
-    window.location.reload();
-}
-
 var methods = {};
 for (var i in Helper) {
     methods[i] = Helper[i];
 }
 methods['decodeQueryParams'] = decodeQueryParams;
-methods['refreshPage'] = refreshPage;
-methods['gotoModule'] = gotoModule;
 Vue.mixin({
     methods: methods
 })

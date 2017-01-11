@@ -120,7 +120,6 @@ export default {
 
     ready: function () {
         this.initDatatables();
-        console.log('ready');
     },
 
     methods: {
@@ -255,21 +254,19 @@ export default {
 
         publishedPost: function (postId, published) {
             var post = new PostModel();
+            var root = $(this.$el);
             post.post_published = !published;
             new Post().updatePost(this, postId, post).then((response) => {
-                this.$router.go({
-                    name: 'post-list'
-                });
+                root.find("#postList").DataTable().ajax.reload();
             }, (response) => {
                 console.log(response);
             });
         },
 
         deletePost: function (postId) {
+            var root = $(this.$el);
             new Post().deletePost(this, postId).then((response) => {
-                this.$router.go({
-                    name: 'post-list'
-                });
+                root.find("#postList").DataTable().ajax.reload();
             }, (response) => {
                 console.log(response);
             });
