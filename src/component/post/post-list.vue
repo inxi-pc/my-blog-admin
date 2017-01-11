@@ -223,7 +223,6 @@ export default {
 
             root.find('#postList').on('draw.dt', function (e, settings) {
                 root.find('.published').each(function (i, element) {
-                    console.log('bind');
                     $(element).on('click', function (e) {
                         var postId = $(element).data('id');
                         var published = $(element).data('published');

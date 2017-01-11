@@ -10,10 +10,7 @@ Vue.use(VueRouter)
 var router = new VueRouter({
     hashbang: false
 })
-router.beforeEach(function (transition) {
-    console.log(transition);
-    transition.next();
-})
+
 router.map({
     '/': {
         name: 'post-list',
