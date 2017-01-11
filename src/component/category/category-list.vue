@@ -200,7 +200,6 @@ export default {
                 },
 
                 click: function (event, data) {
-                    console.log(event);
                     if (data.node.isExpanded()) {
                         data.node.setExpanded(false);
                     } else {
@@ -226,9 +225,7 @@ export default {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
                             categoryApi.deleteCategory(context, categoryId).then((response) => {
-                                context.$router.go({
-                                    name: 'category-list'
-                                });
+                                root.find("#treetable").fancytree("getTree").reload();
                             }, (response) => {
                                 console.log(response);
                             });
@@ -255,9 +252,7 @@ export default {
                         $(element).on('click', function (e) {
                             var categoryId = $(element).data('id');
                             categoryApi.deleteCategory(context, categoryId).then((response) => {
-                                context.$router.go({
-                                    name: 'category-list'
-                                });
+                                root.find("#treetable").fancytree("getTree").reload();
                             }, (response) => {
                                 console.log(response);
                             });
