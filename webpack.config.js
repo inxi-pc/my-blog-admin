@@ -54,7 +54,8 @@ module.exports = {
                 test: /\.(png|jpg|gif)$/,
                 loader: 'url-loader',
                 options: {
-                    limit: 8192
+                    limit: 8192,
+                    name: 'resource/[name].[ext]'
                 }
             },
             {
@@ -166,8 +167,7 @@ module.exports = {
         var conf = {
             filename: basename + '.html',
             template: entries[basename],
-            inject: false,
-            title: 'This is a bear, named Owen'
+            inject: false
         };
 
         module.exports.plugins.push(new HtmlWebpackPlugin(conf));
