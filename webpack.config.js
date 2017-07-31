@@ -1,55 +1,117 @@
 var webpack = require("webpack");
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var glob = require('glob');
+var path = require('path');
 
-var node_lib_dir = __dirname + '/node_modules/';
-var app_lib_dir = __dirname + '/static/';
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+
+var nodeLibPath = __dirname + '/node_modules/';
+var appSrcPath = __dirname + '/src/';
+var appAssetPath = __dirname + '/static/';
+var appConfigPath = __dirname;
+
+// swith the prod or dev config, will affect plugin
+var isDebug = process.env.NODE_ENV == 'production' ? false : true;
+var entries = getEntries('./src/entry/*.js');
+entries['vendor'] = ['jquery'];
 
 module.exports = {
-    debug: true,
-
-    entry: {
-        app: './src/main.js'
-    },
+    entry: entries,
 
     output: {
-        path: __dirname + '/build',
-        publicPath:"/",
-        filename: 'js/[name].bundle.js'
+        path: __dirname + '/dist/',
+        publicPath: "/",
+        filename: 'js/[name].bundle.js',
+        chunkFilename: 'js/chunk/[name].js'
+    },
+
+    performance: {
+        hints: isDebug
     },
 
     module: {
-        loaders: [
+        rules: [
             {
-                test: /\.vue$/, // a regex for matching all files that end in `.vue`
-                loader: 'vue'   // loader to use for matched files
+                test: /\.vue$/,
+                loader: 'vue-loader'
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader', // Enable es6 support by babels
-                exclude: /node_modules\//
-            },
-            // Todo has issue, cant load split css file
-            // {
-            //     test: /\.css$/,
-            //     loader: ExtractTextPlugin.extract('style-loader', "css-loader")
-            // },
-            {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                exclude: /node_modules\//,
+                loader: 'babel-loader'
             },
             {
                 test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
-                loader: 'file-loader?name=resource/[name].[ext]'
+                loader: 'file-loader',
+                options: {
+                    name: 'resource/[name].[ext]'
+                }
+            },
+            // Todo: url-loader has a bug, if file length > limit
+            // then the file name is not same as prefix rule
+            {
+                test: /\.(png|jpg|gif)$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 8192,
+                    name: 'resource/[name].[ext]'
+                }
             },
             {
-                test: /\.(png|jpg)$/, 
-                loader: 'url-loader?limit=8192'
+                test: require.resolve('tinymce/tinymce'),
+                loaders: [
+                    'imports-loader?this=>window',
+                    'exports-loader?window.tinymce'
+                ]
+            },
+            {
+                test: /tinymce\/(themes|plugins)\//,
+                loaders: [
+                    'imports-loader?this=>window'
+                ]
             }
         ]
     },
 
+    resolve: {
+        alias: {
+            // src alias
+            app_api: appSrcPath + "api/src/api",
+            app_lib: appSrcPath + "lib",
+            app_component: appSrcPath + "component",
+            app_entry: appSrcPath + "entry",
+            app_module: appSrcPath + "module",
+            app_vuex: appSrcPath + "vuex",
+
+            // other alias
+            app_config: appConfigPath,
+            app_asset: appAssetPath
+        }
+    },
+
     plugins: [
-        // new ExtractTextPlugin("css/[name].css"),
+        new webpack.LoaderOptionsPlugin({
+            debug: isDebug,
+            minimize: !isDebug,
+            options: {
+                vue: {
+                    loaders: {
+                        css: ExtractTextPlugin.extract({
+                            fallbackLoader: 'style-loader',
+                            loader: 'css-loader',
+                            publicPath: '/'
+                        })
+                    }
+                }
+            }
+        }),
+
+        new ExtractTextPlugin({
+            filename: 'css/[name].css',
+            disable: false,
+            allChunks: true
+        }),
 
         new webpack.ProvidePlugin({
             $: "jquery",
@@ -58,23 +120,80 @@ module.exports = {
             "window.$": "jquery"
         }),
 
-        new webpack.optimize.CommonsChunkPlugin("js/common.js")
-    ],
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ['vendor', 'mainfest']
+        }),
 
-    resolve: {
-        alias: {
-            app: app_lib_dir,
-            bootstrap: node_lib_dir + "bootstrap",
-            jquery: node_lib_dir + "jquery",
-            jquery_ui: node_lib_dir + "jquery-ui",
-            datatables: node_lib_dir + "datatables",
-            datatables_net: node_lib_dir + "datatables.net",
-            datatables_bootstrap: node_lib_dir + "datatables-bootstrap",
-        }
-    },
+        new FaviconsWebpackPlugin({
+            // Your source logo
+            logo: './static/images/icon.png',
+            // The prefix for all image files (might be a folder or a name)
+            prefix: 'icons-[hash]/',
+            // Emit all stats of the generated icons
+            emitStats: false,
+            // The name of the json containing all favicon information
+            statsFilename: 'iconstats-[hash].json',
+            // Generate a cache file with control hashes and
+            // don't rebuild the favicons until those hashes change
+            persistentCache: true,
+            // Inject the html into the html-webpack-plugin
+            inject: true,
+            // favicon background color (see https://github.com/haydenbleasel/favicons#usage)
+            background: '#fff',
+            // favicon app title (see https://github.com/haydenbleasel/favicons#usage)
+            title: 'This is a bear, named Owen',
 
-    babel: {
-        presets: ['es2015'],
-        plugins: ['transform-runtime']
+            // which icons should be generated (see https://github.com/haydenbleasel/favicons#usage)
+            icons: {
+                android: false,
+                appleIcon: false,
+                appleStartup: false,
+                coast: false,
+                favicons: true,
+                firefox: false,
+                opengraph: false,
+                twitter: false,
+                yandex: false,
+                windows: false
+            }
+        })
+    ]
+};
+
+(function() {
+    // register copy html file plugins
+    var entries = getEntries('./src/view/*.html');
+    for (var basename in entries) {
+        var conf = {
+            filename: basename + '.html',
+            template: entries[basename],
+            inject: false
+        };
+
+        module.exports.plugins.push(new HtmlWebpackPlugin(conf));
     }
+
+    // add UglifyJsPlugin
+    if (!isDebug) {
+        module.exports.plugins.push(new webpack.optimize.UglifyJsPlugin({
+            compress: { warnings: false },
+            output: {
+                "ascii_only": true
+            }
+        }));
+    }
+})();
+
+function getEntries(globPath) {
+    var entries = {};
+    var basename;
+    var tmp;
+    var pathname;
+
+    glob.sync(globPath).forEach(function (entry) {
+        basename = path.basename(entry, path.extname(entry));
+        entries[basename] = entry;
+    });
+
+    return entries;
 }

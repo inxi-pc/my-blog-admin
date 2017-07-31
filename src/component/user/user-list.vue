@@ -1,15 +1,6 @@
 <style src="bootstrap/dist/css/bootstrap.css"></style>
 <style src="datatables-bootstrap/css/dataTables.bootstrap.css"></style>
 <style>
-    .post-content {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        max-height: 85px;
-    }
-
     .content-box-header {
         min-height: 40px;
         font-size: 16px;
@@ -61,30 +52,29 @@
 <template>
     <div class="panel-default">
         <div class="content-box-header panel-heading">
-            <div class="panel-title">Post List</div>
+            <div class="panel-title">User List</div>
             <div class="action">
-                <a class="active" title="create post"
+                <a class="active" title="create user"
                 v-link="{
-                    name: 'post-create'
+                    name: 'user-create'
                 }">
-                    Create Post
+                    Create User
                 </a>
             </div>
         </div>
         <div class="content-box-large box-with-header">
-            <table id="postList" cellpadding="0" cellspacing="0" border="0"
+            <table id="userList" cellpadding="0" cellspacing="0" border="0"
             class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>Select</th>
-                        <th>Post ID</th>
                         <th>User ID</th>
-                        <th>Category ID</th>
-                        <th>Title</th>
-                        <th>Content</th>
+                        <th>User Name</th>
+                        <th>User Email</th>
+                        <th>User Telephone</th>
                         <th>Created At</th>
                         <th>Updated At</th>
-                        <th>Published</th>
+                        <th>User Enabled</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -98,9 +88,9 @@
 <script>
 import Pagination from 'app_api/pagination.js'
 import Sort from 'app_api/sort.js'
-import Post from 'app_api/post.js'
+import User from 'app_api/user.js'
 import Auth from 'app_api/auth.js'
-import { PostModel } from 'app_api/post.js'
+import { UserModel } from 'app_api/user.js'
 
 import "datatables-bootstrap/js/dataTables.bootstrap.js"
 import "datatables/media/js/jquery.dataTables.js"
@@ -108,10 +98,10 @@ import "datatables/media/js/jquery.dataTables.js"
 export default {
     data: function () {
         return {
-            posts: [],
+            users: [],
             // pagination
             orderType: "desc",
-            orderBy: "post_id",
+            orderBy: "user_id",
             limit: 10,
             offset: 0,
             total: 0
@@ -128,17 +118,17 @@ export default {
             var sort = new Sort(this.orderType, this.orderBy, "post_id");
             var context = this;
             var root = $(this.$el);
-            var postApi = new Post();
+            var userApi = new User();
             var data = {
                 limit: page.limit,
                 offset: page.offset,
                 order_by: sort.order_by,
                 order_type: sort.order_type,
-                post_enabled: true
+                user_enabled: true
             };
-            var ajax = Auth.produceAuthorizedAjaxObject(postApi.listApiGateway, null, data);
+            var ajax = Auth.produceAuthorizedAjaxObject(userApi.listApiGateway, null, data);
 
-            root.find('#postList').dataTable({
+            root.find('#userList').dataTable({
                 responsive: true,
                 autoWidth: true,
                 scrollX: true,
@@ -150,47 +140,36 @@ export default {
                 displayStart: context.offset,
                 orderMulti: false,
                 columns: [
-                    {'data': 'post_id'},
-                    {'data': 'post_id'},
                     {'data': 'user_id'},
-                    {'data': 'category_id'},
-                    {'data': 'post_title'},
-                    {'data': 'post_content'},
-                    {'data': 'post_created_at'},
-                    {'data': 'post_updated_at'},
-                    {'data': 'post_published'}
+                    {'data': 'user_id'},
+                    {'data': 'user_name'},
+                    {'data': 'user_email'},
+                    {'data': 'user_telephone'},
+                    {'data': 'user_created_at'},
+                    {'data': 'user_updated_at'},
+                    {'data': 'user_enabled'}
                 ],
                 columnDefs: [
                 {
                     targets: [0],
-                    data: 'post_id',
+                    data: 'user_id',
                     orderable: false,
                     render: function ( data, type, full, meta ) {
                         return "<input type='checkbox'/>";
                     }
                 },
                 {
-                    targets: [5],
-                    data: 'post_content',
-                    orderable: false,
-                    render: function ( data, type, full, meta ) {
-                        return "<div class='post-content'>" + data + "</div>"
-                    }
-                },
-                {
-                    targets: [9],
-                    data: 'post_id',
+                    targets: [8],
+                    data: 'user_id',
                     orderable: false,
                     render: function ( data, type, full, meta ) {
                         return '<a data-id="' + data + '" href="javascript:;" class="edit">Edit</a>' + '&nbsp'
-                                + '<a data-published="' + full.post_published
-                                + '" data-id="' + data + '" href="javascript:;" class="published">Published</a>' + '&nbsp'
-                                + '<a data-id="' + data + '" href="javascript:;" class="delete">Delete</a>';
+                                + '<a data-id="' + data + '" href="javascript:;" class="disable">Disable</a>';
                     }
                 }]
             });
 
-            root.find('#postList').on('preXhr.dt', function (e, settings, data) {
+            root.find('#userList').on('preXhr.dt', function (e, settings, data) {
                 console.log('pre preXhr');
                 var api = new $.fn.dataTable.Api(settings);
 
@@ -208,10 +187,9 @@ export default {
                 data.order_type = context.orderType;
                 data.limit = context.limit;
                 data.offset = context.offset;
-                data.post_enabled = true;
             });
 
-            root.find('#postList').on('xhr.dt', function (e, settings, json, xhr) {
+            root.find('#userList').on('xhr.dt', function (e, settings, json, xhr) {
                 console.log('xhr finished');
                 var api = new $.fn.dataTable.Api(settings);
                 if (!context.isNullOrEmpty(json)) {
@@ -221,29 +199,21 @@ export default {
                 return true;
             });
 
-            root.find('#postList').on('draw.dt', function (e, settings) {
-                root.find('.published').each(function (i, element) {
+            root.find('#userList').on('draw.dt', function (e, settings) {
+                root.find('.disable').each(function (i, element) {
                     $(element).on('click', function (e) {
-                        var postId = $(element).data('id');
-                        var published = $(element).data('published');
-                        context.publishedPost(postId, published);
-                    });
-                });
-
-                root.find('.delete').each(function (i, element) {
-                    $(element).on('click', function (e) {
-                        var postId = $(element).data('id');
-                        context.deletePost(postId);
+                        var userId = $(element).data('id');
+                        context.disableUser(userId);
                     });
                 });
 
                 root.find('.edit').each(function (i, element) {
                     $(element).on('click', function (e) {
-                        var postId = $(element).data('id');
+                        var userId = $(element).data('id');
                         context.$router.go({
-                            name: 'post-edit',
+                            name: 'user-edit',
                             params: {
-                                postId: postId
+                                userId: userId
                             }
                         });
                     });
@@ -251,21 +221,9 @@ export default {
             });
         },
 
-        publishedPost: function (postId, published) {
-            var post = new PostModel();
-            var root = $(this.$el);
-            post.post_published = !published;
-            new Post().updatePost(this, postId, post).then((response) => {
-                root.find("#postList").DataTable().ajax.reload();
-            }, (response) => {
-                console.log(response);
-            });
-        },
-
-        deletePost: function (postId) {
-            var root = $(this.$el);
-            new Post().deletePost(this, postId).then((response) => {
-                root.find("#postList").DataTable().ajax.reload();
+        disableUser: function (userId) {
+            new User().disableUser(this, userId).then((response) => {
+                this.refreshPage();
             }, (response) => {
                 console.log(response);
             });
